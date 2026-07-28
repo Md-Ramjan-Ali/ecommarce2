@@ -410,6 +410,140 @@
         justify-content: center;
     }
 }
+
+/* ========== MEGA MENU STYLES (SAME TO SAME SCREENSHOT) ========== */
+.all__category__list {
+    position: relative;
+}
+.all__category__list:hover > a.nav_main_link {
+    background: rgba(0, 0, 0, 0.12);
+    padding: 6px 12px !important;
+    border-radius: 4px 4px 0 0;
+}
+.all__category__list .mega-menu-wrapper {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 950px;
+    max-width: 90vw;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+    border-radius: 0 0 6px 6px;
+    padding: 24px 20px 28px 20px;
+    display: none;
+    z-index: 99999;
+}
+.all__category__list:hover .mega-menu-wrapper {
+    display: block;
+    animation: fadeInMega 0.15s ease-in-out;
+}
+@keyframes fadeInMega {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Arrow indicator pointing to CATEGORIES button */
+.mega-menu-wrapper::before {
+    content: '';
+    position: absolute;
+    top: -7px;
+    left: 45px;
+    width: 14px;
+    height: 14px;
+    background: #ffffff;
+    transform: rotate(45deg);
+    border-top: 1px solid #e5e7eb;
+    border-left: 1px solid #e5e7eb;
+    z-index: 1;
+}
+
+/* Horizontal Grid Row of Columns */
+.mega-menu-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 16px 12px;
+    width: 100%;
+}
+
+.mega-menu-col {
+    padding: 0 12px;
+    border-right: 1px solid #ededed;
+    min-width: 0; /* Prevents flex/grid overflow */
+}
+.mega-menu-col:first-child {
+    padding-left: 0;
+}
+.mega-menu-col:last-child {
+    border-right: none;
+    padding-right: 0;
+}
+
+/* Top Level Category Title */
+.mega-cat-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: #111111 !important;
+    text-transform: uppercase;
+    text-decoration: none;
+    display: block;
+    margin-bottom: 12px;
+    letter-spacing: 0.4px;
+    font-family: inherit;
+    white-space: normal;
+    word-break: break-word;
+    transition: color 0.15s;
+}
+.mega-cat-title:hover {
+    color: <?php echo e($generalsetting->primary_color ?? '#1e73be'); ?> !important;
+}
+
+/* Subcategory List */
+.mega-sub-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.mega-sub-item {
+    margin-bottom: 4px;
+}
+
+/* Bold Heading for Subcategories with Children */
+.mega-sub-heading {
+    font-size: 13px;
+    font-weight: 700;
+    color: #111111 !important;
+    text-transform: uppercase;
+    text-decoration: none;
+    display: block;
+    margin-top: 14px;
+    margin-bottom: 6px;
+    letter-spacing: 0.3px;
+}
+.mega-sub-heading:hover {
+    color: <?php echo e($generalsetting->primary_color ?? '#1e73be'); ?> !important;
+}
+
+/* Regular Link for Subcategories / Childcategories */
+.mega-item-link {
+    font-size: 13.5px;
+    font-weight: 400;
+    color: #555555 !important;
+    text-decoration: none;
+    display: block;
+    padding: 3px 0;
+    line-height: 1.4;
+    transition: color 0.15s;
+}
+.mega-item-link:hover {
+    color: <?php echo e($generalsetting->primary_color ?? '#1e73be'); ?> !important;
+}
+
+.mega-child-list {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+}
 </style>
         <!-- ========== DataLayer Initialization (GTM-এর আগে) ========== -->
         <?php
@@ -519,7 +653,9 @@
                     <?php $__currentLoopData = $menucategories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $scategory): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                     <li class="parent-category">
                         <a href="<?php echo e(url('category/'.$scategory->slug)); ?>" class="menu-category-name">
-                            <img src="<?php echo e(asset($scategory->image)); ?>" alt="" class="side_cat_img" />
+                            <?php if(!empty($scategory->image)): ?>
+                                <img src="<?php echo e(asset($scategory->image)); ?>" alt="" class="side_cat_img" />
+                            <?php endif; ?>
                             <?php echo e($scategory->name); ?>
 
                         </a>
@@ -647,56 +783,51 @@
                                 <div class="catagory_menu_v2" style="display: flex; align-items: center; justify-content: space-between; height: 46px;">
                                     <!-- Left Navigation Items -->
                                     <ul class="nav_menu_left" style="display: flex; align-items: center; margin: 0; padding: 0; list-style: none; gap: 22px; height: 100%;">
-                                        <!-- Categories Dropdown -->
+                                        <!-- Categories Dropdown (Mega Menu) -->
                                         <li class="all__category__list nav_item_dropdown" style="position: relative; height: 100%; display: flex; align-items: center; list-style: none;">
                                             <a href="javascript:void(0)" class="nav_main_link" style="color: #ffffff !important; font-weight: 700; font-size: 13.5px; text-transform: uppercase; text-decoration: none; display: flex; align-items: center; gap: 5px; white-space: nowrap; letter-spacing: 0.3px;">
                                                 <span>CATEGORIES</span> <i class="fa-solid fa-chevron-down" style="font-size: 11px;"></i>
                                             </a>
-                                            <div class="sidebar-menu side__bar">
-                                                <ul class="hideshow" style="margin: 0; padding: 0; list-style: none;">
-                                                    <?php $__currentLoopData = $menucategories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                        <li style="position: relative; list-style: none;">
-                                                            <a href="<?php echo e(route('category', $category->slug)); ?>" style="color: #333333 !important; padding: 10px 16px; display: flex; align-items: center; justify-content: space-between; font-size: 13.5px; font-weight: 500; text-decoration: none; white-space: nowrap;">
-                                                                <span style="display: flex; align-items: center; gap: 8px;">
-                                                                    <?php if(!empty($category->image)): ?>
-                                                                    <img src="<?php echo e(asset($category->image)); ?>" alt="" style="width: 20px; height: 20px; object-fit: contain;" />
-                                                                    <?php endif; ?>
-                                                                    <?php echo e($category->name); ?>
+                                            <div class="mega-menu-wrapper">
+                                                <div class="mega-menu-row">
+                                                    <?php $__currentLoopData = $menucategories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                        <div class="mega-menu-col">
+                                                            <a href="<?php echo e(route('category', $category->slug)); ?>" class="mega-cat-title">
+                                                                <?php echo e($category->name); ?>
 
-                                                                </span>
-                                                                <?php if(count($category->subcategories) > 0): ?>
-                                                                <i class="fa-solid fa-chevron-right" style="font-size: 11px;"></i>
-                                                                <?php endif; ?>
                                                             </a>
-                                                            <?php if(count($category->subcategories) > 0): ?>
-                                                            <ul class="sidebar-submenu side__barsub" style="margin: 0; padding: 0; list-style: none;">
-                                                                <?php $__currentLoopData = $category->subcategories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $subcategory): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                                    <li style="position: relative; list-style: none;">
-                                                                        <a href="<?php echo e(route('subcategory', $subcategory->slug)); ?>" style="color: #333333 !important; padding: 10px 16px; display: flex; align-items: center; justify-content: space-between; font-size: 13.5px; text-decoration: none; white-space: nowrap;">
-                                                                            <span><?php echo e($subcategory->subcategoryName); ?></span>
-                                                                            <?php if(count($subcategory->childcategories) > 0): ?>
-                                                                            <i class="fa-solid fa-chevron-right" style="font-size: 11px;"></i>
-                                                                            <?php endif; ?>
-                                                                        </a>
-                                                                        <?php if(count($subcategory->childcategories) > 0): ?>
-                                                                        <ul class="sidebar-childmenu side__barchild" style="margin: 0; padding: 0; list-style: none;">
-                                                                            <?php $__currentLoopData = $subcategory->childcategories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $childcat): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                                                <li style="list-style: none;">
-                                                                                    <a href="<?php echo e(route('products', $childcat->slug)); ?>" style="color: #333333 !important; padding: 10px 16px; display: block; font-size: 13.5px; text-decoration: none; white-space: nowrap;">
-                                                                                        <?php echo e($childcat->childcategoryName); ?>
+                                                            <?php if($category->subcategories && $category->subcategories->count() > 0): ?>
+                                                                <ul class="mega-sub-list">
+                                                                    <?php $__currentLoopData = $category->subcategories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $subcategory): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                                        <li class="mega-sub-item">
+                                                                            <?php if($subcategory->childcategories && $subcategory->childcategories->count() > 0): ?>
+                                                                                <a href="<?php echo e(route('subcategory', $subcategory->slug)); ?>" class="mega-sub-heading">
+                                                                                    <?php echo e($subcategory->subcategoryName); ?>
 
-                                                                                    </a>
-                                                                                </li>
-                                                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                                                        </ul>
-                                                                        <?php endif; ?>
-                                                                    </li>
-                                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                                            </ul>
+                                                                                </a>
+                                                                                <ul class="mega-child-list">
+                                                                                    <?php $__currentLoopData = $subcategory->childcategories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $childcat): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                                                        <li>
+                                                                                            <a href="<?php echo e(route('products', $childcat->slug)); ?>" class="mega-item-link">
+                                                                                                <?php echo e($childcat->childcategoryName); ?>
+
+                                                                                            </a>
+                                                                                        </li>
+                                                                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                                                                </ul>
+                                                                            <?php else: ?>
+                                                                                <a href="<?php echo e(route('subcategory', $subcategory->slug)); ?>" class="mega-item-link">
+                                                                                    <?php echo e($subcategory->subcategoryName); ?>
+
+                                                                                </a>
+                                                                            <?php endif; ?>
+                                                                        </li>
+                                                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                                                </ul>
                                                             <?php endif; ?>
-                                                        </li>
+                                                        </div>
                                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                                </ul>
+                                                </div>
                                             </div>
                                         </li>
 

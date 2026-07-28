@@ -22,54 +22,8 @@
     <div class="container">
         <div class="row">
 
-            {{-- LEFT SIDEBAR CATEGORY MENU --}}
-            <div class="col-sm-3 hidetosm">
-                <div class="sidebar-menu">
-                    <ul class="hideshow">
-                        @foreach ($menucategories as $key => $category)
-                            <li>
-                                <a href="{{ route('category', $category->slug) }}" style="text-decoration: none;">
-                                    <img src="{{ asset($category->icon) }}"
-                                         alt="{{ $category->name }}"
-                                         class="side_cat_img"
-                                         loading="lazy" />
-                                    <span style="color: #000;">{{ $category->name }}</span>
-                                    <i class="fa-solid fa-chevron-right" style="color: #000;"></i>
-                                </a>
-
-                                @if($category->subcategories && $category->subcategories->count() > 0)
-                                <ul class="sidebar-submenu">
-                                    @foreach ($category->subcategories as $subcategory)
-                                        <li>
-                                            <a href="{{ route('subcategory', $subcategory->slug) }}"
-                                               style="color: #000; text-decoration: none;">
-                                                {{ $subcategory->subcategoryName }}
-                                                <i class="fa-solid fa-chevron-right"></i>
-                                            </a>
-                                            @if($subcategory->childcategories && $subcategory->childcategories->count() > 0)
-                                            <ul class="sidebar-childmenu">
-                                                @foreach ($subcategory->childcategories as $childcat)
-                                                    <li>
-                                                        <a href="{{ route('products', $childcat->slug) }}"
-                                                           style="color: #000; text-decoration: none;">
-                                                            {{ $childcat->childcategoryName }}
-                                                        </a>
-                                                    </li>
-                                                @endforeach
-                                            </ul>
-                                            @endif
-                                        </li>
-                                    @endforeach
-                                </ul>
-                                @endif
-                            </li>
-                        @endforeach
-                    </ul>
-                </div>
-            </div>
-
-            {{-- MAIN SLIDER --}}
-            <div class="col-sm-9">
+            {{-- MAIN SLIDER (FULL WIDTH) --}}
+            <div class="col-sm-12">
                 <div class="home-slider-container">
                     <div class="main_slider owl-carousel">
                         @foreach ($sliders as $value)
@@ -129,14 +83,16 @@
                 <div class="category-slider owl-carousel">
                     @foreach ($menucategories as $value)
                         <div class="cat_item">
-                            <div class="cat_img">
-                                <a href="{{ route('category', $value->slug) }}">
-                                    <img src="{{ asset($value->image) }}"
-                                         alt="{{ $value->name }}"
-                                         class="img-fluid"
-                                         loading="lazy" />
-                                </a>
-                            </div>
+                            @if(!empty($value->image))
+                                <div class="cat_img">
+                                    <a href="{{ route('category', $value->slug) }}">
+                                        <img src="{{ asset($value->image) }}"
+                                             alt="{{ $value->name }}"
+                                             class="img-fluid"
+                                             loading="lazy" />
+                                    </a>
+                                </div>
+                            @endif
                             <div class="cat_name">
                                 <a href="{{ route('category', $value->slug) }}"
                                    style="color: #000; text-decoration: none;">

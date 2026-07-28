@@ -54,7 +54,15 @@ class Category extends Model
         return $this->hasMany(Product::class, 'category_id')->select('id', 'name', 'slug', 'category_id', 'new_price', 'old_price','sold','stock')->orderBy('id','DESC');
     }
     
-    
+    public function getMetaDescriptionAttribute()
+    {
+        return $this->attributes['meta_decription'] ?? null;
+    }
+
+    public function setMetaDescriptionAttribute($value)
+    {
+        $this->attributes['meta_decription'] = $value;
+    }
 
 
 }

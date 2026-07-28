@@ -55,15 +55,23 @@ class CategoryController extends Controller
 
             $imageUrl = $uploadpath.$name;
 
-            $img = Image::make($image->getRealPath());
-            $img->encode('webp', 90);
-            $width  = "";
-            $height = "";
-            $img->height() > $img->width() ? $width = null : $height = null;
-            $img->resize($width, $height, function ($constraint) {
-                $constraint->aspectRatio();
-            });
-            $img->save($imageUrl);
+            try {
+                if (extension_loaded('gd')) {
+                    $img = Image::make($image->getRealPath());
+                    $img->encode('webp', 90);
+                    $width  = "";
+                    $height = "";
+                    $img->height() > $img->width() ? $width = null : $height = null;
+                    $img->resize($width, $height, function ($constraint) {
+                        $constraint->aspectRatio();
+                    });
+                    $img->save($imageUrl);
+                } else {
+                    $image->move($uploadpath, $name);
+                }
+            } catch (\Throwable $e) {
+                $image->move($uploadpath, $name);
+            }
         } else {
             $imageUrl = null;
         }
@@ -84,19 +92,29 @@ class CategoryController extends Controller
 
             $iconUrl = $uploadpathIcon.$iconName;
 
-            $iconImg = Image::make($icon->getRealPath());
-            $iconImg->encode('webp', 90);
-
-            // ছোট ও সমান সাইজের আইকন
-            $iconImg->fit(64, 64, function ($constraint) {
-                $constraint->upsize();
-            });
-
-            $iconImg->save($iconUrl);
+            try {
+                if (extension_loaded('gd')) {
+                    $iconImg = Image::make($icon->getRealPath());
+                    $iconImg->encode('webp', 90);
+                    $iconImg->fit(64, 64, function ($constraint) {
+                        $constraint->upsize();
+                    });
+                    $iconImg->save($iconUrl);
+                } else {
+                    $icon->move($uploadpathIcon, $iconName);
+                }
+            } catch (\Throwable $e) {
+                $icon->move($uploadpathIcon, $iconName);
+            }
         }
 
         /* ========= Input Prepare ========= */
         $input = $request->all();
+
+        if (array_key_exists('meta_description', $input)) {
+            $input['meta_decription'] = $input['meta_description'];
+            unset($input['meta_description']);
+        }
 
         $input['slug'] = strtolower(preg_replace('/\s+/', '-', $request->name));
         $input['slug'] = str_replace('/', '', $input['slug']);
@@ -150,15 +168,23 @@ class CategoryController extends Controller
 
             $imageUrl = $uploadpath.$name;
 
-            $img = Image::make($image->getRealPath());
-            $img->encode('webp', 90);
-            $width  = "";
-            $height = "";
-            $img->height() > $img->width() ? $width = null : $height = null;
-            $img->resize($width, $height, function ($constraint) {
-                $constraint->aspectRatio();
-            });
-            $img->save($imageUrl);
+            try {
+                if (extension_loaded('gd')) {
+                    $img = Image::make($image->getRealPath());
+                    $img->encode('webp', 90);
+                    $width  = "";
+                    $height = "";
+                    $img->height() > $img->width() ? $width = null : $height = null;
+                    $img->resize($width, $height, function ($constraint) {
+                        $constraint->aspectRatio();
+                    });
+                    $img->save($imageUrl);
+                } else {
+                    $image->move($uploadpath, $name);
+                }
+            } catch (\Throwable $e) {
+                $image->move($uploadpath, $name);
+            }
 
             // পুরনো main image ডিলিট
             if ($update_data->image) {
@@ -184,12 +210,20 @@ class CategoryController extends Controller
 
             $iconUrl = $uploadpathIcon.$iconName;
 
-            $iconImg = Image::make($icon->getRealPath());
-            $iconImg->encode('webp', 90);
-            $iconImg->fit(64, 64, function ($constraint) {
-                $constraint->upsize();
-            });
-            $iconImg->save($iconUrl);
+            try {
+                if (extension_loaded('gd')) {
+                    $iconImg = Image::make($icon->getRealPath());
+                    $iconImg->encode('webp', 90);
+                    $iconImg->fit(64, 64, function ($constraint) {
+                        $constraint->upsize();
+                    });
+                    $iconImg->save($iconUrl);
+                } else {
+                    $icon->move($uploadpathIcon, $iconName);
+                }
+            } catch (\Throwable $e) {
+                $icon->move($uploadpathIcon, $iconName);
+            }
 
             // পুরনো icon থাকলে ডিলিট
             if ($update_data->icon) {
@@ -202,6 +236,11 @@ class CategoryController extends Controller
         }
 
         /* ========= Others ========= */
+        if (array_key_exists('meta_description', $input)) {
+            $input['meta_decription'] = $input['meta_description'];
+            unset($input['meta_description']);
+        }
+
         $input['slug'] = strtolower(preg_replace('/\s+/', '-', $request->name));
         $input['slug'] = str_replace('/', '', $input['slug']);
 

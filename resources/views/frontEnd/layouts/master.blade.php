@@ -409,6 +409,140 @@
         justify-content: center;
     }
 }
+
+/* ========== MEGA MENU STYLES (SAME TO SAME SCREENSHOT) ========== */
+.all__category__list {
+    position: relative;
+}
+.all__category__list:hover > a.nav_main_link {
+    background: rgba(0, 0, 0, 0.12);
+    padding: 6px 12px !important;
+    border-radius: 4px 4px 0 0;
+}
+.all__category__list .mega-menu-wrapper {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 950px;
+    max-width: 90vw;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+    border-radius: 0 0 6px 6px;
+    padding: 24px 20px 28px 20px;
+    display: none;
+    z-index: 99999;
+}
+.all__category__list:hover .mega-menu-wrapper {
+    display: block;
+    animation: fadeInMega 0.15s ease-in-out;
+}
+@keyframes fadeInMega {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Arrow indicator pointing to CATEGORIES button */
+.mega-menu-wrapper::before {
+    content: '';
+    position: absolute;
+    top: -7px;
+    left: 45px;
+    width: 14px;
+    height: 14px;
+    background: #ffffff;
+    transform: rotate(45deg);
+    border-top: 1px solid #e5e7eb;
+    border-left: 1px solid #e5e7eb;
+    z-index: 1;
+}
+
+/* Horizontal Grid Row of Columns */
+.mega-menu-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 16px 12px;
+    width: 100%;
+}
+
+.mega-menu-col {
+    padding: 0 12px;
+    border-right: 1px solid #ededed;
+    min-width: 0; /* Prevents flex/grid overflow */
+}
+.mega-menu-col:first-child {
+    padding-left: 0;
+}
+.mega-menu-col:last-child {
+    border-right: none;
+    padding-right: 0;
+}
+
+/* Top Level Category Title */
+.mega-cat-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: #111111 !important;
+    text-transform: uppercase;
+    text-decoration: none;
+    display: block;
+    margin-bottom: 12px;
+    letter-spacing: 0.4px;
+    font-family: inherit;
+    white-space: normal;
+    word-break: break-word;
+    transition: color 0.15s;
+}
+.mega-cat-title:hover {
+    color: {{ $generalsetting->primary_color ?? '#1e73be' }} !important;
+}
+
+/* Subcategory List */
+.mega-sub-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.mega-sub-item {
+    margin-bottom: 4px;
+}
+
+/* Bold Heading for Subcategories with Children */
+.mega-sub-heading {
+    font-size: 13px;
+    font-weight: 700;
+    color: #111111 !important;
+    text-transform: uppercase;
+    text-decoration: none;
+    display: block;
+    margin-top: 14px;
+    margin-bottom: 6px;
+    letter-spacing: 0.3px;
+}
+.mega-sub-heading:hover {
+    color: {{ $generalsetting->primary_color ?? '#1e73be' }} !important;
+}
+
+/* Regular Link for Subcategories / Childcategories */
+.mega-item-link {
+    font-size: 13.5px;
+    font-weight: 400;
+    color: #555555 !important;
+    text-decoration: none;
+    display: block;
+    padding: 3px 0;
+    line-height: 1.4;
+    transition: color 0.15s;
+}
+.mega-item-link:hover {
+    color: {{ $generalsetting->primary_color ?? '#1e73be' }} !important;
+}
+
+.mega-child-list {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+}
 </style>
         <!-- ========== DataLayer Initialization (GTM-এর আগে) ========== -->
         @php
@@ -517,7 +651,9 @@
                     @foreach($menucategories as $scategory)
                     <li class="parent-category">
                         <a href="{{url('category/'.$scategory->slug)}}" class="menu-category-name">
-                            <img src="{{asset($scategory->image)}}" alt="" class="side_cat_img" />
+                            @if(!empty($scategory->image))
+                                <img src="{{asset($scategory->image)}}" alt="" class="side_cat_img" />
+                            @endif
                             {{$scategory->name}}
                         </a>
                         @if($scategory->subcategories->count() > 0)
@@ -644,54 +780,47 @@
                                 <div class="catagory_menu_v2" style="display: flex; align-items: center; justify-content: space-between; height: 46px;">
                                     <!-- Left Navigation Items -->
                                     <ul class="nav_menu_left" style="display: flex; align-items: center; margin: 0; padding: 0; list-style: none; gap: 22px; height: 100%;">
-                                        <!-- Categories Dropdown -->
+                                        <!-- Categories Dropdown (Mega Menu) -->
                                         <li class="all__category__list nav_item_dropdown" style="position: relative; height: 100%; display: flex; align-items: center; list-style: none;">
                                             <a href="javascript:void(0)" class="nav_main_link" style="color: #ffffff !important; font-weight: 700; font-size: 13.5px; text-transform: uppercase; text-decoration: none; display: flex; align-items: center; gap: 5px; white-space: nowrap; letter-spacing: 0.3px;">
                                                 <span>CATEGORIES</span> <i class="fa-solid fa-chevron-down" style="font-size: 11px;"></i>
                                             </a>
-                                            <div class="sidebar-menu side__bar">
-                                                <ul class="hideshow" style="margin: 0; padding: 0; list-style: none;">
-                                                    @foreach ($menucategories as $key => $category)
-                                                        <li style="position: relative; list-style: none;">
-                                                            <a href="{{ route('category', $category->slug) }}" style="color: #333333 !important; padding: 10px 16px; display: flex; align-items: center; justify-content: space-between; font-size: 13.5px; font-weight: 500; text-decoration: none; white-space: nowrap;">
-                                                                <span style="display: flex; align-items: center; gap: 8px;">
-                                                                    @if(!empty($category->image))
-                                                                    <img src="{{ asset($category->image) }}" alt="" style="width: 20px; height: 20px; object-fit: contain;" />
-                                                                    @endif
-                                                                    {{ $category->name }}
-                                                                </span>
-                                                                @if(count($category->subcategories) > 0)
-                                                                <i class="fa-solid fa-chevron-right" style="font-size: 11px;"></i>
-                                                                @endif
+                                            <div class="mega-menu-wrapper">
+                                                <div class="mega-menu-row">
+                                                    @foreach ($menucategories as $category)
+                                                        <div class="mega-menu-col">
+                                                            <a href="{{ route('category', $category->slug) }}" class="mega-cat-title">
+                                                                {{ $category->name }}
                                                             </a>
-                                                            @if(count($category->subcategories) > 0)
-                                                            <ul class="sidebar-submenu side__barsub" style="margin: 0; padding: 0; list-style: none;">
-                                                                @foreach ($category->subcategories as $key => $subcategory)
-                                                                    <li style="position: relative; list-style: none;">
-                                                                        <a href="{{ route('subcategory', $subcategory->slug) }}" style="color: #333333 !important; padding: 10px 16px; display: flex; align-items: center; justify-content: space-between; font-size: 13.5px; text-decoration: none; white-space: nowrap;">
-                                                                            <span>{{ $subcategory->subcategoryName }}</span>
-                                                                            @if(count($subcategory->childcategories) > 0)
-                                                                            <i class="fa-solid fa-chevron-right" style="font-size: 11px;"></i>
+                                                            @if($category->subcategories && $category->subcategories->count() > 0)
+                                                                <ul class="mega-sub-list">
+                                                                    @foreach ($category->subcategories as $subcategory)
+                                                                        <li class="mega-sub-item">
+                                                                            @if($subcategory->childcategories && $subcategory->childcategories->count() > 0)
+                                                                                <a href="{{ route('subcategory', $subcategory->slug) }}" class="mega-sub-heading">
+                                                                                    {{ $subcategory->subcategoryName }}
+                                                                                </a>
+                                                                                <ul class="mega-child-list">
+                                                                                    @foreach ($subcategory->childcategories as $childcat)
+                                                                                        <li>
+                                                                                            <a href="{{ route('products', $childcat->slug) }}" class="mega-item-link">
+                                                                                                {{ $childcat->childcategoryName }}
+                                                                                            </a>
+                                                                                        </li>
+                                                                                    @endforeach
+                                                                                </ul>
+                                                                            @else
+                                                                                <a href="{{ route('subcategory', $subcategory->slug) }}" class="mega-item-link">
+                                                                                    {{ $subcategory->subcategoryName }}
+                                                                                </a>
                                                                             @endif
-                                                                        </a>
-                                                                        @if(count($subcategory->childcategories) > 0)
-                                                                        <ul class="sidebar-childmenu side__barchild" style="margin: 0; padding: 0; list-style: none;">
-                                                                            @foreach ($subcategory->childcategories as $key => $childcat)
-                                                                                <li style="list-style: none;">
-                                                                                    <a href="{{ route('products', $childcat->slug) }}" style="color: #333333 !important; padding: 10px 16px; display: block; font-size: 13.5px; text-decoration: none; white-space: nowrap;">
-                                                                                        {{ $childcat->childcategoryName }}
-                                                                                    </a>
-                                                                                </li>
-                                                                            @endforeach
-                                                                        </ul>
-                                                                        @endif
-                                                                    </li>
-                                                                @endforeach
-                                                            </ul>
+                                                                        </li>
+                                                                    @endforeach
+                                                                </ul>
                                                             @endif
-                                                        </li>
+                                                        </div>
                                                     @endforeach
-                                                </ul>
+                                                </div>
                                             </div>
                                         </li>
 

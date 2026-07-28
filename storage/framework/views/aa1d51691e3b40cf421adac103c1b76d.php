@@ -21,55 +21,7 @@
         <div class="row">
 
             
-            <div class="col-sm-3 hidetosm">
-                <div class="sidebar-menu">
-                    <ul class="hideshow">
-                        <?php $__currentLoopData = $menucategories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                            <li>
-                                <a href="<?php echo e(route('category', $category->slug)); ?>" style="text-decoration: none;">
-                                    <img src="<?php echo e(asset($category->icon)); ?>"
-                                         alt="<?php echo e($category->name); ?>"
-                                         class="side_cat_img"
-                                         loading="lazy" />
-                                    <span style="color: #000;"><?php echo e($category->name); ?></span>
-                                    <i class="fa-solid fa-chevron-right" style="color: #000;"></i>
-                                </a>
-
-                                <?php if($category->subcategories && $category->subcategories->count() > 0): ?>
-                                <ul class="sidebar-submenu">
-                                    <?php $__currentLoopData = $category->subcategories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $subcategory): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                        <li>
-                                            <a href="<?php echo e(route('subcategory', $subcategory->slug)); ?>"
-                                               style="color: #000; text-decoration: none;">
-                                                <?php echo e($subcategory->subcategoryName); ?>
-
-                                                <i class="fa-solid fa-chevron-right"></i>
-                                            </a>
-                                            <?php if($subcategory->childcategories && $subcategory->childcategories->count() > 0): ?>
-                                            <ul class="sidebar-childmenu">
-                                                <?php $__currentLoopData = $subcategory->childcategories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $childcat): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                    <li>
-                                                        <a href="<?php echo e(route('products', $childcat->slug)); ?>"
-                                                           style="color: #000; text-decoration: none;">
-                                                            <?php echo e($childcat->childcategoryName); ?>
-
-                                                        </a>
-                                                    </li>
-                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                            </ul>
-                                            <?php endif; ?>
-                                        </li>
-                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                </ul>
-                                <?php endif; ?>
-                            </li>
-                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                    </ul>
-                </div>
-            </div>
-
-            
-            <div class="col-sm-9">
+            <div class="col-sm-12">
                 <div class="home-slider-container">
                     <div class="main_slider owl-carousel">
                         <?php $__currentLoopData = $sliders; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
@@ -129,14 +81,16 @@
                 <div class="category-slider owl-carousel">
                     <?php $__currentLoopData = $menucategories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                         <div class="cat_item">
-                            <div class="cat_img">
-                                <a href="<?php echo e(route('category', $value->slug)); ?>">
-                                    <img src="<?php echo e(asset($value->image)); ?>"
-                                         alt="<?php echo e($value->name); ?>"
-                                         class="img-fluid"
-                                         loading="lazy" />
-                                </a>
-                            </div>
+                            <?php if(!empty($value->image)): ?>
+                                <div class="cat_img">
+                                    <a href="<?php echo e(route('category', $value->slug)); ?>">
+                                        <img src="<?php echo e(asset($value->image)); ?>"
+                                             alt="<?php echo e($value->name); ?>"
+                                             class="img-fluid"
+                                             loading="lazy" />
+                                    </a>
+                                </div>
+                            <?php endif; ?>
                             <div class="cat_name">
                                 <a href="<?php echo e(route('category', $value->slug)); ?>"
                                    style="color: #000; text-decoration: none;">
