@@ -153,103 +153,6 @@
     </div>
 </section>
 
-{{-- TASTY TREATS FOR PETS SECTION --}}
-<section class="treats-products-section" style="padding: 25px 0 20px 0; background: #ffffff;">
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-12">
-                <!-- Section Header -->
-                <div class="featured-sec-header" style="display: flex; align-items: center; justify-content: space-between; border-bottom: 2px solid #ededed; padding-bottom: 8px; margin-bottom: 22px; position: relative;">
-                    <h3 style="font-size: 19px; font-weight: 700; color: #444444; margin: 0; text-transform: uppercase; letter-spacing: 0.5px; position: relative; display: inline-block;">
-                        TASTY TREATS FOR PETS
-                        <span style="position: absolute; bottom: -10px; left: 0; width: 75px; height: 2px; background: #1e73be;"></span>
-                    </h3>
-                    <a href="{{ route('shop') }}" style="font-size: 14px; color: #555555; font-weight: 600; text-decoration: none; display: flex; align-items: center; gap: 5px; transition: color 0.2s;">
-                        Browse All <i class="fa-solid fa-chevron-right" style="font-size: 11px;"></i>
-                    </a>
-                </div>
-            </div>
-
-            @if(!$treats_products->isEmpty())
-                <div class="col-sm-12">
-                    <div class="product_slider owl-carousel">
-                        @foreach ($treats_products as $value)
-                            <div class="featured-card-item" style="border: 1px solid #eef0f3; border-radius: 4px; background: #ffffff; padding: 16px; margin: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.03); display: flex; flex-direction: column; justify-content: space-between; min-height: 380px; position: relative; transition: transform 0.2s, box-shadow 0.2s;">
-                                
-                                <!-- Discount Badge -->
-                                @if($value->old_price && $value->old_price > $value->new_price)
-                                    @php 
-                                        $discount = ((($value->old_price - $value->new_price) * 100) / $value->old_price);
-                                    @endphp
-                                    <div style="position: absolute; top: 12px; left: 12px; background: #008080; color: #ffffff; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; z-index: 2; box-shadow: 0 2px 6px rgba(0,128,128,0.3);">
-                                        -{{ number_format($discount, 0) }}%
-                                    </div>
-                                @endif
-
-                                <!-- Image Container -->
-                                <div class="pro_img" style="text-align: center; margin-bottom: 14px; height: 170px; display: flex; align-items: center; justify-content: center; width: 100%;">
-                                    <a href="{{ route('product', $value->slug) }}" style="display: flex; width: 100%; height: 100%; align-items: center; justify-content: center;">
-                                        <img src="{{ asset($value->image ? $value->image->image : 'public/uploads/no-image.png') }}"
-                                             alt="{{ $value->name }}"
-                                             style="max-height: 160px; max-width: 100%; object-fit: contain;"
-                                             loading="lazy" />
-                                    </a>
-                                </div>
-
-                                <!-- Title -->
-                                <div class="pro_des" style="margin-bottom: 10px;">
-                                    <div class="pro_name" style="height: 42px; overflow: hidden;">
-                                        <a href="{{ route('product', $value->slug) }}" style="color: #333333; font-size: 13.5px; font-weight: 500; text-decoration: none; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;" title="{{ $value->name }}">
-                                            {{ $value->name }}
-                                        </a>
-                                    </div>
-                                </div>
-
-                                <!-- Price -->
-                                <div class="pro_price" style="margin-bottom: 14px;">
-                                    @if($value->old_price && $value->old_price > $value->new_price)
-                                        <del style="font-size: 13px; color: #888888; margin-right: 6px;">{{ number_format($value->old_price, 2) }}৳</del>
-                                    @endif
-                                    <span style="font-size: 16px; font-weight: 700; color: #111111;">
-                                        {{ number_format($value->new_price, 2) }}৳
-                                    </span>
-                                </div>
-
-                                <!-- ADD TO CART Button -->
-                                <div class="pro_btn">
-                                    @if (!$value->prosizes->isEmpty() || !$value->procolors->isEmpty())
-                                        <a href="{{ route('product', $value->slug) }}" class="btn w-100" style="background: #1e73be; color: #ffffff; font-weight: 700; font-size: 13px; text-transform: uppercase; padding: 9px 12px; border-radius: 3px; text-decoration: none; display: block; text-align: center; border: none; letter-spacing: 0.5px;">
-                                            ADD TO CART
-                                        </a>
-                                    @else
-                                        <form action="{{ route('cart.store') }}" method="POST">
-                                            @csrf
-                                            <input type="hidden" name="id" value="{{ $value->id }}" />
-                                            <input type="hidden" name="qty" value="1" />
-                                            <button type="submit" class="btn w-100" style="background: #1e73be; color: #ffffff; font-weight: 700; font-size: 13px; text-transform: uppercase; padding: 9px 12px; border-radius: 3px; border: none; letter-spacing: 0.5px; width: 100%;">
-                                                ADD TO CART
-                                            </button>
-                                        </form>
-                                    @endif
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
-                </div>
-            @else
-                <!-- Empty State Component -->
-                <div class="col-sm-12">
-                    <div style="background: #f8fafc; border: 1px dashed #cbd5e1; border-radius: 8px; padding: 35px 20px; text-align: center; margin-bottom: 10px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
-                        <i class="fa-solid fa-box-open" style="font-size: 38px; color: #94a3b8; margin-bottom: 10px; display: block; text-align: center;"></i>
-                        <h5 style="color: #475569; font-weight: 600; font-size: 14.5px; margin-bottom: 6px; text-align: center; width: 100%;">No Pet Treats Products Available</h5>
-                        <p style="color: #94a3b8; font-size: 12.5px; margin: 0; text-align: center; width: 100%;">Turn ON "Pet Treats" switch in Admin Panel -> Edit Product to display products here.</p>
-                    </div>
-                </div>
-            @endif
-        </div>
-    </div>
-</section>
-
 {{-- HOT DEALS BANNER --}}
 @if(isset($hitdealsbaner) && !$hitdealsbaner->isEmpty())
 <section>
@@ -410,6 +313,103 @@
                 </div>
             @endif
 
+        </div>
+    </div>
+</section>
+
+{{-- TASTY TREATS FOR PETS SECTION --}}
+<section class="treats-products-section" style="padding: 25px 0 20px 0; background: #ffffff;">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <!-- Section Header -->
+                <div class="featured-sec-header" style="display: flex; align-items: center; justify-content: space-between; border-bottom: 2px solid #ededed; padding-bottom: 8px; margin-bottom: 22px; position: relative;">
+                    <h3 style="font-size: 19px; font-weight: 700; color: #444444; margin: 0; text-transform: uppercase; letter-spacing: 0.5px; position: relative; display: inline-block;">
+                        TASTY TREATS FOR PETS
+                        <span style="position: absolute; bottom: -10px; left: 0; width: 75px; height: 2px; background: #1e73be;"></span>
+                    </h3>
+                    <a href="{{ route('shop') }}" style="font-size: 14px; color: #555555; font-weight: 600; text-decoration: none; display: flex; align-items: center; gap: 5px; transition: color 0.2s;">
+                        Browse All <i class="fa-solid fa-chevron-right" style="font-size: 11px;"></i>
+                    </a>
+                </div>
+            </div>
+
+            @if(!$treats_products->isEmpty())
+                <div class="col-sm-12">
+                    <div class="product_slider owl-carousel">
+                        @foreach ($treats_products as $value)
+                            <div class="featured-card-item" style="border: 1px solid #eef0f3; border-radius: 4px; background: #ffffff; padding: 16px; margin: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.03); display: flex; flex-direction: column; justify-content: space-between; min-height: 380px; position: relative; transition: transform 0.2s, box-shadow 0.2s;">
+                                
+                                <!-- Discount Badge -->
+                                @if($value->old_price && $value->old_price > $value->new_price)
+                                    @php 
+                                        $discount = ((($value->old_price - $value->new_price) * 100) / $value->old_price);
+                                    @endphp
+                                    <div style="position: absolute; top: 12px; left: 12px; background: #008080; color: #ffffff; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; z-index: 2; box-shadow: 0 2px 6px rgba(0,128,128,0.3);">
+                                        -{{ number_format($discount, 0) }}%
+                                    </div>
+                                @endif
+
+                                <!-- Image Container -->
+                                <div class="pro_img" style="text-align: center; margin-bottom: 14px; height: 170px; display: flex; align-items: center; justify-content: center; width: 100%;">
+                                    <a href="{{ route('product', $value->slug) }}" style="display: flex; width: 100%; height: 100%; align-items: center; justify-content: center;">
+                                        <img src="{{ asset($value->image ? $value->image->image : 'public/uploads/no-image.png') }}"
+                                             alt="{{ $value->name }}"
+                                             style="max-height: 160px; max-width: 100%; object-fit: contain;"
+                                             loading="lazy" />
+                                    </a>
+                                </div>
+
+                                <!-- Title -->
+                                <div class="pro_des" style="margin-bottom: 10px;">
+                                    <div class="pro_name" style="height: 42px; overflow: hidden;">
+                                        <a href="{{ route('product', $value->slug) }}" style="color: #333333; font-size: 13.5px; font-weight: 500; text-decoration: none; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;" title="{{ $value->name }}">
+                                            {{ $value->name }}
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <!-- Price -->
+                                <div class="pro_price" style="margin-bottom: 14px;">
+                                    @if($value->old_price && $value->old_price > $value->new_price)
+                                        <del style="font-size: 13px; color: #888888; margin-right: 6px;">{{ number_format($value->old_price, 2) }}৳</del>
+                                    @endif
+                                    <span style="font-size: 16px; font-weight: 700; color: #111111;">
+                                        {{ number_format($value->new_price, 2) }}৳
+                                    </span>
+                                </div>
+
+                                <!-- ADD TO CART Button -->
+                                <div class="pro_btn">
+                                    @if (!$value->prosizes->isEmpty() || !$value->procolors->isEmpty())
+                                        <a href="{{ route('product', $value->slug) }}" class="btn w-100" style="background: #1e73be; color: #ffffff; font-weight: 700; font-size: 13px; text-transform: uppercase; padding: 9px 12px; border-radius: 3px; text-decoration: none; display: block; text-align: center; border: none; letter-spacing: 0.5px;">
+                                            ADD TO CART
+                                        </a>
+                                    @else
+                                        <form action="{{ route('cart.store') }}" method="POST">
+                                            @csrf
+                                            <input type="hidden" name="id" value="{{ $value->id }}" />
+                                            <input type="hidden" name="qty" value="1" />
+                                            <button type="submit" class="btn w-100" style="background: #1e73be; color: #ffffff; font-weight: 700; font-size: 13px; text-transform: uppercase; padding: 9px 12px; border-radius: 3px; border: none; letter-spacing: 0.5px; width: 100%;">
+                                                ADD TO CART
+                                            </button>
+                                        </form>
+                                    @endif
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            @else
+                <!-- Empty State Component -->
+                <div class="col-sm-12">
+                    <div style="background: #f8fafc; border: 1px dashed #cbd5e1; border-radius: 8px; padding: 35px 20px; text-align: center; margin-bottom: 10px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                        <i class="fa-solid fa-box-open" style="font-size: 38px; color: #94a3b8; margin-bottom: 10px; display: block; text-align: center;"></i>
+                        <h5 style="color: #475569; font-weight: 600; font-size: 14.5px; margin-bottom: 6px; text-align: center; width: 100%;">No Pet Treats Products Available</h5>
+                        <p style="color: #94a3b8; font-size: 12.5px; margin: 0; text-align: center; width: 100%;">Turn ON "Pet Treats" switch in Admin Panel -> Edit Product to display products here.</p>
+                    </div>
+                </div>
+            @endif
         </div>
     </div>
 </section>
@@ -592,48 +592,7 @@
 
 
 
-{{-- BRAND SECTION --}}
-@if(isset($brands) && $brands->count() > 0)
-<section class="homeproduct brand-section">
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="sec_title">
-                    <h3 class="section-title-header">
-                        <span class="section-title-name">Brands</span>
-                    </h3>
-                </div>
-            </div>
 
-            <div class="col-sm-12">
-                <div class="row brand-grid">
-
-                    @foreach($brands as $brand)
-                        <div class="col-lg-2 col-md-3 col-sm-4 col-6 mb-4">
-                            <a href="{{ route('brand.products', $brand->slug) }}"
-                               class="brand-item text-center">
-
-                                <div class="brand-img">
-                                    <img src="{{ asset($brand->image) }}"
-                                         alt="{{ $brand->name }}"
-                                         class="img-fluid"
-                                         loading="lazy">
-                                </div>
-
-                                <div class="brand-name">
-                                    {{ $brand->name }}
-                                </div>
-
-                            </a>
-                        </div>
-                    @endforeach
-
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-@endif
 
 {{-- VENDOR SHOPS SECTION --}}
 @if(($generalsetting?->vendor_enabled ?? 1) == 1 && isset($vendors) && $vendors->count() > 0)

@@ -286,11 +286,6 @@
     <ul class="nav-second-level">
       @can('order-list')
       <li><a href="{{ route('admin.orders', ['slug'=>'all']) }}"><i data-feather="file-plus"></i> All Order</a></li>
-	        @can('order-list')
-      <li>
-        <a href="{{ route('admin.reseller-orders.index') }}"><i data-feather="users"></i> Reseller Orders</a>
-      </li>
-      @endcan
       <li><a href="{{ route('admin.incomplete-orders.index') }}"><i data-feather="file-plus"></i> Incomplete Orders</a></li>
       @foreach($orderstatus as $value)
         <li><a href="{{ route('admin.orders', ['slug'=>$value->slug]) }}"><i data-feather="file-plus"></i>{{ $value->name }}</a></li>
@@ -340,8 +335,7 @@
   <div class="collapse" id="siebar-product">
     <ul class="nav-second-level">
       @can('product-list')
-      <li><a href="{{ route('inhouse.products.index') }}"><i data-feather="package"></i> All Inhouse Products</a></li>
-      <li><a href="{{ route('products.index') }}"><i data-feather="shopping-bag"></i> All Vendor Products</a></li>
+      <li><a href="{{ route('products.index') }}"><i data-feather="package"></i> All Products</a></li>
       <li><a href="{{ route('products.pending') }}"><i data-feather="clock"></i> Pending Products</a></li>
       <li><a href="{{ route('admin.products.wholesale') }}"><i data-feather="layers"></i> Wholesale Products</a></li>
       @endcan
@@ -590,7 +584,7 @@
 
 {{-- Vendors --}}
 @php
-  $vendorEnabled = (isset($generalsetting) && $generalsetting) ? (isset($generalsetting->vendor_enabled) ? $generalsetting->vendor_enabled : 1) : 1;
+  $vendorEnabled = 0;
 @endphp
 @if($vendorEnabled == 1)
 @canany(['vendor-list', 'vendor-create', 'vendor-edit', 'vendor-verification', 'vendor-withdrawal'])
@@ -629,7 +623,7 @@
 
 {{-- Resellers --}}
 @php
-  $resellerEnabled = (isset($generalsetting) && $generalsetting) ? (isset($generalsetting->reseller_enabled) ? $generalsetting->reseller_enabled : 1) : 1;
+  $resellerEnabled = 0;
 @endphp
 @if($resellerEnabled == 1)
 @canany(['reseller-list', 'reseller-create', 'reseller-edit', 'reseller-verification', 'reseller-withdrawal'])
