@@ -68,6 +68,9 @@ class SubcategoryController extends Controller
         
       
         $input = $request->all();
+        if (isset($input['meta_description'])) {
+            $input['meta_decription'] = $input['meta_description'];
+        }
 
         $input['slug'] = strtolower(preg_replace('/\s+/', '-', $request->subcategoryName));
         $input['slug'] = str_replace('/', '', $input['slug']);
@@ -123,6 +126,9 @@ class SubcategoryController extends Controller
         $input['slug'] = strtolower(preg_replace('/\s+/', '-', $request->subcategoryName));
         $input['slug'] = str_replace('/', '', $input['slug']);
         $input['status'] = $request->status?1:0;
+        if (isset($input['meta_description'])) {
+            $input['meta_decription'] = $input['meta_description'];
+        }
         
         $update_data->update($input);
 

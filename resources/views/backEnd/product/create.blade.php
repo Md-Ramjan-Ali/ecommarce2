@@ -240,11 +240,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group mb-3">
-                            <label class="form-label">Reseller Price</label>
-                            <input type="number" step="0.01" name="reseller_price" class="form-control" placeholder="Reseller price (optional)">
-                            <small class="text-muted">Special price for resellers. Leave empty if not applicable.</small>
-                        </div>
+
 
                         <div class="row">
                             <div class="col-md-6 mb-3">
@@ -412,6 +408,30 @@
                                         <div class="p-2 bg-white border rounded d-flex align-items-center justify-content-between">
                                             <span style="font-size: 12px; font-weight: 600; color: #334155;"><i class="fa fa-fire text-primary me-1"></i> Flash Sale</span>
                                             <label class="switch mb-0"><input type="checkbox" value="1" name="flashsale"><span class="slider round"></span></label>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="p-2 bg-white border rounded d-flex align-items-center justify-content-between">
+                                            <span style="font-size: 12px; font-weight: 600; color: #334155;"><i class="fa fa-tint text-info me-1"></i> Wet Food</span>
+                                            <label class="switch mb-0"><input type="checkbox" value="1" name="is_wet_food"><span class="slider round"></span></label>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="p-2 bg-white border rounded d-flex align-items-center justify-content-between">
+                                            <span style="font-size: 12px; font-weight: 600; color: #334155;"><i class="fa fa-cookie-bite text-warning me-1"></i> Dry Food</span>
+                                            <label class="switch mb-0"><input type="checkbox" value="1" name="is_dry_food"><span class="slider round"></span></label>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="p-2 bg-white border rounded d-flex align-items-center justify-content-between">
+                                            <span style="font-size: 12px; font-weight: 600; color: #334155;"><i class="fa fa-heartbeat text-danger me-1"></i> Pet Care</span>
+                                            <label class="switch mb-0"><input type="checkbox" value="1" name="is_pet_care"><span class="slider round"></span></label>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="p-2 bg-white border rounded d-flex align-items-center justify-content-between">
+                                            <span style="font-size: 12px; font-weight: 600; color: #334155;"><i class="fa fa-trophy text-warning me-1"></i> Best Seller</span>
+                                            <label class="switch mb-0"><input type="checkbox" value="1" name="is_bestseller"><span class="slider round"></span></label>
                                         </div>
                                     </div>
                                 </div>

@@ -483,15 +483,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group mb-3">
-                            <label for="reseller_price" class="form-label">Reseller Price</label>
-                            <input type="text" step="0.01" class="form-control @error('reseller_price') is-invalid @enderror"
-                                   name="reseller_price" value="{{ old('reseller_price', $edit_data->reseller_price) }}" id="reseller_price" placeholder="Reseller price (optional)" />
-                            <small class="text-muted">Special price for resellers. Leave empty if not applicable.</small>
-                            @error('reseller_price')
-                            <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
-                            @enderror
-                        </div>
+
 
                         <div class="row">
                             <div class="col-md-6 mb-3">
@@ -782,6 +774,42 @@
                                             <span style="font-size: 12px; font-weight: 600; color: #334155;"><i class="fa fa-fire text-primary me-1"></i> Flash Sale</span>
                                             <label class="switch mb-0">
                                                 <input type="checkbox" value="1" name="flashsale" {{ old('flashsale', $edit_data->flashsale ?? 0) ? 'checked' : '' }}>
+                                                <span class="slider round"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="p-2 bg-white border rounded d-flex align-items-center justify-content-between">
+                                            <span style="font-size: 12px; font-weight: 600; color: #334155;"><i class="fa fa-tint text-info me-1"></i> Wet Food</span>
+                                            <label class="switch mb-0">
+                                                <input type="checkbox" value="1" name="is_wet_food" {{ old('is_wet_food', $edit_data->is_wet_food ?? 0) ? 'checked' : '' }}>
+                                                <span class="slider round"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="p-2 bg-white border rounded d-flex align-items-center justify-content-between">
+                                            <span style="font-size: 12px; font-weight: 600; color: #334155;"><i class="fa fa-cookie-bite text-warning me-1"></i> Dry Food</span>
+                                            <label class="switch mb-0">
+                                                <input type="checkbox" value="1" name="is_dry_food" {{ old('is_dry_food', $edit_data->is_dry_food ?? 0) ? 'checked' : '' }}>
+                                                <span class="slider round"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="p-2 bg-white border rounded d-flex align-items-center justify-content-between">
+                                            <span style="font-size: 12px; font-weight: 600; color: #334155;"><i class="fa fa-heartbeat text-danger me-1"></i> Pet Care</span>
+                                            <label class="switch mb-0">
+                                                <input type="checkbox" value="1" name="is_pet_care" {{ old('is_pet_care', $edit_data->is_pet_care ?? 0) ? 'checked' : '' }}>
+                                                <span class="slider round"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="p-2 bg-white border rounded d-flex align-items-center justify-content-between">
+                                            <span style="font-size: 12px; font-weight: 600; color: #334155;"><i class="fa fa-trophy text-warning me-1"></i> Best Seller</span>
+                                            <label class="switch mb-0">
+                                                <input type="checkbox" value="1" name="is_bestseller" {{ old('is_bestseller', $edit_data->is_bestseller ?? 0) ? 'checked' : '' }}>
                                                 <span class="slider round"></span>
                                             </label>
                                         </div>

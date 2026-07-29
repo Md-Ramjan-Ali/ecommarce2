@@ -232,6 +232,39 @@ $brands = Brand::where('status', 1)
             ->limit(12)
             ->get();
 
+        // Healthy Wet Food products – strictly filter by is_wet_food = 1
+        $wet_food_products = Product::where(['status' => 1, 'approval_status' => 'approved', 'is_wet_food' => 1])
+            ->orderBy('id', 'DESC')
+            ->select('id', 'name', 'slug', 'new_price', 'old_price', 'stock', 'sold')
+            ->with(['prosizes', 'procolors', 'image', 'reviews'])
+            ->limit(12)
+            ->get();
+
+        // Premium Dry Pets Food products – strictly filter by is_dry_food = 1
+        $dry_food_products = Product::where(['status' => 1, 'approval_status' => 'approved', 'is_dry_food' => 1])
+            ->orderBy('id', 'DESC')
+            ->select('id', 'name', 'slug', 'new_price', 'old_price', 'stock', 'sold')
+            ->with(['prosizes', 'procolors', 'image', 'reviews'])
+            ->limit(12)
+            ->get();
+
+        // PET CARE & HEALTH products – strictly filter by is_pet_care = 1
+        $pet_care_products = Product::where(['status' => 1, 'approval_status' => 'approved', 'is_pet_care' => 1])
+            ->orderBy('id', 'DESC')
+            ->select('id', 'name', 'slug', 'new_price', 'old_price', 'stock', 'sold')
+            ->with(['prosizes', 'procolors', 'image', 'reviews'])
+            ->limit(12)
+            ->get();
+
+        // OUR BEST SELLERS products – strictly filter by is_bestseller = 1
+        $bestseller_products = Product::where(['status' => 1, 'approval_status' => 'approved', 'is_bestseller' => 1])
+            ->orderBy('sold', 'DESC')
+            ->orderBy('id', 'DESC')
+            ->select('id', 'name', 'slug', 'new_price', 'old_price', 'stock', 'sold')
+            ->with(['prosizes', 'procolors', 'image', 'reviews'])
+            ->limit(12)
+            ->get();
+
         return compact(
             'seo',
             'generalsetting',
@@ -242,6 +275,10 @@ $brands = Brand::where('status', 1)
             'frontcategory',
             'featured_products',
             'treats_products',
+            'wet_food_products',
+            'dry_food_products',
+            'pet_care_products',
+            'bestseller_products',
             'hotdeal_top',
             'hotdeal_bottom',
             'homeproducts',

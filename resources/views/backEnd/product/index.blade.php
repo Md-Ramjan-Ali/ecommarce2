@@ -37,7 +37,7 @@
     <div class="row">
         <div class="col-12">
             <div class="page-title-box d-flex align-items-center justify-content-between py-3">
-                <h4 class="page-title mb-0">Vendor Product Management</h4>
+                <h4 class="page-title mb-0">All Products Management</h4>
                 <div class="page-title-right">
                     <a href="{{route('products.pending')}}" class="btn btn-warning rounded-pill shadow-sm me-2">
                         <i class="fe-clock me-1"></i> Pending Products

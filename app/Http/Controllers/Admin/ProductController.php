@@ -62,16 +62,18 @@ class ProductController extends Controller
     // ================================
     public function index(Request $request)
     {
-        // Show only vendor products (all vendor products)
-        $query = Product::whereNotNull('vendor_id')
-            ->orderBy('id','DESC')
+        // Display all products (In-house & Vendor products)
+        $query = Product::orderBy('id','DESC')
             ->with('image','category','vendor');
 
         if ($request->keyword) {
-            $query->where('name', 'LIKE', '%' . $request->keyword . "%");
+            $query->where(function($q) use ($request) {
+                $q->where('name', 'LIKE', '%' . $request->keyword . "%")
+                  ->orWhere('product_code', 'LIKE', '%' . $request->keyword . "%");
+            });
         }
 
-        $data = $query->paginate(10);
+        $data = $query->paginate(20);
         return view('backEnd.product.index', compact('data'));
     }
 
@@ -202,6 +204,10 @@ class ProductController extends Controller
         $input['flashsale']       = $request->flashsale ? 1 : 0;
         $input['feature_product'] = $request->feature_product ? 1 : 0;
         $input['is_treats']       = $request->is_treats ? 1 : 0;
+        $input['is_wet_food']     = $request->is_wet_food ? 1 : 0;
+        $input['is_dry_food']     = $request->is_dry_food ? 1 : 0;
+        $input['is_pet_care']     = $request->is_pet_care ? 1 : 0;
+        $input['is_bestseller']   = $request->is_bestseller ? 1 : 0;
         $input['product_code']    = 'P' . str_pad($last_id, 4, '0', STR_PAD_LEFT);
         
         // Wholesale settings
@@ -469,6 +475,10 @@ class ProductController extends Controller
         $input['free_delivery']   = $request->free_delivery ? 1 : 0;
         $input['feature_product'] = $request->feature_product ? 1 : 0;
         $input['is_treats']       = $request->is_treats ? 1 : 0;
+        $input['is_wet_food']     = $request->is_wet_food ? 1 : 0;
+        $input['is_dry_food']     = $request->is_dry_food ? 1 : 0;
+        $input['is_pet_care']     = $request->is_pet_care ? 1 : 0;
+        $input['is_bestseller']   = $request->is_bestseller ? 1 : 0;
 
         // VIDEO — YouTube or local upload
         $this->handleVideoInput($request, $input, $product);
