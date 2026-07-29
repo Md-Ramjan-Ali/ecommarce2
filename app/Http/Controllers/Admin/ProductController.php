@@ -199,7 +199,9 @@ class ProductController extends Controller
         $input['free_delivery']   = $request->free_delivery ? 1 : 0;
         $input['approval_status'] = 'approved'; // Admin created products are auto-approved
         $input['topsale']         = $request->topsale ? 1 : 0;
+        $input['flashsale']       = $request->flashsale ? 1 : 0;
         $input['feature_product'] = $request->feature_product ? 1 : 0;
+        $input['is_treats']       = $request->is_treats ? 1 : 0;
         $input['product_code']    = 'P' . str_pad($last_id, 4, '0', STR_PAD_LEFT);
         
         // Wholesale settings
@@ -463,8 +465,10 @@ class ProductController extends Controller
         $input['slug']            = strtolower(preg_replace('/[\/\s]+/', '-', $request->name.'-'.$product->id));
         $input['status']          = $request->status ? 1 : 0;
         $input['topsale']         = $request->topsale ? 1 : 0;
+        $input['flashsale']       = $request->flashsale ? 1 : 0;
         $input['free_delivery']   = $request->free_delivery ? 1 : 0;
         $input['feature_product'] = $request->feature_product ? 1 : 0;
+        $input['is_treats']       = $request->is_treats ? 1 : 0;
 
         // VIDEO — YouTube or local upload
         $this->handleVideoInput($request, $input, $product);

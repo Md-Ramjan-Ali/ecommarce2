@@ -743,34 +743,64 @@
                             </div>
                         </div>
 
+                        {{-- HOMEPAGE DISPLAY SECTIONS --}}
+                        <div class="card mb-3" style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px;">
+                            <div class="card-body p-3 text-start">
+                                <label class="form-label font-weight-bold mb-2 text-dark" style="font-size: 13.5px;"><i class="fe-layout me-1 text-primary"></i> Homepage Display Sections</label>
+                                <small class="text-muted d-block mb-3">হোমপেজের যে সেকশনে প্রোডাক্টটি দেখাতে চান তা ON করুন:</small>
+                                
+                                <div class="row g-2">
+                                    <div class="col-6">
+                                        <div class="p-2 bg-white border rounded d-flex align-items-center justify-content-between">
+                                            <span style="font-size: 12px; font-weight: 600; color: #334155;"><i class="fa fa-star text-warning me-1"></i> Featured</span>
+                                            <label class="switch mb-0">
+                                                <input type="checkbox" value="1" name="feature_product" {{ old('feature_product', $edit_data->feature_product ?? 0) ? 'checked' : '' }}>
+                                                <span class="slider round"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="p-2 bg-white border rounded d-flex align-items-center justify-content-between">
+                                            <span style="font-size: 12px; font-weight: 600; color: #334155;"><i class="fa fa-heart text-danger me-1"></i> Pet Treats</span>
+                                            <label class="switch mb-0">
+                                                <input type="checkbox" value="1" name="is_treats" {{ old('is_treats', $edit_data->is_treats ?? 0) ? 'checked' : '' }}>
+                                                <span class="slider round"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="p-2 bg-white border rounded d-flex align-items-center justify-content-between">
+                                            <span style="font-size: 12px; font-weight: 600; color: #334155;"><i class="fa fa-bolt text-success me-1"></i> Hot Deal</span>
+                                            <label class="switch mb-0">
+                                                <input type="checkbox" value="1" name="topsale" {{ old('topsale', $edit_data->topsale ?? 0) ? 'checked' : '' }}>
+                                                <span class="slider round"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="p-2 bg-white border rounded d-flex align-items-center justify-content-between">
+                                            <span style="font-size: 12px; font-weight: 600; color: #334155;"><i class="fa fa-fire text-primary me-1"></i> Flash Sale</span>
+                                            <label class="switch mb-0">
+                                                <input type="checkbox" value="1" name="flashsale" {{ old('flashsale', $edit_data->flashsale ?? 0) ? 'checked' : '' }}>
+                                                <span class="slider round"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         {{-- FLAGS & SWITCHES --}}
-                        <div class="row text-center mb-3">
-                            <div class="col-3 mb-2">
-                                <label for="status" class="d-block form-label">Status</label>
+                        <div class="row text-center mb-3 align-items-center">
+                            <div class="col-6 mb-2">
+                                <label for="status" class="d-block form-label">Status (Active)</label>
                                 <label class="switch">
                                     <input type="checkbox" value="1" name="status" @if($edit_data->status==1) checked @endif>
                                     <span class="slider round"></span>
                                 </label>
                             </div>
 
-                            <div class="col-3 mb-2">
-                                <label for="topsale" class="d-block form-label">Hot Deals</label>
-                                <label class="switch">
-                                    <input type="checkbox" value="1" name="topsale" @if($edit_data->topsale==1) checked @endif>
-                                    <span class="slider round"></span>
-                                </label>
-                            </div>
-
-                            <div class="col-3 mb-2">
-                                <label for="flashsale" class="d-block form-label">Flash Sale</label>
-                                <label class="switch">
-                                    <input type="checkbox" value="1" name="flashsale" @if($edit_data->flashsale==1) checked @endif>
-                                    <span class="slider round"></span>
-                                </label>
-                            </div>
-
-                          
-                            <div class="col-12 mb-2 text-start">
+                            <div class="col-6 mb-2 text-start">
                                 <label for="sold" class="form-label">Sold Count</label>
                                 <input type="text" class="form-control @error('sold') is-invalid @enderror"
                                        name="sold" value="{{ $edit_data->sold }}" id="sold" />

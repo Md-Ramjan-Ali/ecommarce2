@@ -216,8 +216,16 @@ $brands = Brand::where('status', 1)
             $vendor->average_rating = $stats && $stats->total_reviews > 0 ? round((float) $stats->avg_rating, 1) : 0;
         }
 
-        // Featured products – image + reviews eager load
-        $featured_products = Product::where(['status' => 1, 'approval_status' => 'approved'])
+        // Featured products – strictly filter by feature_product = 1
+        $featured_products = Product::where(['status' => 1, 'approval_status' => 'approved', 'feature_product' => 1])
+            ->orderBy('id', 'DESC')
+            ->select('id', 'name', 'slug', 'new_price', 'old_price', 'stock', 'sold')
+            ->with(['prosizes', 'procolors', 'image', 'reviews'])
+            ->limit(12)
+            ->get();
+
+        // Treats for pets products – strictly filter by is_treats = 1
+        $treats_products = Product::where(['status' => 1, 'approval_status' => 'approved', 'is_treats' => 1])
             ->orderBy('id', 'DESC')
             ->select('id', 'name', 'slug', 'new_price', 'old_price', 'stock', 'sold')
             ->with(['prosizes', 'procolors', 'image', 'reviews'])
@@ -233,6 +241,7 @@ $brands = Brand::where('status', 1)
             'blogs',
             'frontcategory',
             'featured_products',
+            'treats_products',
             'hotdeal_top',
             'hotdeal_bottom',
             'homeproducts',
