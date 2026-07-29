@@ -64,40 +64,73 @@
     </div>
 </section>
 
-{{-- CATEGORY SLIDER SECTION --}}
-<section class="homeproduct">
+{{-- FEATURED PRODUCTS SECTION --}}
+<section class="featured-products-section" style="padding: 30px 0 20px 0; background: #ffffff;">
     <div class="container">
         <div class="row">
             <div class="col-sm-12">
-                <div class="sec_title">
-                    <h3 class="section-title-header">
-                        <div class="timer_inner">
-                            <div>
-                                <span class="section-title-name"> Categories </span>
-                            </div>
-                        </div>
+                <!-- Section Header Matching Screenshot -->
+                <div class="featured-sec-header" style="display: flex; align-items: center; justify-content: space-between; border-bottom: 2px solid #ededed; padding-bottom: 8px; margin-bottom: 22px; position: relative;">
+                    <h3 style="font-size: 19px; font-weight: 700; color: #444444; margin: 0; text-transform: uppercase; letter-spacing: 0.5px; position: relative; display: inline-block;">
+                        FEATURED PRODUCTS
+                        <span style="position: absolute; bottom: -10px; left: 0; width: 75px; height: 2px; background: #1e73be;"></span>
                     </h3>
+                    <a href="{{ route('shop') }}" style="font-size: 14px; color: #555555; font-weight: 600; text-decoration: none; display: flex; align-items: center; gap: 5px; transition: color 0.2s;">
+                        Browse all <i class="fa-solid fa-chevron-right" style="font-size: 11px;"></i>
+                    </a>
                 </div>
             </div>
+
             <div class="col-sm-12">
-                <div class="category-slider owl-carousel">
-                    @foreach ($menucategories as $value)
-                        <div class="cat_item">
-                            @if(!empty($value->image))
-                                <div class="cat_img">
-                                    <a href="{{ route('category', $value->slug) }}">
-                                        <img src="{{ asset($value->image) }}"
-                                             alt="{{ $value->name }}"
-                                             class="img-fluid"
-                                             loading="lazy" />
+                <div class="product_slider owl-carousel">
+                    @foreach ($featured_products as $value)
+                        <div class="featured-card-item" style="border: 1px solid #eef0f3; border-radius: 4px; background: #ffffff; padding: 16px; margin: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.03); display: flex; flex-direction: column; justify-content: space-between; min-height: 380px; transition: transform 0.2s, box-shadow 0.2s;">
+                            
+                            <!-- Image Container -->
+                            <div class="pro_img" style="text-align: center; margin-bottom: 14px; height: 170px; display: flex; align-items: center; justify-content: center; width: 100%;">
+                                <a href="{{ route('product', $value->slug) }}" style="display: flex; width: 100%; height: 100%; align-items: center; justify-content: center;">
+                                    <img src="{{ asset($value->image ? $value->image->image : 'public/uploads/no-image.png') }}"
+                                         alt="{{ $value->name }}"
+                                         style="max-height: 160px; max-width: 100%; object-fit: contain;"
+                                         loading="lazy" />
+                                </a>
+                            </div>
+
+                            <!-- Title -->
+                            <div class="pro_des" style="margin-bottom: 10px;">
+                                <div class="pro_name" style="height: 42px; overflow: hidden;">
+                                    <a href="{{ route('product', $value->slug) }}" style="color: #333333; font-size: 13.5px; font-weight: 500; text-decoration: none; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;" title="{{ $value->name }}">
+                                        {{ $value->name }}
                                     </a>
                                 </div>
-                            @endif
-                            <div class="cat_name">
-                                <a href="{{ route('category', $value->slug) }}"
-                                   style="color: #000; text-decoration: none;">
-                                    {{ $value->name }}
-                                </a>
+                            </div>
+
+                            <!-- Price -->
+                            <div class="pro_price" style="margin-bottom: 14px;">
+                                <span style="font-size: 16px; font-weight: 700; color: #111111;">
+                                    {{ number_format($value->new_price, 2) }}৳
+                                </span>
+                                @if($value->old_price)
+                                    <del style="font-size: 13px; color: #888888; margin-left: 6px;">{{ number_format($value->old_price, 2) }}৳</del>
+                                @endif
+                            </div>
+
+                            <!-- ADD TO CART Button -->
+                            <div class="pro_btn">
+                                @if (!$value->prosizes->isEmpty() || !$value->procolors->isEmpty())
+                                    <a href="{{ route('product', $value->slug) }}" class="btn w-100" style="background: #1e73be; color: #ffffff; font-weight: 700; font-size: 13px; text-transform: uppercase; padding: 9px 12px; border-radius: 3px; text-decoration: none; display: block; text-align: center; border: none; letter-spacing: 0.5px;">
+                                        ADD TO CART
+                                    </a>
+                                @else
+                                    <form action="{{ route('cart.store') }}" method="POST">
+                                        @csrf
+                                        <input type="hidden" name="id" value="{{ $value->id }}" />
+                                        <input type="hidden" name="qty" value="1" />
+                                        <button type="submit" class="btn w-100" style="background: #1e73be; color: #ffffff; font-weight: 700; font-size: 13px; text-transform: uppercase; padding: 9px 12px; border-radius: 3px; border: none; letter-spacing: 0.5px; width: 100%;">
+                                            ADD TO CART
+                                        </button>
+                                    </form>
+                                @endif
                             </div>
                         </div>
                     @endforeach

@@ -238,7 +238,10 @@ class ProductController extends Controller
             $input['download_expire_days']= null;
         }
 
-        // CREATE PRODUCT
+        // CREATE PRODUCT (Only keep fields that exist as columns in products table)
+        $dbColumns = array_flip(DB::getSchemaBuilder()->getColumnListing('products'));
+        $input = array_intersect_key($input, $dbColumns);
+
         $product = Product::create($input);
 
         // সাইজ ও কালার অপশনাল – দিলে attach, না দিলে কিছু করব না
@@ -511,7 +514,10 @@ class ProductController extends Controller
             $input['download_expire_days']= null;
         }
 
-        // PRODUCT UPDATE
+        // PRODUCT UPDATE (Only keep fields that exist as columns in products table)
+        $dbColumns = array_flip(DB::getSchemaBuilder()->getColumnListing('products'));
+        $input = array_intersect_key($input, $dbColumns);
+
         $product->update($input);
         Cache::forget('product_details_' . $product->slug);
 

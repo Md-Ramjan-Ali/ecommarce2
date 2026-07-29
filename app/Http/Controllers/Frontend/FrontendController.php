@@ -216,6 +216,14 @@ $brands = Brand::where('status', 1)
             $vendor->average_rating = $stats && $stats->total_reviews > 0 ? round((float) $stats->avg_rating, 1) : 0;
         }
 
+        // Featured products – image + reviews eager load
+        $featured_products = Product::where(['status' => 1, 'approval_status' => 'approved'])
+            ->orderBy('id', 'DESC')
+            ->select('id', 'name', 'slug', 'new_price', 'old_price', 'stock', 'sold')
+            ->with(['prosizes', 'procolors', 'image', 'reviews'])
+            ->limit(12)
+            ->get();
+
         return compact(
             'seo',
             'generalsetting',
@@ -224,6 +232,7 @@ $brands = Brand::where('status', 1)
             'brands',
             'blogs',
             'frontcategory',
+            'featured_products',
             'hotdeal_top',
             'hotdeal_bottom',
             'homeproducts',
@@ -654,7 +663,8 @@ $brands = Brand::where('status', 1)
     public function shop(Request $request)
     {
         $products = Product::where(['status' => 1, 'approval_status' => 'approved'])
-            ->select('id', 'name', 'slug', 'new_price', 'old_price','stock');
+            ->select('id', 'name', 'slug', 'new_price', 'old_price','stock')
+            ->with(['prosizes', 'procolors', 'image', 'reviews']);
 
         if ($request->sort == 1) {
             $products = $products->orderBy('created_at', 'desc');
@@ -873,7 +883,7 @@ $brands = Brand::where('status', 1)
             ->where('id', '!=', $details->id)
             ->where(['status' => 1, 'approval_status' => 'approved'])
             ->with(['image', 'category', 'brand', 'reviews', 'prosizes', 'procolors'])
-            ->select('id', 'name', 'slug', 'new_price', 'old_price', 'stock', 'category_id', 'brand_id', 'pro_unit')
+            ->select('id', 'name', 'slug', 'new_price', 'old_price', 'stock', 'category_id', 'brand_id')
             ->limit(12)
             ->get();
 

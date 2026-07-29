@@ -1565,29 +1565,36 @@ document.getElementById("sidebarCartOverlay")?.addEventListener("click", closeSi
             },
         });
 
-        $(".product_slider").owlCarousel({
-            margin: 15,
-            items: 6,
-            loop: true,
-            dots: false,
-            autoplay: true,
-            autoplayTimeout: 6000,
-            autoplayHoverPause: true,
-            responsiveClass: true,
-            responsive: {
-                0: {
-                    items: 2,
-                    nav: false,
+        $(".product_slider").each(function() {
+            var $slider = $(this);
+            var count = $slider.children().length;
+            $slider.owlCarousel({
+                margin: 15,
+                items: 5,
+                loop: count > 5,
+                dots: false,
+                autoplay: count > 5,
+                autoplayTimeout: 6000,
+                autoplayHoverPause: true,
+                responsiveClass: true,
+                responsive: {
+                    0: {
+                        items: 2,
+                        nav: false,
+                        loop: count > 2
+                    },
+                    600: {
+                        items: 3,
+                        nav: false,
+                        loop: count > 3
+                    },
+                    1000: {
+                        items: 5,
+                        nav: false,
+                        loop: count > 5
+                    },
                 },
-                600: {
-                    items: 5,
-                    nav: false,
-                },
-                1000: {
-                    items: 5,
-                    nav: false,
-                },
-            },
+            });
         });
 		$(".customer-review").owlCarousel({
             margin: 8,
