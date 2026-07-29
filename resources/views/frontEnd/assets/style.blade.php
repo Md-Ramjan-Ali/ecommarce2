@@ -837,7 +837,7 @@ li.Newsletter i {
     width: 22px;
 }
 
-.header-list-items ul li span {
+.header-list-items ul li.cart-dialog p span {
     position: absolute;
     top: -8px;
     right: -12px;
@@ -848,6 +848,17 @@ li.Newsletter i {
     line-height: 18px;
     font-size: 12px;
     border-radius: 50px;
+}
+
+.track_btn a span {
+    position: static !important;
+    background: transparent !important;
+    color: inherit !important;
+    height: auto !important;
+    width: auto !important;
+    line-height: normal !important;
+    font-size: inherit !important;
+    border-radius: 0 !important;
 }
 
 .login-dialog {
@@ -1195,7 +1206,7 @@ li.Newsletter i {
 }
 
 .main-logo {
-    height: 55px;
+    height: 55px !important;
     text-align: left;
 }
 
@@ -1207,7 +1218,11 @@ li.Newsletter i {
 
 .main-logo img {
     width: auto;
-    height: 100%;
+    max-height: 60px !important;
+    height: 60px !important;
+    object-fit: contain;
+    transform: scale(1.10);
+    transform-origin: left center;
     margin-top: 0;
 }
 
@@ -3923,7 +3938,7 @@ form.sort-form .form-select:focus {
 
 #content {
     width: 100%;
-    padding-top: 122px;
+    padding-top: 122px !important;
     flex: 1 1 auto; /* ফুটার পেজের নিচে থাকবে */
 }
 

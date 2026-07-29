@@ -806,32 +806,42 @@
                     <div class="container">
                         <div class="row">
                             <div class="col-sm-12">
-                                <div class="logo-header">
-                                    <div class="main-logo">
-                                        <a href="{{route('home')}}"><img src="{{asset($generalsetting->dark_logo)}}" alt="" /></a>
+                                <div class="logo-header" style="display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 2px 0;">
+                                    <!-- Main Logo -->
+                                    <div class="main-logo" style="flex-shrink: 0; height: 55px; display: flex; align-items: center;">
+                                        <a href="{{route('home')}}" style="display: flex; align-items: center; height: 100%;">
+                                            <img src="{{asset($generalsetting->dark_logo)}}" alt="{{ $generalsetting->name ?? 'Logo' }}" style="max-height: 60px !important; height: 60px !important; width: auto; object-fit: contain; transform: scale(1.10); transform-origin: left center;" />
+                                        </a>
                                     </div>
-                                    <div class="main-search">
-                                        <form action="{{route('search')}}">
-                                            <input type="text" placeholder="Search Product..." class="search_keyword search_click" name="keyword" />
-                                            <button>
-                                                <i data-feather="search"></i>
+
+                                    <!-- Search Bar -->
+                                    <div class="main-search" style="flex: 1; max-width: 580px; position: relative;">
+                                        <form action="{{route('search')}}" style="display: flex; border: 2px solid #1e73be; border-radius: 50px; overflow: hidden; background: #ffffff; box-shadow: 0 3px 12px rgba(30, 115, 190, 0.08); transition: box-shadow 0.2s;">
+                                            <input type="text" placeholder="Search for products, categories..." class="search_keyword search_click" name="keyword" style="flex: 1; border: none; outline: none; padding: 10px 20px; font-size: 13.5px; color: #334155; background: transparent;" />
+                                            <button type="submit" style="background: #1e73be; color: #ffffff; border: none; padding: 0 22px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s;">
+                                                <i class="fa-solid fa-magnifying-glass" style="font-size: 15px;"></i>
                                             </button>
                                         </form>
                                         <div class="search_result"></div>
                                     </div>
+
+                                    <!-- Right Action Items -->
                                     <div class="header-list-items">
-                                        <ul>
-                                            <li class="track_btn">
-                                                <a href="{{route('customer.order_track')}}"> <i class="fa fa-truck"></i>Track Order</a>
+                                        <ul style="display: flex; align-items: center; gap: 14px; list-style: none; margin: 0; padding: 0;">
+                                            <!-- Track Order Button -->
+                                            <li class="track_btn" style="list-style: none;">
+                                                <a href="{{route('customer.order_track')}}" style="display: flex; align-items: center; gap: 8px; font-weight: 600; font-size: 13.5px; color: #334155 !important; text-decoration: none; padding: 9px 18px; border-radius: 50px; background: #f8fafc; border: 1px solid #cbd5e1; transition: all 0.2s; white-space: nowrap !important;">
+                                                    <i class="fa-solid fa-truck-fast" style="font-size: 15px; color: #1e73be;"></i>
+                                                    <div style="display: inline-block !important; position: static !important; background: transparent !important; color: #334155 !important; font-size: 13.5px !important; font-weight: 600 !important; width: auto !important; height: auto !important; margin: 0 !important; padding: 0 !important; border-radius: 0 !important; line-height: 1 !important;">Track Order</div>
+                                                </a>
                                             </li>
                                            
-
-                                            <li class="cart-dialog" id="cart-qty">
-                                                <a href="{{route('customer.checkout')}}">
-                                                    <p class="margin-shopping">
-                                                        <i class="fa-solid fa-cart-shopping"></i>
-                                                        <span>{{Cart::instance('shopping')->count()}}</span>
-                                                    </p>
+                                            <!-- Cart Pill Button -->
+                                            <li class="cart-dialog" id="cart-qty" style="position: relative; list-style: none;">
+                                                <a href="{{route('customer.checkout')}}" style="display: flex; align-items: center; gap: 9px; text-decoration: none; padding: 7px 16px; border-radius: 50px; background: linear-gradient(135deg, #1e73be, #2563eb); color: #ffffff; box-shadow: 0 4px 12px rgba(30,115,190,0.25); transition: transform 0.2s;">
+                                                    <i class="fa-solid fa-cart-shopping" style="font-size: 15px; color: #ffffff;"></i>
+                                                    <span style="font-weight: 700; font-size: 13px; letter-spacing: 0.3px;">Cart</span>
+                                                    <span class="mobilecart-qty" style="background: #ffffff; color: #1e73be; font-weight: 800; font-size: 12px; padding: 1px 7px; border-radius: 20px; min-width: 20px; text-align: center;">{{Cart::instance('shopping')->count()}}</span>
                                                 </a>
                                                 <div class="cshort-summary">
                                                     <ul>

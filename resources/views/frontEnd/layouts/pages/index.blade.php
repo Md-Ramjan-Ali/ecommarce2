@@ -18,22 +18,59 @@
 @endpush
 
 @section('content')
-<section class="slider-section">
-    <div class="container">
-        <div class="row">
+<section class="slider-section" style="padding: 16px 0;">
+    <div class="container-fluid" style="max-width: 1400px; margin: 0 auto; padding: 0 15px;">
+        <div class="row g-3">
 
-            {{-- MAIN SLIDER (FULL WIDTH) --}}
-            <div class="col-sm-12">
-                <div class="home-slider-container">
-                    <div class="main_slider owl-carousel">
+            {{-- LEFT 3 PARTS (9 Columns / 75% Width): MAIN SLIDER --}}
+            <div class="col-lg-9 col-md-9 col-sm-12">
+                <div class="home-slider-container" style="border-radius: 12px; overflow: hidden; box-shadow: 0 6px 20px rgba(0,0,0,0.06); height: 100%; display: flex; align-items: center; justify-content: center; background: #ffffff;">
+                    <div class="main_slider owl-carousel" style="width: 100%; height: 100%;">
                         @foreach ($sliders as $value)
-                            <div class="slider-item">
+                            <div class="slider-item" style="border-radius: 12px; overflow: hidden; height: 100%; display: flex; align-items: center; justify-content: center;">
                                 <img src="{{ asset($value->image) }}"
                                      alt="Slider"
-                                     class="img-fluid w-100" />
+                                     class="img-fluid w-100" 
+                                     style="border-radius: 12px; width: 100%; height: auto; max-height: 100%; object-fit: contain; display: block; margin: auto;" />
                             </div>
                         @endforeach
                     </div>
+                </div>
+            </div>
+
+            {{-- RIGHT 1 PART (3 Columns / 25% Width): PROMO OFFER CARDS --}}
+            <div class="col-lg-3 col-md-3 col-sm-12">
+                <div class="side-promo-banners" style="display: flex; flex-direction: column; gap: 12px; height: 100%;">
+                    @if(isset($sliderbottomads) && count($sliderbottomads) > 0)
+                        @foreach($sliderbottomads->take(2) as $ad)
+                            <div class="side-banner-card" style="flex: 1; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.05); transition: transform 0.2s;">
+                                <a href="{{ $ad->link ?? '#' }}" style="display: block; height: 100%;">
+                                    <img src="{{ asset($ad->image) }}" alt="Promo" style="width: 100%; height: 100%; object-fit: cover; border-radius: 12px; display: block;" />
+                                </a>
+                            </div>
+                        @endforeach
+                    @else
+                        <!-- Premium Default Promo Banners -->
+                        <div class="side-banner-card" style="flex: 1; background: linear-gradient(135deg, #1e73be, #0f4c81); border-radius: 12px; padding: 14px 14px; color: #ffffff !important; box-shadow: 0 4px 15px rgba(30,115,190,0.2); position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: center;">
+                            <div style="position: absolute; right: -8px; bottom: -8px; opacity: 0.15; font-size: 80px; color: #ffffff;">
+                                <i class="fa-solid fa-truck-fast"></i>
+                            </div>
+                            <span style="background: rgba(255,255,255,0.2); color: #ffffff !important; padding: 2px 8px; border-radius: 20px; font-size: 10px; font-weight: 700; text-transform: uppercase; width: fit-content; margin-bottom: 4px;">Fast Delivery</span>
+                            <h4 style="font-size: 15px; font-weight: 800; margin: 0 0 3px 0; color: #ffffff !important;">Fastest Home Delivery</h4>
+                            <p style="font-size: 11.5px; color: #ffffff !important; opacity: 0.95; margin: 0 0 8px 0; font-weight: 400; line-height: 1.3;">Get your pet products delivered safely.</p>
+                            <a href="{{ route('shop') }}" style="background: #ffffff; color: #1e73be !important; font-weight: 700; font-size: 10.5px; text-transform: uppercase; padding: 5px 11px; border-radius: 4px; text-decoration: none; width: fit-content; display: inline-block;">Shop Now <i class="fa-solid fa-arrow-right ms-1"></i></a>
+                        </div>
+
+                        <div class="side-banner-card" style="flex: 1; background: linear-gradient(135deg, #0d9488, #115e59); border-radius: 12px; padding: 14px 14px; color: #ffffff !important; box-shadow: 0 4px 15px rgba(13,148,136,0.2); position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: center;">
+                            <div style="position: absolute; right: -8px; bottom: -8px; opacity: 0.15; font-size: 80px; color: #ffffff;">
+                                <i class="fa-solid fa-shield-cat"></i>
+                            </div>
+                            <span style="background: rgba(255,255,255,0.2); color: #ffffff !important; padding: 2px 8px; border-radius: 20px; font-size: 10px; font-weight: 700; text-transform: uppercase; width: fit-content; margin-bottom: 4px;">100% Authentic</span>
+                            <h4 style="font-size: 15px; font-weight: 800; margin: 0 0 3px 0; color: #ffffff !important;">Premium Pets Food</h4>
+                            <p style="font-size: 11.5px; color: #ffffff !important; opacity: 0.95; margin: 0 0 8px 0; font-weight: 400; line-height: 1.3;">100% original healthy wet & dry food.</p>
+                            <a href="{{ route('shop') }}" style="background: #ffffff; color: #0d9488 !important; font-weight: 700; font-size: 10.5px; text-transform: uppercase; padding: 5px 11px; border-radius: 4px; text-decoration: none; width: fit-content; display: inline-block;">Explore All <i class="fa-solid fa-arrow-right ms-1"></i></a>
+                        </div>
+                    @endif
                 </div>
             </div>
 
