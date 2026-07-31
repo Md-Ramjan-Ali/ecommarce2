@@ -29,6 +29,8 @@
 <link rel="stylesheet" href="<?php echo e(url('/style.css')); ?>?v=1">
 <link rel="stylesheet" href="<?php echo e(url('/responsive.css')); ?>?v=1">
         <link rel="stylesheet" href="<?php echo e(asset('public/frontEnd/css/main.css')); ?>" />
+        <!-- Lenis Smooth Scroll CSS -->
+        <link rel="stylesheet" href="https://unpkg.com/lenis@1.1.18/dist/lenis.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
         <meta name="facebook-domain-verification" content="38f1w8335btoklo88dyfl63ba3st2e" />
         <style>
@@ -2668,6 +2670,28 @@ document.getElementById("sidebarCartOverlay")?.addEventListener("click", closeSi
     }
 </style>
 <?php endif; ?>
+
+    <!-- Lenis Smooth Scroll JS -->
+    <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            if (typeof Lenis !== 'undefined') {
+                const lenis = new Lenis({
+                    duration: 1.2,
+                    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+                    smoothWheel: true,
+                    touchMultiplier: 1.5,
+                });
+
+                function raf(time) {
+                    lenis.raf(time);
+                    requestAnimationFrame(raf);
+                }
+
+                requestAnimationFrame(raf);
+            }
+        });
+    </script>
     </body>
 </html>
 <?php /**PATH E:\Programming capture\New folder\E-Commerce2\ecommerce2\resources\views/frontEnd/layouts/master.blade.php ENDPATH**/ ?>

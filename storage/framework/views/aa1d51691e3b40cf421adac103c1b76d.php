@@ -1,3 +1,5 @@
+
+
 <?php $__env->startSection('title', $seo->meta_title ?? 'Home'); ?>
 
 <?php $__env->startPush('seo'); ?>
@@ -121,8 +123,8 @@
             <?php if(!$featured_products->isEmpty()): ?>
                 <div class="col-sm-12">
                     <div class="product_slider owl-carousel">
-                        <?php $__currentLoopData = $featured_products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                            <div class="featured-card-item" style="border: 1px solid #eef0f3; border-radius: 4px; background: #ffffff; padding: 16px; margin: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.03); display: flex; flex-direction: column; justify-content: space-between; min-height: 380px; transition: transform 0.2s, box-shadow 0.2s;">
+                        <?php $__currentLoopData = $featured_products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <div class="featured-card-item wow zoomIn" data-wow-duration="1.5s" data-wow-delay="0.<?php echo e($key); ?>s" style="border: 1px solid #eef0f3; border-radius: 4px; background: #ffffff; padding: 16px; margin: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.03); display: flex; flex-direction: column; justify-content: space-between; min-height: 380px; transition: transform 0.2s, box-shadow 0.2s;">
                                 
                                 <!-- Image Container -->
                                 <div class="pro_img" style="text-align: center; margin-bottom: 14px; height: 170px; display: flex; align-items: center; justify-content: center; width: 100%;">
@@ -375,8 +377,8 @@
             <?php if(!$treats_products->isEmpty()): ?>
                 <div class="col-sm-12">
                     <div class="product_slider owl-carousel">
-                        <?php $__currentLoopData = $treats_products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                            <div class="featured-card-item" style="border: 1px solid #eef0f3; border-radius: 4px; background: #ffffff; padding: 16px; margin: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.03); display: flex; flex-direction: column; justify-content: space-between; min-height: 380px; position: relative; transition: transform 0.2s, box-shadow 0.2s;">
+                        <?php $__currentLoopData = $treats_products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <div class="featured-card-item wow zoomIn" data-wow-duration="1.5s" data-wow-delay="0.<?php echo e($key); ?>s" style="border: 1px solid #eef0f3; border-radius: 4px; background: #ffffff; padding: 16px; margin: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.03); display: flex; flex-direction: column; justify-content: space-between; min-height: 380px; position: relative; transition: transform 0.2s, box-shadow 0.2s;">
                                 
                                 <!-- Discount Badge -->
                                 <?php if($value->old_price && $value->old_price > $value->new_price): ?>
@@ -473,8 +475,8 @@
             <?php if(!$wet_food_products->isEmpty()): ?>
                 <div class="col-sm-12">
                     <div class="product_slider owl-carousel">
-                        <?php $__currentLoopData = $wet_food_products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                            <div class="featured-card-item" style="border: 1px solid #eef0f3; border-radius: 4px; background: #ffffff; padding: 16px; margin: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.03); display: flex; flex-direction: column; justify-content: space-between; min-height: 380px; position: relative; transition: transform 0.2s, box-shadow 0.2s;">
+                        <?php $__currentLoopData = $wet_food_products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <div class="featured-card-item wow zoomIn" data-wow-duration="1.5s" data-wow-delay="0.<?php echo e($key); ?>s" style="border: 1px solid #eef0f3; border-radius: 4px; background: #ffffff; padding: 16px; margin: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.03); display: flex; flex-direction: column; justify-content: space-between; min-height: 380px; position: relative; transition: transform 0.2s, box-shadow 0.2s;">
                                 
                                 <!-- Discount Badge -->
                                 <?php if($value->old_price && $value->old_price > $value->new_price): ?>
@@ -571,8 +573,8 @@
             <?php if(!$dry_food_products->isEmpty()): ?>
                 <div class="col-sm-12">
                     <div class="product_slider owl-carousel">
-                        <?php $__currentLoopData = $dry_food_products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                            <div class="featured-card-item" style="border: 1px solid #eef0f3; border-radius: 4px; background: #ffffff; padding: 16px; margin: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.03); display: flex; flex-direction: column; justify-content: space-between; min-height: 380px; position: relative; transition: transform 0.2s, box-shadow 0.2s;">
+                        <?php $__currentLoopData = $dry_food_products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <div class="featured-card-item wow zoomIn" data-wow-duration="1.5s" data-wow-delay="0.<?php echo e($key); ?>s" style="border: 1px solid #eef0f3; border-radius: 4px; background: #ffffff; padding: 16px; margin: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.03); display: flex; flex-direction: column; justify-content: space-between; min-height: 380px; position: relative; transition: transform 0.2s, box-shadow 0.2s;">
                                 
                                 <!-- Discount Badge -->
                                 <?php if($value->old_price && $value->old_price > $value->new_price): ?>
@@ -669,8 +671,8 @@
             <?php if(!$pet_care_products->isEmpty()): ?>
                 <div class="col-sm-12">
                     <div class="product_slider owl-carousel">
-                        <?php $__currentLoopData = $pet_care_products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                            <div class="featured-card-item" style="border: 1px solid #eef0f3; border-radius: 4px; background: #ffffff; padding: 16px; margin: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.03); display: flex; flex-direction: column; justify-content: space-between; min-height: 380px; position: relative; transition: transform 0.2s, box-shadow 0.2s;">
+                        <?php $__currentLoopData = $pet_care_products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <div class="featured-card-item wow zoomIn" data-wow-duration="1.5s" data-wow-delay="0.<?php echo e($key); ?>s" style="border: 1px solid #eef0f3; border-radius: 4px; background: #ffffff; padding: 16px; margin: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.03); display: flex; flex-direction: column; justify-content: space-between; min-height: 380px; position: relative; transition: transform 0.2s, box-shadow 0.2s;">
                                 
                                 <!-- Discount Badge -->
                                 <?php if($value->old_price && $value->old_price > $value->new_price): ?>
@@ -767,8 +769,8 @@
             <?php if(!$bestseller_products->isEmpty()): ?>
                 <div class="col-sm-12">
                     <div class="product_slider owl-carousel">
-                        <?php $__currentLoopData = $bestseller_products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                            <div class="featured-card-item" style="border: 1px solid #eef0f3; border-radius: 4px; background: #ffffff; padding: 16px; margin: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.03); display: flex; flex-direction: column; justify-content: space-between; min-height: 380px; position: relative; transition: transform 0.2s, box-shadow 0.2s;">
+                        <?php $__currentLoopData = $bestseller_products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <div class="featured-card-item wow zoomIn" data-wow-duration="1.5s" data-wow-delay="0.<?php echo e($key); ?>s" style="border: 1px solid #eef0f3; border-radius: 4px; background: #ffffff; padding: 16px; margin: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.03); display: flex; flex-direction: column; justify-content: space-between; min-height: 380px; position: relative; transition: transform 0.2s, box-shadow 0.2s;">
                                 
                                 <!-- Discount Badge -->
                                 <?php if($value->old_price && $value->old_price > $value->new_price): ?>

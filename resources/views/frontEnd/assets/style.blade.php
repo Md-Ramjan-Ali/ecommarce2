@@ -4845,3 +4845,18 @@ footer.modern-footer {
 .ads_item img:hover {
     transform: translateY(-3px) !important;
 }
+
+/* =========================================
+   PRODUCT CARD SCROLL ANIMATION
+   ========================================= */
+.scroll-animate {
+    opacity: 0;
+    transform: translateY(28px) scale(0.97);
+    transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
+}
+
+.scroll-animate.is-visible {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}

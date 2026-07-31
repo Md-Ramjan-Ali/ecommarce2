@@ -123,8 +123,8 @@
             @if(!$featured_products->isEmpty())
                 <div class="col-sm-12">
                     <div class="product_slider owl-carousel">
-                        @foreach ($featured_products as $value)
-                            <div class="featured-card-item" style="border: 1px solid #eef0f3; border-radius: 4px; background: #ffffff; padding: 16px; margin: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.03); display: flex; flex-direction: column; justify-content: space-between; min-height: 380px; transition: transform 0.2s, box-shadow 0.2s;">
+                        @foreach ($featured_products as $key => $value)
+                            <div class="featured-card-item wow zoomIn" data-wow-duration="1.5s" data-wow-delay="0.{{ $key }}s" style="border: 1px solid #eef0f3; border-radius: 4px; background: #ffffff; padding: 16px; margin: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.03); display: flex; flex-direction: column; justify-content: space-between; min-height: 380px; transition: transform 0.2s, box-shadow 0.2s;">
                                 
                                 <!-- Image Container -->
                                 <div class="pro_img" style="text-align: center; margin-bottom: 14px; height: 170px; display: flex; align-items: center; justify-content: center; width: 100%;">
@@ -374,8 +374,8 @@
             @if(!$treats_products->isEmpty())
                 <div class="col-sm-12">
                     <div class="product_slider owl-carousel">
-                        @foreach ($treats_products as $value)
-                            <div class="featured-card-item" style="border: 1px solid #eef0f3; border-radius: 4px; background: #ffffff; padding: 16px; margin: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.03); display: flex; flex-direction: column; justify-content: space-between; min-height: 380px; position: relative; transition: transform 0.2s, box-shadow 0.2s;">
+                        @foreach ($treats_products as $key => $value)
+                            <div class="featured-card-item wow zoomIn" data-wow-duration="1.5s" data-wow-delay="0.{{ $key }}s" style="border: 1px solid #eef0f3; border-radius: 4px; background: #ffffff; padding: 16px; margin: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.03); display: flex; flex-direction: column; justify-content: space-between; min-height: 380px; position: relative; transition: transform 0.2s, box-shadow 0.2s;">
                                 
                                 <!-- Discount Badge -->
                                 @if($value->old_price && $value->old_price > $value->new_price)
@@ -471,8 +471,8 @@
             @if(!$wet_food_products->isEmpty())
                 <div class="col-sm-12">
                     <div class="product_slider owl-carousel">
-                        @foreach ($wet_food_products as $value)
-                            <div class="featured-card-item" style="border: 1px solid #eef0f3; border-radius: 4px; background: #ffffff; padding: 16px; margin: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.03); display: flex; flex-direction: column; justify-content: space-between; min-height: 380px; position: relative; transition: transform 0.2s, box-shadow 0.2s;">
+                        @foreach ($wet_food_products as $key => $value)
+                            <div class="featured-card-item wow zoomIn" data-wow-duration="1.5s" data-wow-delay="0.{{ $key }}s" style="border: 1px solid #eef0f3; border-radius: 4px; background: #ffffff; padding: 16px; margin: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.03); display: flex; flex-direction: column; justify-content: space-between; min-height: 380px; position: relative; transition: transform 0.2s, box-shadow 0.2s;">
                                 
                                 <!-- Discount Badge -->
                                 @if($value->old_price && $value->old_price > $value->new_price)
@@ -568,8 +568,8 @@
             @if(!$dry_food_products->isEmpty())
                 <div class="col-sm-12">
                     <div class="product_slider owl-carousel">
-                        @foreach ($dry_food_products as $value)
-                            <div class="featured-card-item" style="border: 1px solid #eef0f3; border-radius: 4px; background: #ffffff; padding: 16px; margin: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.03); display: flex; flex-direction: column; justify-content: space-between; min-height: 380px; position: relative; transition: transform 0.2s, box-shadow 0.2s;">
+                        @foreach ($dry_food_products as $key => $value)
+                            <div class="featured-card-item wow zoomIn" data-wow-duration="1.5s" data-wow-delay="0.{{ $key }}s" style="border: 1px solid #eef0f3; border-radius: 4px; background: #ffffff; padding: 16px; margin: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.03); display: flex; flex-direction: column; justify-content: space-between; min-height: 380px; position: relative; transition: transform 0.2s, box-shadow 0.2s;">
                                 
                                 <!-- Discount Badge -->
                                 @if($value->old_price && $value->old_price > $value->new_price)
@@ -665,8 +665,8 @@
             @if(!$pet_care_products->isEmpty())
                 <div class="col-sm-12">
                     <div class="product_slider owl-carousel">
-                        @foreach ($pet_care_products as $value)
-                            <div class="featured-card-item" style="border: 1px solid #eef0f3; border-radius: 4px; background: #ffffff; padding: 16px; margin: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.03); display: flex; flex-direction: column; justify-content: space-between; min-height: 380px; position: relative; transition: transform 0.2s, box-shadow 0.2s;">
+                        @foreach ($pet_care_products as $key => $value)
+                            <div class="featured-card-item wow zoomIn" data-wow-duration="1.5s" data-wow-delay="0.{{ $key }}s" style="border: 1px solid #eef0f3; border-radius: 4px; background: #ffffff; padding: 16px; margin: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.03); display: flex; flex-direction: column; justify-content: space-between; min-height: 380px; position: relative; transition: transform 0.2s, box-shadow 0.2s;">
                                 
                                 <!-- Discount Badge -->
                                 @if($value->old_price && $value->old_price > $value->new_price)
@@ -762,8 +762,8 @@
             @if(!$bestseller_products->isEmpty())
                 <div class="col-sm-12">
                     <div class="product_slider owl-carousel">
-                        @foreach ($bestseller_products as $value)
-                            <div class="featured-card-item" style="border: 1px solid #eef0f3; border-radius: 4px; background: #ffffff; padding: 16px; margin: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.03); display: flex; flex-direction: column; justify-content: space-between; min-height: 380px; position: relative; transition: transform 0.2s, box-shadow 0.2s;">
+                        @foreach ($bestseller_products as $key => $value)
+                            <div class="featured-card-item wow zoomIn" data-wow-duration="1.5s" data-wow-delay="0.{{ $key }}s" style="border: 1px solid #eef0f3; border-radius: 4px; background: #ffffff; padding: 16px; margin: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.03); display: flex; flex-direction: column; justify-content: space-between; min-height: 380px; position: relative; transition: transform 0.2s, box-shadow 0.2s;">
                                 
                                 <!-- Discount Badge -->
                                 @if($value->old_price && $value->old_price > $value->new_price)
