@@ -1,4 +1,4 @@
-@php
+<?php
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
@@ -22,20 +22,20 @@ $profileImage = $profile_edit->image ? asset($profile_edit->image) : asset('publ
 
 // Total Order Amount
 $totalOrderAmount = \App\Models\Order::where('customer_id', $customerId)->sum('amount');
-@endphp
+?>
 
 <!DOCTYPE html>
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>সেটিংস | {{ $siteName->name ?? 'Gadget Style' }}</title>
+    <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
+    <title>সেটিংস | <?php echo e($siteName->name ?? 'Gadget Style'); ?></title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <!-- Toastr CSS -->
-    <link rel="stylesheet" href="{{asset('public/backEnd/')}}/assets/css/toastr.min.css" />
+    <link rel="stylesheet" href="<?php echo e(asset('public/backEnd/')); ?>/assets/css/toastr.min.css" />
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap');
         body { font-family: 'Hind Siliguri', sans-serif; background-color: #F0F2F5; }
@@ -107,53 +107,53 @@ $totalOrderAmount = \App\Models\Order::where('customer_id', $customerId)->sum('a
 
     <aside id="sidebar" class="fixed inset-y-0 left-0 z-40 w-64 bg-white border-r transform -translate-x-full lg:translate-x-0 lg:static lg:inset-auto lg:flex flex-col shrink-0 h-screen transition-transform duration-300">
         <div class="p-4 sm:p-6 flex items-center justify-between lg:justify-start gap-2 border-b border-gray-100">
-            @if($darkLogo)
-                <a href="{{ route('home') }}" class="flex items-center gap-2 flex-1">
-                    <img src="{{ asset($darkLogo) }}" alt="{{ $siteName->name ?? 'Logo' }}" class="h-8 sm:h-10 w-auto max-w-full object-contain">
+            <?php if($darkLogo): ?>
+                <a href="<?php echo e(route('home')); ?>" class="flex items-center gap-2 flex-1">
+                    <img src="<?php echo e(asset($darkLogo)); ?>" alt="<?php echo e($siteName->name ?? 'Logo'); ?>" class="h-8 sm:h-10 w-auto max-w-full object-contain">
                 </a>
-            @else
+            <?php else: ?>
                 <div class="flex items-center gap-2">
-                    <div class="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center text-white font-bold">{{ $siteInitial }}</div>
-                    <h1 class="text-xl sm:text-2xl font-bold text-gray-800 tracking-tight">{{ $siteDisplayName }}</h1>
+                    <div class="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center text-white font-bold"><?php echo e($siteInitial); ?></div>
+                    <h1 class="text-xl sm:text-2xl font-bold text-gray-800 tracking-tight"><?php echo e($siteDisplayName); ?></h1>
                 </div>
-            @endif
+            <?php endif; ?>
             <button onclick="toggleSidebar()" class="lg:hidden text-gray-500 hover:text-red-500">
                 <i class="fas fa-times text-xl"></i>
             </button>
         </div>
 
         <nav class="flex-1 px-0 text-gray-500 font-medium space-y-1 mt-2 overflow-y-auto">
-            <a href="{{route('customer.account')}}" class="{{request()->is('customer/account')?'active-menu':'sidebar-item'}} flex items-center px-6 py-3.5 transition-colors">
+            <a href="<?php echo e(route('customer.account')); ?>" class="<?php echo e(request()->is('customer/account')?'active-menu':'sidebar-item'); ?> flex items-center px-6 py-3.5 transition-colors">
                 <i class="fas fa-home w-6"></i> ড্যাশবোর্ড
             </a>
-            <a href="{{route('customer.orders')}}" class="{{request()->is('customer/orders')?'active-menu':'sidebar-item'}} flex items-center px-6 py-3.5 transition-colors">
+            <a href="<?php echo e(route('customer.orders')); ?>" class="<?php echo e(request()->is('customer/orders')?'active-menu':'sidebar-item'); ?> flex items-center px-6 py-3.5 transition-colors">
                 <i class="fas fa-box-open w-6"></i> আমার অর্ডার 
-                @if($pendingOrdersCount > 0)
-                    <span class="ml-auto bg-red-100 text-red-600 text-xs px-2 py-0.5 rounded-full">{{ $pendingOrdersCount }}</span>
-                @endif
+                <?php if($pendingOrdersCount > 0): ?>
+                    <span class="ml-auto bg-red-100 text-red-600 text-xs px-2 py-0.5 rounded-full"><?php echo e($pendingOrdersCount); ?></span>
+                <?php endif; ?>
             </a>
-            <a href="{{route('customer.order_track')}}" class="{{request()->is('customer/order-track*')?'active-menu':'sidebar-item'}} flex items-center px-6 py-3.5 transition-colors">
+            <a href="<?php echo e(route('customer.order_track')); ?>" class="<?php echo e(request()->is('customer/order-track*')?'active-menu':'sidebar-item'); ?> flex items-center px-6 py-3.5 transition-colors">
                 <i class="fas fa-truck w-6"></i> ট্র্যাক অর্ডার
             </a>
-            <a href="{{route('customer.refunds')}}" class="{{request()->is('customer/refunds*')?'active-menu':'sidebar-item'}} flex items-center px-6 py-3.5 transition-colors">
+            <a href="<?php echo e(route('customer.refunds')); ?>" class="<?php echo e(request()->is('customer/refunds*')?'active-menu':'sidebar-item'); ?> flex items-center px-6 py-3.5 transition-colors">
                 <i class="fas fa-undo w-6"></i> রিফান্ড রিকোয়েস্ট
             </a>
-            <a href="{{ route('complaint') }}" class="{{ request()->is('complaint') ? 'active-menu' : 'sidebar-item' }} flex items-center px-6 py-3.5 transition-colors">
+            <a href="<?php echo e(route('complaint')); ?>" class="<?php echo e(request()->is('complaint') ? 'active-menu' : 'sidebar-item'); ?> flex items-center px-6 py-3.5 transition-colors">
                 <i class="fas fa-headset w-6"></i> সাপোর্ট টিকেট
             </a>
-            <a href="{{route('customer.profile_edit')}}" class="{{request()->is('customer/profile-edit')?'active-menu':'sidebar-item'}} flex items-center px-6 py-3.5 transition-colors">
+            <a href="<?php echo e(route('customer.profile_edit')); ?>" class="<?php echo e(request()->is('customer/profile-edit')?'active-menu':'sidebar-item'); ?> flex items-center px-6 py-3.5 transition-colors">
                 <i class="fas fa-user-cog w-6"></i> সেটিংস
             </a>
         </nav>
 
         <div class="p-6 border-t">
-            <a href="{{ route('customer.logout') }}" 
+            <a href="<?php echo e(route('customer.logout')); ?>" 
                onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
                class="w-full flex items-center justify-center px-4 py-2.5 text-red-500 bg-red-50 hover:bg-red-100 rounded-lg font-bold transition">
                 <i class="fas fa-sign-out-alt mr-2"></i> লগআউট
             </a>
-            <form id="logout-form" action="{{ route('customer.logout') }}" method="POST" style="display: none;">
-                @csrf
+            <form id="logout-form" action="<?php echo e(route('customer.logout')); ?>" method="POST" style="display: none;">
+                <?php echo csrf_field(); ?>
             </form>
         </div>
     </aside>
@@ -172,14 +172,15 @@ $totalOrderAmount = \App\Models\Order::where('customer_id', $customerId)->sum('a
 
             <div class="flex items-center gap-4">
                 <div class="hidden sm:flex bg-green-50 text-green-700 px-4 py-2 rounded-full items-center font-bold text-sm border border-green-100">
-                    <i class="fas fa-wallet mr-2"></i> মোট: ৳{{ number_format($totalOrderAmount, 0) }}
+                    <i class="fas fa-wallet mr-2"></i> মোট: ৳<?php echo e(number_format($totalOrderAmount, 0)); ?>
+
                 </div>
                 
                 <div class="relative cursor-pointer w-10 h-10 bg-gray-50 rounded-full flex items-center justify-center hover:bg-gray-100 transition">
                     <i class="far fa-bell text-gray-600"></i>
                 </div>
 
-                <img src="{{ $profileImage }}" onerror="this.src='{{ asset('public/uploads/default/no-image.png') }}'" class="w-10 h-10 rounded-full border-2 border-white shadow-sm cursor-pointer" alt="Profile">
+                <img src="<?php echo e($profileImage); ?>" onerror="this.src='<?php echo e(asset('public/uploads/default/no-image.png')); ?>'" class="w-10 h-10 rounded-full border-2 border-white shadow-sm cursor-pointer" alt="Profile">
             </div>
         </header>
 
@@ -190,13 +191,13 @@ $totalOrderAmount = \App\Models\Order::where('customer_id', $customerId)->sum('a
                     <h3 class="text-lg font-bold text-gray-800">⚙️ প্রোফাইল আপডেট</h3>
                 </div>
                 
-                <form action="{{route('customer.profile_update')}}" method="POST" enctype="multipart/form-data" class="p-6 space-y-6" id="profileForm">
-                    @csrf
+                <form action="<?php echo e(route('customer.profile_update')); ?>" method="POST" enctype="multipart/form-data" class="p-6 space-y-6" id="profileForm">
+                    <?php echo csrf_field(); ?>
                     
-                    {{-- Profile Image Upload Section --}}
+                    
                     <div class="flex flex-col items-center mb-6 pb-6 border-b border-gray-100">
                         <div class="profile-image-container mb-4">
-                            <img id="profileImagePreview" src="{{ $profileImage }}" onerror="this.src='{{ asset('public/uploads/default/no-image.png') }}'" class="profile-image-preview" alt="Profile Image">
+                            <img id="profileImagePreview" src="<?php echo e($profileImage); ?>" onerror="this.src='<?php echo e(asset('public/uploads/default/no-image.png')); ?>'" class="profile-image-preview" alt="Profile Image">
                             <label for="profileImageInput" class="profile-image-upload-btn">
                                 <i class="fas fa-camera"></i>
                             </label>
@@ -206,87 +207,178 @@ $totalOrderAmount = \App\Models\Order::where('customer_id', $customerId)->sum('a
                             <h6 class="font-bold text-gray-800 mb-1">প্রোফাইল ছবি</h6>
                             <p class="text-xs text-gray-500">PNG, JPG বা WEBP (সর্বোচ্চ 2MB)</p>
                             <p id="imageFileName" class="text-xs text-indigo-600 mt-1 hidden"></p>
-                            @if(session('success'))
-                                <p class="text-green-500 text-xs mt-1">{{ session('success') }}</p>
-                            @endif
-                            @error('image')
-                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                            @enderror
+                            <?php if(session('success')): ?>
+                                <p class="text-green-500 text-xs mt-1"><?php echo e(session('success')); ?></p>
+                            <?php endif; ?>
+                            <?php $__errorArgs = ['image'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                <p class="text-red-500 text-xs mt-1"><?php echo e($message); ?></p>
+                            <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                         </div>
                     </div>
 
-                    {{-- Form Fields --}}
+                    
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        {{-- Full Name --}}
+                        
                         <div>
                             <label for="name" class="block text-sm font-semibold text-gray-700 mb-2">পুরো নাম *</label>
-                            <input type="text" id="name" name="name" value="{{old('name', $profile_edit->name)}}" required
-                                   class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition @error('name') border-red-500 @enderror">
-                            @error('name')
-                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                            @enderror
+                            <input type="text" id="name" name="name" value="<?php echo e(old('name', $profile_edit->name)); ?>" required
+                                   class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition <?php $__errorArgs = ['name'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> border-red-500 <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>">
+                            <?php $__errorArgs = ['name'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                <p class="text-red-500 text-xs mt-1"><?php echo e($message); ?></p>
+                            <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                         </div>
 
-                        {{-- Phone Number --}}
+                        
                         <div>
                             <label for="phone" class="block text-sm font-semibold text-gray-700 mb-2">ফোন নম্বর *</label>
-                            <input type="number" id="phone" name="phone" value="{{old('phone', $profile_edit->phone)}}" required
-                                   class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition @error('phone') border-red-500 @enderror">
-                                @error('phone')
-                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                                @enderror
+                            <input type="number" id="phone" name="phone" value="<?php echo e(old('phone', $profile_edit->phone)); ?>" required
+                                   class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition <?php $__errorArgs = ['phone'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> border-red-500 <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>">
+                                <?php $__errorArgs = ['phone'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                <p class="text-red-500 text-xs mt-1"><?php echo e($message); ?></p>
+                                <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                         </div>
 
-                        {{-- Email Address --}}
+                        
                         <div>
                             <label for="email" class="block text-sm font-semibold text-gray-700 mb-2">ইমেইল ঠিকানা (ঐচ্ছিক)</label>
-                            <input type="email" id="email" name="email" value="{{old('email', $profile_edit->email)}}"
-                                   class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition @error('email') border-red-500 @enderror">
-                                @error('email')
-                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                                @enderror
+                            <input type="email" id="email" name="email" value="<?php echo e(old('email', $profile_edit->email)); ?>"
+                                   class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition <?php $__errorArgs = ['email'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> border-red-500 <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>">
+                                <?php $__errorArgs = ['email'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                <p class="text-red-500 text-xs mt-1"><?php echo e($message); ?></p>
+                                <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                         </div>
 
-                        {{-- Address --}}
+                        
                         <div>
                             <label for="address" class="block text-sm font-semibold text-gray-700 mb-2">ঠিকানা (ঐচ্ছিক)</label>
-                            <input type="text" id="address" name="address" value="{{old('address', $profile_edit->address)}}"
-                                   class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition @error('address') border-red-500 @enderror">
-                                @error('address')
-                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                                @enderror
+                            <input type="text" id="address" name="address" value="<?php echo e(old('address', $profile_edit->address)); ?>"
+                                   class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition <?php $__errorArgs = ['address'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> border-red-500 <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>">
+                                <?php $__errorArgs = ['address'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                <p class="text-red-500 text-xs mt-1"><?php echo e($message); ?></p>
+                                <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                         </div>
 
-                        {{-- District --}}
+                        
                         <div>
                             <label for="district" class="block text-sm font-semibold text-gray-700 mb-2">জেলা</label>
-                            <select id="district" name="district" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition district select2 @error('district') border-red-500 @enderror">
+                            <select id="district" name="district" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition district select2 <?php $__errorArgs = ['district'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> border-red-500 <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>">
                                 <option value="">নির্বাচন করুন...</option>
-                                    @foreach($districts as $key=>$district)
-                                    <option value="{{$district->district}}" @if(old('district', $profile_edit->district)==$district->district) selected @endif>{{$district->district}}</option>
-                                    @endforeach
+                                    <?php $__currentLoopData = $districts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=>$district): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                    <option value="<?php echo e($district->district); ?>" <?php if(old('district', $profile_edit->district)==$district->district): ?> selected <?php endif; ?>><?php echo e($district->district); ?></option>
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                 </select>
-                                @error('district')
-                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                                @enderror
+                                <?php $__errorArgs = ['district'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                <p class="text-red-500 text-xs mt-1"><?php echo e($message); ?></p>
+                                <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                         </div>
 
-                        {{-- Area --}}
+                        
                         <div>
                             <label for="area" class="block text-sm font-semibold text-gray-700 mb-2">এলাকা</label>
-                            <select id="area" name="area" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition select2 area @error('area') border-red-500 @enderror">
+                            <select id="area" name="area" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition select2 area <?php $__errorArgs = ['area'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> border-red-500 <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>">
                                 <option value="">নির্বাচন করুন...</option>
-                                    @foreach($areas as $key=>$area)
-                                    <option value="{{$area->id}}" @if(old('area', $profile_edit->area) == $area->id) selected @endif>{{$area->area_name}}</option>
-                                    @endforeach
+                                    <?php $__currentLoopData = $areas; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=>$area): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                    <option value="<?php echo e($area->id); ?>" <?php if(old('area', $profile_edit->area) == $area->id): ?> selected <?php endif; ?>><?php echo e($area->area_name); ?></option>
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                 </select>
-                                @error('area')
-                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                                @enderror
+                                <?php $__errorArgs = ['area'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                <p class="text-red-500 text-xs mt-1"><?php echo e($message); ?></p>
+                                <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                         </div>
                             </div>
 
-                    {{-- Submit Button --}}
+                    
                     <div class="pt-6 border-t border-gray-100">
                         <button type="submit" class="w-full md:w-auto bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-8 py-3 rounded-lg transition duration-200 shadow-sm hover:shadow-md flex items-center justify-center gap-2">
                             <i class="fas fa-save"></i>
@@ -302,8 +394,9 @@ $totalOrderAmount = \App\Models\Order::where('customer_id', $customerId)->sum('a
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <!-- Toastr JS -->
-    <script src="{{asset('public/backEnd/')}}/assets/js/toastr.min.js"></script>
-    {!! Toastr::message() !!}
+    <script src="<?php echo e(asset('public/backEnd/')); ?>/assets/js/toastr.min.js"></script>
+    <?php echo Toastr::message(); ?>
+
     <script>
         // Toastr Configuration
         toastr.options = {
@@ -325,18 +418,18 @@ $totalOrderAmount = \App\Models\Order::where('customer_id', $customerId)->sum('a
         };
 
         // Display session messages
-        @if(Session::has('success'))
-            toastr.success("{{ Session::get('success') }}", "সফল!");
-        @endif
-        @if(Session::has('error'))
-            toastr.error("{{ Session::get('error') }}", "ত্রুটি!");
-        @endif
-        @if(Session::has('info'))
-            toastr.info("{{ Session::get('info') }}", "তথ্য!");
-        @endif
-        @if(Session::has('warning'))
-            toastr.warning("{{ Session::get('warning') }}", "সতর্কতা!");
-        @endif
+        <?php if(Session::has('success')): ?>
+            toastr.success("<?php echo e(Session::get('success')); ?>", "সফল!");
+        <?php endif; ?>
+        <?php if(Session::has('error')): ?>
+            toastr.error("<?php echo e(Session::get('error')); ?>", "ত্রুটি!");
+        <?php endif; ?>
+        <?php if(Session::has('info')): ?>
+            toastr.info("<?php echo e(Session::get('info')); ?>", "তথ্য!");
+        <?php endif; ?>
+        <?php if(Session::has('warning')): ?>
+            toastr.warning("<?php echo e(Session::get('warning')); ?>", "সতর্কতা!");
+        <?php endif; ?>
     </script>
     <script>
         function toggleSidebar() {
@@ -410,7 +503,7 @@ $totalOrderAmount = \App\Models\Order::where('customer_id', $customerId)->sum('a
                 $.ajax({
                     type: "GET",
                     data: {'id': id},
-                    url: "{{route('districts')}}",
+                    url: "<?php echo e(route('districts')); ?>",
                     success: function(res){               
                         if(res){
                             $(".area").empty();
@@ -429,3 +522,4 @@ $totalOrderAmount = \App\Models\Order::where('customer_id', $customerId)->sum('a
 </script>
 </body>
 </html>
+<?php /**PATH E:\Programming capture\New folder\E-Commerce2\ecommerce2\resources\views/frontEnd/layouts/customer/profile_edit.blade.php ENDPATH**/ ?>

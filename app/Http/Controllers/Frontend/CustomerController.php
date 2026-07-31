@@ -428,18 +428,19 @@ class CustomerController extends Controller
             // Customer registration
             $this->validate($request, [
                 'name'     => 'required',
-                'phone'    => 'required|unique:customers',
+                'phone'    => 'required|unique:customers,phone',
+                'email'    => 'nullable|email|unique:customers,email',
                 'password' => 'required|min:6'
             ]);
 
             $last_id = Customer::orderBy('id', 'desc')->first();
-            $last_id = $last_id?$last_id->id+1:1;
+            $last_id = $last_id ? $last_id->id + 1 : 1;
 
             $store = new Customer();
             $store->name = $request->name;
             $store->slug = strtolower(Str::slug($request->name.'-'.$last_id));
             $store->phone = $request->phone;
-            $store->email = $request->email ?? null;
+            $store->email = !empty($request->email) ? $request->email : null;
             $store->password = bcrypt($request->password);
             $store->verify = 1;
             $store->status = 'active';
@@ -1215,57 +1216,52 @@ public function order_save(Request $request)
 
         // Validation
         $request->validate([
-            'name' => 'required|string|max:255',
-            'phone' => 'required|string|max:20',
-            'email' => 'required|email|max:255|unique:customers,email,'.$update_data->id,
-            'address' => 'required|string|max:500',
-            'district' => 'required|string|max:100',
-            'area' => 'required|integer',
-            'image' => 'nullable|image|mimes:jpeg,jpg,png,webp|max:2048',
+            'name'     => 'required|string|max:255',
+            'phone'    => 'required|string|max:20',
+            'email'    => 'nullable|email|max:255|unique:customers,email,'.$update_data->id,
+            'address'  => 'nullable|string|max:500',
+            'district' => 'nullable|string|max:100',
+            'area'     => 'nullable',
+            'image'    => 'nullable|image|mimes:jpeg,jpg,png,webp|max:2048',
         ]);
 
         $image = $request->file('image');
         if($image){
             try {
-                // Delete old image if exists
-                if ($update_data->image) {
+                // Delete old image if exists and not default
+                if ($update_data->image && $update_data->image != 'public/uploads/default/user.png') {
                     $oldImagePath = public_path($update_data->image);
                     if (file_exists($oldImagePath)) {
                         @unlink($oldImagePath);
                     }
                 }
 
-                $name =  time().'-'.$image->getClientOriginalName();
-                $name = preg_replace('"\.(jpg|jpeg|png|webp)$"', '.webp',$name);
-                $name = strtolower(Str::slug($name));
-                
-                // Directory path with public/ prefix
+                $ext = strtolower($image->getClientOriginalExtension() ?: 'png');
+                $name = time() . '-customer-' . uniqid() . '.' . $ext;
                 $uploadpath = 'public/uploads/customer/';
-                $uploadFullPath = public_path($uploadpath);
+                $fullDirPath = public_path($uploadpath);
                 
-                // Create directory if not exists
-                if (!file_exists($uploadFullPath)) {
-                    \Illuminate\Support\Facades\File::makeDirectory($uploadFullPath, 0755, true);
+                if (!\Illuminate\Support\Facades\File::exists($fullDirPath)) {
+                    \Illuminate\Support\Facades\File::makeDirectory($fullDirPath, 0755, true);
                 }
                 
-                // Full path for saving
-                $imageUrl = $uploadFullPath . $name;
-                
-                // Process and save image
-                $img = Image::make($image->getRealPath());
-                $img->encode('webp', 90);
-                $img->resize(300, 300, function ($constraint) {
-                    $constraint->aspectRatio();
-                    $constraint->upsize();
-                });
-                $img->save($imageUrl);
-                
-                // Verify image was saved
-                if (!file_exists($imageUrl)) {
-                    throw new \Exception('Image file was not saved successfully');
+                // Try Intervention Image if GD is available; otherwise fallback to native move
+                if (extension_loaded('gd') && class_exists('\Intervention\Image\Facades\Image')) {
+                    try {
+                        $fullSavePath = public_path($uploadpath . $name);
+                        $img = Image::make($image->getRealPath());
+                        $img->resize(300, 300, function ($constraint) {
+                            $constraint->aspectRatio();
+                            $constraint->upsize();
+                        });
+                        $img->save($fullSavePath);
+                    } catch (\Throwable $ex) {
+                        $image->move($fullDirPath, $name);
+                    }
+                } else {
+                    $image->move($fullDirPath, $name);
                 }
                 
-                // Save path in database (with public/ prefix for asset() helper)
                 $imageUrl = $uploadpath . $name;
             } catch (\Exception $e) {
                 Toastr::error('Image upload failed: ' . $e->getMessage(), 'Error!');
@@ -1275,13 +1271,13 @@ public function order_save(Request $request)
             $imageUrl = $update_data->image;
         }
 
-        $update_data->name = $request->name;
-        $update_data->phone = $request->phone;
-        $update_data->email = $request->email;
-        $update_data->address = $request->address;
-        $update_data->district = $request->district;
-        $update_data->area = $request->area;
-        $update_data->image = $imageUrl;
+        $update_data->name     = $request->name;
+        $update_data->phone    = $request->phone;
+        $update_data->email    = !empty($request->email) ? $request->email : null;
+        $update_data->address  = $request->address ?? null;
+        $update_data->district = $request->district ?? null;
+        $update_data->area     = $request->area ?? null;
+        $update_data->image    = $imageUrl;
         $update_data->save();
 
         // Refresh the model to get updated attributes
