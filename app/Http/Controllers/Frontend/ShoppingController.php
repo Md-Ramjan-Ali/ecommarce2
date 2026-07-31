@@ -92,12 +92,12 @@ class ShoppingController extends Controller
             $product = $products->get($item->id);
             
             // Digital products don't need shipping, so skip them
-            if ($product && $product->is_digital == 1) {
+            if ($product && isset($product->is_digital) && $product->is_digital == 1) {
                 continue;
             }
             
             // If any physical product doesn't have free_delivery, return false
-            if ($product && $product->free_delivery != 1) {
+            if ($product && (!isset($product->free_delivery) || $product->free_delivery != 1)) {
                 return false;
             }
         }

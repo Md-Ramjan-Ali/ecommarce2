@@ -59,17 +59,19 @@ class CustomerController extends Controller
             'review'=>'required',
         ]);
 
+        $customer = Auth::guard('customer')->user();
+
         $review = new Review();
-        $review->name = Auth::guard('customer')->user()->name ?? 'N / A';
-        $review->email = Auth::guard('customer')->user()->email ?? 'N / A';
+        $review->name = $customer ? $customer->name : 'N / A';
+        $review->email = $customer ? $customer->email : 'N / A';
         $review->product_id = $request->product_id;
         $review->review = $request->review;
         $review->ratting = $request->ratting;
-        $review->customer_id = Auth::guard('customer')->user()->id;
-        $review->status = 'pending';
+        $review->customer_id = $customer ? $customer->id : null;
+        $review->status = 'active';
         $review->save();
 
-        Toastr::success('Thanks, Your review send successfully', 'Success!');
+        Toastr::success('আপনার রিভিউটি সফলভাবে প্রকাশিত হয়েছে!', 'ধন্যবাদ!');
         return redirect()->back();
     }
 
@@ -1051,7 +1053,11 @@ public function order_save(Request $request)
         }
 
         // Incomplete order delete
-        IncompleteOrder::where('phone', $request->phone)->delete();
+        try {
+            IncompleteOrder::where('phone', $request->phone)->delete();
+        } catch (\Exception $e) {
+            \Log::warning('IncompleteOrder delete failed: ' . $e->getMessage());
+        }
 
         // =========================================================
         // ⭐ পেমেন্ট গেটওয়ে রিডাইরেক্ট (FIXED)
@@ -1173,7 +1179,8 @@ public function order_save(Request $request)
         $order = Order::with(['orderdetails.size', 'orderdetails.color', 'shipping'])
             ->where('id', $id)
             ->firstOrFail();
-        return view('frontEnd.layouts.customer.order_success', compact('order'));
+        $contact = Contact::where('status', 1)->first();
+        return view('frontEnd.layouts.customer.order_success', compact('order', 'contact'));
     }
 
     public function invoice(Request $request)

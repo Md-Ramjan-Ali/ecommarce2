@@ -312,11 +312,11 @@ $brands = Brand::where('status', 1)
         // =========================================================
         
         // ১. ডাটাবেস থেকে সেটিং লোড করা
-        $setting = GeneralSetting::select('order_limit_time', 'order_limit_qty')->first();
+        $setting = GeneralSetting::first();
         
         // যদি সেটিং না পায় বা ভ্যালু না থাকে, তবে ডিফল্ট হিসেবে ৪৮ ঘন্টা এবং ২ বার ধরবে
-        $limitHours = $setting->order_limit_time ?? 48; 
-        $limitQty   = $setting->order_limit_qty ?? 2;
+        $limitHours = $setting?->order_limit_time ?? 48; 
+        $limitQty   = $setting?->order_limit_qty ?? 2;
 
         $productId = $request->id;
         // ডাইনামিক সময় ক্যালকুলেশন

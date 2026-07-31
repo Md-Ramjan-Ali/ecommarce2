@@ -18,9 +18,9 @@ class OrderHelper
             $detail->sale_price = $cart->price;
             $detail->qty = $cart->qty;
 
-            // 🟢 এই তিনটা গুরুত্বপূর্ণ লাইন
-            $detail->product_color = $cart->options->color_id ?? null;
-            $detail->product_size = $cart->options->size_id ?? null;
+            // 🟢 কালার ও সাইজ ভ্যারিয়েন্ট সেভ লজিক
+            $detail->product_color = $cart->options->product_color ?? $cart->options->color_id ?? null;
+            $detail->product_size  = $cart->options->product_size ?? $cart->options->size_id ?? null;
             $detail->variant_price_id = $cart->options->variant_price_id ?? null;
 
             $detail->save();

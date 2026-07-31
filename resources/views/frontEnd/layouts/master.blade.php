@@ -887,12 +887,19 @@
                                     <!-- Right Action Items -->
                                     <div class="header-list-items">
                                         <ul style="display: flex; align-items: center; gap: 14px; list-style: none; margin: 0; padding: 0;">
-                                            <!-- User Account Button -->
+                                            <!-- User Account / Login Button -->
                                              <li class="header-account-item" style="position: relative; list-style: none;">
-                                                 <a href="{{ Auth::guard('customer')->check() ? route('customer.account') : route('customer.login') }}" style="display: flex; align-items: center; gap: 7px; font-weight: 600; font-size: 13.5px; color: #334155 !important; text-decoration: none; padding: 9px 18px; border-radius: 50px; background: #f8fafc; border: 1px solid #cbd5e1; transition: all 0.2s; white-space: nowrap !important;">
-                                                     <i class="fa-solid fa-user" style="font-size: 14px; color: #1e73be;"></i>
-                                                     <span>My Account</span>
-                                                 </a>
+                                                 @if(Auth::guard('customer')->check())
+                                                     <a href="{{ route('customer.account') }}" style="display: flex; align-items: center; gap: 7px; font-weight: 600; font-size: 13.5px; color: #334155 !important; text-decoration: none; padding: 9px 18px; border-radius: 50px; background: #f8fafc; border: 1px solid #cbd5e1; transition: all 0.2s; white-space: nowrap !important;">
+                                                         <i class="fa-solid fa-user" style="font-size: 14px; color: #1e73be;"></i>
+                                                         <span>My Account</span>
+                                                     </a>
+                                                 @else
+                                                     <a href="{{ route('customer.login') }}" style="display: flex; align-items: center; gap: 7px; font-weight: 600; font-size: 13.5px; color: #334155 !important; text-decoration: none; padding: 9px 18px; border-radius: 50px; background: #f8fafc; border: 1px solid #cbd5e1; transition: all 0.2s; white-space: nowrap !important;">
+                                                         <i class="fa-solid fa-user-check" style="font-size: 14px; color: #1e73be;"></i>
+                                                         <span>Login</span>
+                                                     </a>
+                                                 @endif
                                              </li>
 
                                             <!-- Track Order Button -->
@@ -1008,9 +1015,6 @@
                                                     @foreach($brands as $brand)
                                                     <li style="list-style: none;">
                                                         <a href="{{ route('brand.products', $brand->slug) }}" style="padding: 8px 16px; display: flex; align-items: center; gap: 8px; color: #333333 !important; font-size: 13px; font-weight: 500; text-decoration: none; white-space: nowrap;">
-                                                            @if(!empty($brand->image))
-                                                            <img src="{{ asset($brand->image) }}" alt="{{ $brand->name }}" style="width: 20px; height: 20px; object-fit: contain;">
-                                                            @endif
                                                             <span>{{ $brand->name }}</span>
                                                         </a>
                                                     </li>
