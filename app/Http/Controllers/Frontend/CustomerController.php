@@ -1342,9 +1342,9 @@ public function order_save(Request $request)
     public function password_update(Request $request)
     {
         $this->validate($request, [
-            'old_password'=>'required',
-            'new_password'=>'required',
-            'confirm_password' => 'required_with:new_password|same:new_password|'
+            'old_password'     => 'required',
+            'new_password'     => 'required|min:6',
+            'confirm_password' => 'required_with:new_password|same:new_password'
         ]);
 
         $customer = Customer::find(Auth::guard('customer')->user()->id);

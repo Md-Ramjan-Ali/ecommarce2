@@ -18,10 +18,10 @@
 @endphp
 
 <aside id="sidebar" class="fixed inset-y-0 left-0 z-40 w-64 bg-white border-r transform -translate-x-full lg:translate-x-0 lg:static lg:inset-auto lg:flex flex-col shrink-0 h-screen transition-transform duration-300">
-    <div class="p-4 sm:p-6 flex items-center justify-between lg:justify-start gap-2 border-b border-gray-100">
+    <div class="px-4 sm:px-6 flex items-center justify-between lg:justify-start gap-2 border-b border-gray-100" style="height: 73px; min-height: 73px;">
         @if($logo)
             <a href="{{ route('home') }}" class="flex items-center gap-2 flex-1">
-                <img src="{{ asset($logo) }}" alt="{{ $generalsetting->name ?? 'Logo' }}" class="h-8 sm:h-10 w-auto max-w-full object-contain">
+                <img src="{{ asset($logo) }}" alt="{{ $generalsetting->name ?? 'Logo' }}" style="height: 52px; max-height: 52px; width: auto; object-fit: contain;">
             </a>
         @else
             <div class="flex items-center gap-2">

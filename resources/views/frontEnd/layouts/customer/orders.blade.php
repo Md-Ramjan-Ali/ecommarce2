@@ -52,10 +52,10 @@ $totalOrderAmount = \App\Models\Order::where('customer_id', $customerId)->sum('a
     <div id="overlay" onclick="toggleSidebar()" class="fixed inset-0 bg-black bg-opacity-50 z-30 hidden lg:hidden"></div>
 
     <aside id="sidebar" class="fixed inset-y-0 left-0 z-40 w-64 bg-white border-r transform -translate-x-full lg:translate-x-0 lg:static lg:inset-auto lg:flex flex-col shrink-0 h-screen transition-transform duration-300">
-        <div class="p-4 sm:p-6 flex items-center justify-between lg:justify-start gap-2 border-b border-gray-100">
+        <div class="px-4 sm:px-6 flex items-center justify-between lg:justify-start gap-2 border-b border-gray-100" style="height: 73px; min-height: 73px;">
             @if($darkLogo)
                 <a href="{{ route('home') }}" class="flex items-center gap-2 flex-1">
-                    <img src="{{ asset($darkLogo) }}" alt="{{ $siteName->name ?? 'Logo' }}" class="h-8 sm:h-10 w-auto max-w-full object-contain">
+                    <img src="{{ asset($darkLogo) }}" alt="{{ $siteName->name ?? 'Logo' }}" style="height: 52px; max-height: 52px; width: auto; object-fit: contain;">
                 </a>
             @else
                 <div class="flex items-center gap-2">
@@ -106,7 +106,7 @@ $totalOrderAmount = \App\Models\Order::where('customer_id', $customerId)->sum('a
 
     <main class="flex-1 overflow-y-auto h-screen w-full">
         
-        <header class="bg-white px-6 lg:px-8 py-4 flex justify-between items-center sticky top-0 z-20 shadow-sm border-b">
+        <header class="bg-white px-6 lg:px-8 flex justify-between items-center sticky top-0 z-20 shadow-sm border-b" style="height: 73px; min-height: 73px;">
             <div class="lg:hidden mr-4">
                 <button onclick="toggleSidebar()" class="text-gray-600 text-xl p-2"><i class="fas fa-bars"></i></button>
             </div>
