@@ -47,7 +47,14 @@
 
     // ⭐ ডিজিটাল ডাউনলোড লজিক — যদি ফুল পেইড হয় তবেই ডাউনলোড লিংক দেখাবে
     $is_fully_paid = ($paid_amount >= $grand_total);
-    $downloads = $is_fully_paid ? \App\Models\DigitalDownload::where('order_id', $order->id)->get() : collect();
+    $downloads = collect();
+    if ($is_fully_paid && \Illuminate\Support\Facades\Schema::hasTable('digital_downloads')) {
+        try {
+            $downloads = \App\Models\DigitalDownload::where('order_id', $order->id)->get();
+        } catch (\Throwable $e) {
+            $downloads = collect();
+        }
+    }
 @endphp
 
 <style>

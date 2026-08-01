@@ -213,9 +213,14 @@ $totalOrderAmount = \App\Models\Order::where('customer_id', $customerId)->sum('a
                                         $is_failed = true;
                                     }
 
-                                    $show_download = ($paid_amount >= $grand_total) || ($paid_amount > 0 && !$is_failed);
-
-                                    $digitalDownloads = \App\Models\DigitalDownload::where('order_id', $value->id)->get();
+                                    $digitalDownloads = collect();
+                                    if (\Illuminate\Support\Facades\Schema::hasTable('digital_downloads')) {
+                                        try {
+                                            $digitalDownloads = \App\Models\DigitalDownload::where('order_id', $value->id)->get();
+                                        } catch (\Throwable $e) {
+                                            $digitalDownloads = collect();
+                                        }
+                                    }
                                     $hasDigitalProduct = $digitalDownloads->count() > 0;
 
                                     // Order Status Badge
