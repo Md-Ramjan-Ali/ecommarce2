@@ -9,12 +9,24 @@
         border-radius: 15px;
         box-shadow: 0 5px 20px rgba(0, 0, 0, 0.03);
         background: #fff;
-        overflow: hidden;
+        overflow: visible !important;
     }
 
     /* --- Modern Table Styles --- */
     .table-responsive {
         padding: 0 5px;
+        overflow: visible !important;
+    }
+    .table-modern td:last-child {
+        position: relative;
+        z-index: 10;
+    }
+    .table-modern tbody tr:hover td:last-child {
+        z-index: 100;
+    }
+    .dropdown-menu {
+        z-index: 1050 !important;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.15) !important;
     }
     .table-modern {
         width: 100%;

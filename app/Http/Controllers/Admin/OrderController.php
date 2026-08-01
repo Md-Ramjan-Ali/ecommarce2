@@ -411,6 +411,14 @@ class OrderController extends Controller
                 return OrderStatus::where('slug', $slug)->withCount('orders')->first();
             });
             
+            if (!$order_status) {
+                $order_status = OrderStatus::where('id', $slug)->withCount('orders')->first();
+            }
+
+            if (!$order_status) {
+                return redirect()->route('admin.orders', ['slug' => 'all'])->with('error', 'অর্ডার স্ট্যাটাস পাওয়া যায়নি।');
+            }
+
             $show_data = Order::where(['order_status' => $order_status->id])
                 ->latest()
                 ->with([
@@ -882,9 +890,8 @@ class OrderController extends Controller
     public function process($invoice_id)
     {
         $data = Order::where(['invoice_id' => $invoice_id])
-            ->select('id', 'invoice_id', 'order_status')
-            ->with(['orderdetails', 'orderdetails.size', 'orderdetails.color'])
-            ->first();
+            ->with(['orderdetails', 'orderdetails.size', 'orderdetails.color', 'shipping', 'payment'])
+            ->firstOrFail();
 
         $shippingcharge = ShippingCharge::where('status', 1)->get();
 

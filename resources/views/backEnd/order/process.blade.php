@@ -123,6 +123,26 @@
         </tr>
         @endforeach
     </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="6" class="text-end"><strong>Subtotal (পণ্যের আসল দাম):</strong></td>
+            <td colspan="2"><strong>৳{{ number_format($data->amount + ($data->discount ?? 0) - ($data->shipping_charge ?? 0), 2) }}</strong></td>
+        </tr>
+        @if(($data->discount ?? 0) > 0)
+        <tr>
+            <td colspan="6" class="text-end text-danger"><strong>Discount (ডিসকাউন্ট/ছাড়):</strong></td>
+            <td colspan="2" class="text-danger"><strong>- ৳{{ number_format($data->discount, 2) }}</strong></td>
+        </tr>
+        @endif
+        <tr>
+            <td colspan="6" class="text-end text-primary"><strong>Shipping Charge (ডেলিভারি চার্জ):</strong></td>
+            <td colspan="2" class="text-primary"><strong>+ ৳{{ number_format($data->shipping_charge ?? 0, 2) }}</strong></td>
+        </tr>
+        <tr class="table-success">
+            <td colspan="6" class="text-end" style="font-size: 15px;"><strong>Grand Total (সর্বমোট বিল / Amount):</strong></td>
+            <td colspan="2" class="text-success" style="font-size: 17px;"><strong>৳{{ number_format($data->amount, 2) }}</strong></td>
+        </tr>
+    </tfoot>
 </table>
 
 
@@ -168,10 +188,12 @@
 
                     <!-- ✅ Payment Gateway + Status Section -->
                     @php
-                        $paymentInfo = DB::table('orders')
-                            ->select('payment_gateway', 'payment_status')
-                            ->where('id', $data->id)
-                            ->first();
+                        $paymentGatewayName = !empty($data->payment_gateway) 
+                            ? $data->payment_gateway 
+                            : (!empty($data->payment_method) ? $data->payment_method : ($data->payment ? $data->payment->payment_method : 'COD'));
+                        $currentPaymentStatus = !empty($data->payment_status) 
+                            ? $data->payment_status 
+                            : ($data->payment ? $data->payment->payment_status : 'pending');
                     @endphp
 
                     <div class="col-sm-12">
@@ -179,13 +201,11 @@
                             <h5 class="mb-3"><i class="fa fa-credit-card"></i> Payment Information</h5>
                             <div class="row">
                                 <div class="col-md-6 mb-3">
-                                    <label class="payment-label">Payment Gateway:</label><br>
+                                    <label class="payment-label">Payment Gateway / Method:</label><br>
                                     <span class="payment-value">
-                                        @if(!empty($paymentInfo->payment_gateway))
-                                            {{ strtoupper($paymentInfo->payment_gateway) }}
-                                        @else
-                                            <span class="text-danger">Not Found</span>
-                                        @endif
+                                        <span class="badge bg-info text-white px-2 py-1" style="font-size: 13px;">
+                                            {{ strtoupper($paymentGatewayName) }}
+                                        </span>
                                     </span>
                                 </div>
 
@@ -193,10 +213,10 @@
                                     <label class="payment-label">Payment Status:</label>
                                     <div class="d-flex align-items-center">
                                         <select id="payment_status_{{ $data->id }}" class="form-select form-select-sm w-auto">
-                                            <option value="pending" {{ ($paymentInfo->payment_status ?? '') == 'pending' ? 'selected' : '' }}>Pending</option>
-                                            <option value="paid" {{ ($paymentInfo->payment_status ?? '') == 'paid' ? 'selected' : '' }}>Paid</option>
-                                            <option value="unpaid" {{ ($paymentInfo->payment_status ?? '') == 'unpaid' ? 'selected' : '' }}>Unpaid</option>
-                                            <option value="failed" {{ ($paymentInfo->payment_status ?? '') == 'failed' ? 'selected' : '' }}>Failed</option>
+                                            <option value="pending" {{ strtolower($currentPaymentStatus) == 'pending' ? 'selected' : '' }}>Pending</option>
+                                            <option value="paid" {{ strtolower($currentPaymentStatus) == 'paid' ? 'selected' : '' }}>Paid</option>
+                                            <option value="unpaid" {{ strtolower($currentPaymentStatus) == 'unpaid' ? 'selected' : '' }}>Unpaid</option>
+                                            <option value="failed" {{ strtolower($currentPaymentStatus) == 'failed' ? 'selected' : '' }}>Failed</option>
                                         </select>
                                         <button type="button" class="btn btn-success btn-sm ms-2" onclick="updatePaymentStatus({{ $data->id }})">
                                             <i class="fa fa-check"></i> Update

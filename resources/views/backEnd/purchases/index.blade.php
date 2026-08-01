@@ -164,7 +164,12 @@
                         @csrf
                         <div class="row">
                             <div class="col-md-4 mb-3">
-                                <label class="form-label">Supplier *</label>
+                                <div class="d-flex justify-content-between align-items-center mb-1">
+                                    <label class="form-label mb-0">Supplier *</label>
+                                    <a href="{{ route('admin.suppliers.index') }}" target="_blank" class="text-primary fw-bold text-decoration-none" style="font-size: 11px;">
+                                        <i class="fe-plus-circle me-1"></i> Add Supplier
+                                    </a>
+                                </div>
                                 <select name="supplier_id" class="form-control form-select" required>
                                     <option value="">-- Select Supplier --</option>
                                     @foreach($suppliers as $s)

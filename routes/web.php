@@ -537,6 +537,7 @@ Route::group(['prefix'=>'customer','namespace'=>'Frontend','middleware' => ['cus
     Route::get('/account', [CustomerController::class, 'account'])->name('customer.account');
     
     Route::get('/orders', [CustomerController::class, 'orders'])->name('customer.orders');
+    Route::get('/complaints', [CustomerController::class, 'complaints'])->name('customer.complaints');
     Route::get('/invoice', [CustomerController::class, 'invoice'])->name('customer.invoice');
     Route::get('/invoice/order-note', [CustomerController::class, 'order_note'])->name('customer.order_note');
     Route::get('/profile-edit', [CustomerController::class, 'profile_edit'])->name('customer.profile_edit');
@@ -665,7 +666,7 @@ Route::get('reports/profit-loss',   [ReportController::class, 'profitLoss'])->na
     Route::get('suppliers/manage', [SupplierController::class, 'index'])->name('admin.suppliers.index');
     Route::post('suppliers/store', [SupplierController::class, 'store'])->name('admin.suppliers.store');
     Route::get('suppliers/{id}/edit', [SupplierController::class, 'edit'])->name('admin.suppliers.edit');
-    Route::post('suppliers/{id}/update', [SupplierController::class, 'update'])->name('admin.suppliers.update');
+    Route::match(['put', 'post'], 'suppliers/{id}/update', [SupplierController::class, 'update'])->name('admin.suppliers.update');
     Route::delete('suppliers/{id}', [SupplierController::class, 'destroy'])->name('admin.suppliers.destroy');
 
     // CRM - Employee Management Routes

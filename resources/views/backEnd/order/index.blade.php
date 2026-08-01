@@ -708,8 +708,9 @@ $(document).ready(function(){
                     toastr.error(res.message || 'Update failed');
                 }
             },
-            error: function () {
-                toastr.error('Something went wrong');
+            error: function (xhr) {
+                let msg = (xhr && xhr.responseJSON && xhr.responseJSON.message) ? xhr.responseJSON.message : 'Something went wrong';
+                toastr.error(msg);
             }
         });
     });
@@ -882,8 +883,9 @@ $(document).ready(function(){
                    toastr.error(res.message || 'Failed something wrong');
                }
            },
-           error: function(){
-               toastr.error('Something went wrong');
+           error: function(xhr){
+               let msg = (xhr && xhr.responseJSON && xhr.responseJSON.message) ? xhr.responseJSON.message : 'Something went wrong';
+               toastr.error(msg);
            }
         });
     });

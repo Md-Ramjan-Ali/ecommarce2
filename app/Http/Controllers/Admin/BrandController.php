@@ -34,15 +34,19 @@ class BrandController extends Controller
             $name = strtolower(preg_replace('/\s+/', '-', $name));
             $uploadpath = 'public/uploads/brand/';
             $imageUrl = $uploadpath.$name; 
-            $img=Image::make($image->getRealPath());
-            $img->encode('webp', 90);
-            $width = 210;
-            $height = 210;
-            $img->height() > $img->width() ? $width=null : $height=null;
-            $img->resize($width, $height, function ($constraint) {
-                $constraint->aspectRatio();
-            });
-            $img->save($imageUrl); 
+            if (extension_loaded('gd')) {
+                $img=Image::make($image->getRealPath());
+                $img->encode('webp', 90);
+                $width = 210;
+                $height = 210;
+                $img->height() > $img->width() ? $width=null : $height=null;
+                $img->resize($width, $height, function ($constraint) {
+                    $constraint->aspectRatio();
+                });
+                $img->save($imageUrl); 
+            } else {
+                $image->move($uploadpath, $name);
+            }
         }else{
             $imageUrl = NULL;
         }
@@ -77,15 +81,19 @@ class BrandController extends Controller
             $name = strtolower(preg_replace('/\s+/', '-', $name));
             $uploadpath = 'public/uploads/brand/';
             $imageUrl = $uploadpath.$name; 
-            $img=Image::make($image->getRealPath());
-            $img->encode('webp', 90);
-            $width = 210;
-            $height = 210;
-            $img->height() > $img->width() ? $width=null : $height=null;
-            $img->resize($width, $height, function ($constraint) {
-                $constraint->aspectRatio();
-            });
-            $img->save($imageUrl);
+            if (extension_loaded('gd')) {
+                $img=Image::make($image->getRealPath());
+                $img->encode('webp', 90);
+                $width = 210;
+                $height = 210;
+                $img->height() > $img->width() ? $width=null : $height=null;
+                $img->resize($width, $height, function ($constraint) {
+                    $constraint->aspectRatio();
+                });
+                $img->save($imageUrl);
+            } else {
+                $image->move($uploadpath, $name);
+            }
             $input['image'] = $imageUrl;
             File::delete($update_data->image);
         }else{

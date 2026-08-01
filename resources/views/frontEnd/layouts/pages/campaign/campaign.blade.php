@@ -68,6 +68,7 @@
             });
         </script>
         <!-- ========== Google Tag Manager ========== -->
+        @if(isset($gtm_code) && count($gtm_code) > 0)
         @foreach($gtm_code as $gtm)
         @php
             $gtm_container_id = preg_match('/^GTM-/i', trim($gtm->code))
@@ -80,6 +81,7 @@
         'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
         })(window,document,'script','dataLayer','{{ $gtm_container_id }}');</script>
         @endforeach
+        @endif
         <!-- ========== End Google Tag Manager ========== -->
 
         <meta name="app-url" content="{{route('campaign',$campaign_data->slug)}}" />
@@ -105,7 +107,7 @@
         <meta property="og:site_name" content="{{$campaign_data->name}}" />
 
         <!-- ========== Facebook Pixel (single init) ========== -->
-        @if($pixels->count() > 0)
+        @if(isset($pixels) && $pixels->count() > 0)
         <script>
             !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
             n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
@@ -135,7 +137,7 @@
         <!-- ========== End Facebook Pixel ========== -->
 
         <!-- ========== TikTok Pixel ========== -->
-        @if($tiktok_pixels->count() > 0)
+        @if(isset($tiktok_pixels) && $tiktok_pixels->count() > 0)
         <script>
             !function (w, d, t) {
                 w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];
@@ -294,13 +296,15 @@
 
     <body>
         <!-- ========== GTM noscript ========== -->
+        @if(isset($gtm_code) && count($gtm_code) > 0)
         @foreach($gtm_code as $gtm)
         @php $gtm_noscript_id = preg_match('/^GTM-/i', trim($gtm->code)) ? trim($gtm->code) : 'GTM-'.trim($gtm->code); @endphp
         <noscript><iframe src="https://www.googletagmanager.com/ns.html?id={{ $gtm_noscript_id }}"
             height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         @endforeach
+        @endif
         <!-- ========== TikTok Pixel noscript ========== -->
-        @if($tiktok_pixels->count() > 0)
+        @if(isset($tiktok_pixels) && $tiktok_pixels->count() > 0)
         @foreach($tiktok_pixels as $tiktok)
         <noscript><img height="1" width="1" style="display:none" alt=""
             src="https://analytics.tiktok.com/i18n/pixel/events.js?sdkid={{ $tiktok->code }}&noscript=1" /></noscript>

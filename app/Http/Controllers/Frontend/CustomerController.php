@@ -1402,4 +1402,15 @@ public function order_save(Request $request)
             }
         }
     }
+
+    public function complaints()
+    {
+        $customer = Auth::guard('customer')->user();
+        $complaints = \App\Models\Complaint::where(function($q) use ($customer) {
+            $q->where('customer_id', $customer->id)
+              ->orWhere('phone', $customer->phone);
+        })->latest()->paginate(10);
+
+        return view('frontEnd.layouts.customer.complaints', compact('complaints'));
+    }
 }

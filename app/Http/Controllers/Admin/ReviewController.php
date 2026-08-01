@@ -91,12 +91,16 @@ class ReviewController extends Controller
     }
     public function active(Request $request){
         $active = Review::find($request->hidden_id);
-        $active->status = 'active';
-        $active->save();
-        
-        $product = Product::select('id','ratting')->find($active->product_id);
-        $product->ratting += 1;
-        $product->save();
+        if ($active) {
+            $active->status = 'active';
+            $active->save();
+            
+            $product = Product::find($active->product_id);
+            if ($product) {
+                $product->ratting = (int) ($product->ratting ?? 0) + 1;
+                $product->save();
+            }
+        }
         Toastr::success('Success','Data active successfully');
         return redirect()->back();
     }

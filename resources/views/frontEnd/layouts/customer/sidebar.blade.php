@@ -54,9 +54,14 @@
         <a href="{{route('customer.refunds')}}" class="{{request()->is('customer/refunds*')?'active-menu':'sidebar-item'}} flex items-center px-6 py-3.5 transition-colors">
             <i class="fas fa-undo w-6"></i> রিফান্ড রিকোয়েস্ট
         </a>
-        <a href="{{ route('complaint') }}" class="{{ request()->is('complaint') ? 'active-menu' : 'sidebar-item' }} flex items-center px-6 py-3.5 transition-colors">
-            <i class="fas fa-headset w-6"></i> সাপোর্ট টিকেট
+        <a href="{{ route('customer.complaints') }}" class="{{ request()->is('customer/complaints*') ? 'active-menu' : 'sidebar-item' }} flex items-center px-6 py-3.5 transition-colors">
+            <i class="fas fa-exclamation-circle w-6"></i> আমার কমপ্লেইন
         </a>
+        {{-- 
+        <a href="{{ route('complaint') }}" class="{{ request()->is('complaint') ? 'active-menu' : 'sidebar-item' }} flex items-center px-6 py-3.5 transition-colors">
+            <i class="fas fa-headset w-6"></i> নতুন কমপ্লেইন দিন
+        </a>
+        --}}
         <a href="{{route('customer.profile_edit')}}" class="{{request()->is('customer/profile-edit')?'active-menu':'sidebar-item'}} flex items-center px-6 py-3.5 transition-colors">
             <i class="fas fa-user-cog w-6"></i> সেটিংস
         </a>

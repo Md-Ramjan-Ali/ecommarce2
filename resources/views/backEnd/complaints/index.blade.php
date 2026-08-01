@@ -173,7 +173,7 @@
                                                 <option value="processing" {{ $complaint->status == 'processing' ? 'selected' : '' }}>Processing</option>
                                                 <option value="resolved" {{ $complaint->status == 'resolved' ? 'selected' : '' }}>Resolved</option>
                                             </select>
-                                            <button type="submit" class="action-btn btn-update change-confirm" title="Update">
+                                            <button type="submit" class="action-btn btn-update" title="Update">
                                                 <i class="fe-check"></i>
                                             </button>
                                         </form>

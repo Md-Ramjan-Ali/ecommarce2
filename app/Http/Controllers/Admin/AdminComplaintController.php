@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Complaint;
+use Brian2694\Toastr\Facades\Toastr;
 
 class AdminComplaintController extends Controller
 {
@@ -39,7 +40,12 @@ class AdminComplaintController extends Controller
         $complaint->status = $request->status;
         $complaint->save();
 
-        // AJAX support থাকলেও redirect safe
+        Toastr::success('Complaint status updated successfully', 'Success');
+
+        if ($request->ajax()) {
+            return response()->json(['success' => true, 'message' => 'Status updated successfully']);
+        }
+
         return back()->with('success', 'Complaint status updated successfully');
     }
 
@@ -54,11 +60,13 @@ class AdminComplaintController extends Controller
         if ($complaint->image) {
             $imagePath = public_path('complaints/' . $complaint->image);
             if (file_exists($imagePath)) {
-                unlink($imagePath);
+                @unlink($imagePath);
             }
         }
 
         $complaint->delete();
+
+        Toastr::success('Complaint deleted successfully', 'Success');
 
         return back()->with('success', 'Complaint deleted successfully');
     }

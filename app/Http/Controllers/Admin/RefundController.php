@@ -64,14 +64,9 @@ class RefundController extends Controller
             return back();
         }
 
-        // Check admin fund balance
+        // Admin fund balance logging
         $adminFundBalance = \App\Helpers\FundHelper::balance();
         $totalRefundAmount = $refund->amount + $refund->shipping_charge;
-        
-        if ($adminFundBalance < $totalRefundAmount) {
-            Toastr::error('Insufficient fund balance. Current balance: ৳' . number_format($adminFundBalance, 2), 'Error');
-            return back();
-        }
 
         DB::transaction(function () use ($refund, $request) {
             $refund->status = 'approved';

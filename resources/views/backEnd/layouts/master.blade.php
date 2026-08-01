@@ -463,7 +463,7 @@
     <ul class="nav-second-level">
       @can('product-list')
       <li><a href="{{ route('products.index') }}"><i data-feather="package"></i> All Products</a></li>
-      <li><a href="{{ route('products.pending') }}"><i data-feather="clock"></i> Pending Products</a></li>
+      {{-- <li><a href="{{ route('products.pending') }}"><i data-feather="clock"></i> Pending Products</a></li> --}}
       <li><a href="{{ route('admin.products.wholesale') }}"><i data-feather="layers"></i> Wholesale Products</a></li>
       @endcan
       @can('product-create')
@@ -544,7 +544,7 @@
 </li>
 @endcanany
 
-{{-- 👥 CRM - Employee Management --}}
+{{-- 👥 CRM - Employee Management (Hidden for now)
 <li>
   <a href="#sidebar-crm" data-bs-toggle="collapse">
     <i data-feather="users"></i>
@@ -562,6 +562,7 @@
     </ul>
   </div>
 </li>
+--}}
 
 
 {{-- ЁЯОЯя╕П Coupon Management --}}
@@ -647,6 +648,7 @@
 @endcanany
 
 {{-- ЁЯФН Manual Fraud --}}
+{{-- 🔍 Manual Fraud (Hidden for now)
 @can('fraud-check')
 <li>
   <a href="{{ route('manualFraud.page') }}">
@@ -655,10 +657,12 @@
   </a>
 </li>
 @endcan
+--}}
 
 
 
 {{-- тЬЙя╕П Custom SMS --}}
+{{-- ✉️ Custom SMS (Hidden for now)
 @can('sms-send')
 <li>
   <a href="{{ route('admin.sms.custom.page') }}">
@@ -667,6 +671,7 @@
   </a>
 </li>
 @endcan
+--}}
 {{-- ЁЯУЭ Complaints --}}
 @canany(['complaint-list', 'complaint-create', 'complaint-edit'])
 <li class="{{ request()->routeIs('backEnd.complaints.*') ? 'active' : '' }}">
@@ -873,6 +878,7 @@
 @endcan
 
 {{-- ЁЯЫбя╕П Fraud API Settings --}}
+{{--
 @canany(['fraud-setting-list', 'fraud-setting-edit'])
 <li>
   <a href="#sidebar-fraud" data-bs-toggle="collapse">
@@ -895,6 +901,7 @@
   </div>
 </li>
 @endcanany
+--}}
 
 {{-- Order Restriction Settings --}}
 @canany(['setting-list', 'setting-edit'])

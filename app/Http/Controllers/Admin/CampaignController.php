@@ -55,6 +55,7 @@ class CampaignController extends Controller
         // Prepare the input data
         $input = $request->except('image', 'product_id');
         $input['status'] = true; // Set status to true if not checked
+        $input['date'] = $request->deadline ? $request->deadline : now()->format('Y-m-d H:i:s');
     
         // Handle the first selected product ID
         $firstProductId = $request->product_id[0];
@@ -73,43 +74,22 @@ class CampaignController extends Controller
         // Handle Image One
         if ($request->hasFile('image_one')) {
             $image_one = $request->file('image_one');
-            $name1 = time() . '-' . strtolower(preg_replace('/\s+/', '-', $image_one->getClientOriginalName()));
-            $name1 = preg_replace('"\.(jpg|jpeg|png|webp)$"', '.webp', $name1);
-            $uploadPath1 = 'public/uploads/campaign/';
-            $imageUrl1 = $uploadPath1 . $name1;
-    
-            $img1 = Image::make($image_one->getRealPath());
-            $img1->encode('webp', 90);
-            $img1->save($imageUrl1);
-            $input['image_one'] = $imageUrl1;
+            $name1 = time() . '-1-' . strtolower(preg_replace('/\s+/', '-', $image_one->getClientOriginalName()));
+            $input['image_one'] = $this->uploadImageSafely($image_one, 'public/uploads/campaign/', $name1);
         }
     
         // Handle Image Two
         if ($request->hasFile('image_two')) {
             $image_two = $request->file('image_two');
-            $name2 = time() . '-' . strtolower(preg_replace('/\s+/', '-', $image_two->getClientOriginalName()));
-            $name2 = preg_replace('"\.(jpg|jpeg|png|webp)$"', '.webp', $name2);
-            $uploadPath2 = 'public/uploads/campaign/';
-            $imageUrl2 = $uploadPath2 . $name2;
-    
-            $img2 = Image::make($image_two->getRealPath());
-            $img2->encode('webp', 90);
-            $img2->save($imageUrl2);
-            $input['image_two'] = $imageUrl2;
+            $name2 = time() . '-2-' . strtolower(preg_replace('/\s+/', '-', $image_two->getClientOriginalName()));
+            $input['image_two'] = $this->uploadImageSafely($image_two, 'public/uploads/campaign/', $name2);
         }
     
         // Handle Image Three
         if ($request->hasFile('image_three')) {
             $image_three = $request->file('image_three');
-            $name3 = time() . '-' . strtolower(preg_replace('/\s+/', '-', $image_three->getClientOriginalName()));
-            $name3 = preg_replace('"\.(jpg|jpeg|png|webp)$"', '.webp', $name3);
-            $uploadPath3 = 'public/uploads/campaign/';
-            $imageUrl3 = $uploadPath3 . $name3;
-    
-            $img3 = Image::make($image_three->getRealPath());
-            $img3->encode('webp', 90);
-            $img3->save($imageUrl3);
-            $input['image_three'] = $imageUrl3;
+            $name3 = time() . '-3-' . strtolower(preg_replace('/\s+/', '-', $image_three->getClientOriginalName()));
+            $input['image_three'] = $this->uploadImageSafely($image_three, 'public/uploads/campaign/', $name3);
         }
     
         // Create slug
@@ -213,23 +193,8 @@ class CampaignController extends Controller
         }
         $image_one = $request->file('image_one');
         if($image_one){
-            // image with intervention 
-            $image_one = $request->file('image_one');
-            $name1 =  time().'-'.$image_one->getClientOriginalName();
-            $name1 = preg_replace('"\.(jpg|jpeg|png|webp)$"', '.webp', $name1);
-            $name1 = strtolower(preg_replace('/\s+/', '-', $name1));
-            $uploadpath1 = 'public/uploads/campaign/';
-            $imageUrl1 = $uploadpath1.$name1; 
-            $img1 = Image::make($image_one->getRealPath());
-            $img1->encode('webp', 90);
-            $width1 = '';
-            $height1 = '';
-            $img1->height() > $img1->width() ? $width1=null : $height1=null;
-            $img1->resize($width1, $height1, function ($constraint) {
-                $constraint->aspectRatio();
-            });
-            $img1->save($imageUrl1);
-            $input['image_one'] = $imageUrl1;
+            $name1 = time().'-1-'.strtolower(preg_replace('/\s+/', '-', $image_one->getClientOriginalName()));
+            $input['image_one'] = $this->uploadImageSafely($image_one, 'public/uploads/campaign/', $name1);
             File::delete($update_data->image_one);
         }else{
             $input['image_one'] = $update_data->image_one;
@@ -237,23 +202,8 @@ class CampaignController extends Controller
         // image two
         $image_two = $request->file('image_two');
         if($image_two){
-            // image with intervention 
-            $image_two = $request->file('image_two');
-            $name2 =  time().'-'.$image_two->getClientOriginalName();
-            $name2 = preg_replace('"\.(jpg|jpeg|png|webp)$"', '.webp',$name2);
-            $name2 = strtolower(preg_replace('/\s+/', '-', $name2));
-            $uploadpath2 = 'public/uploads/campaign/';
-            $imageUrl2 = $uploadpath2.$name2; 
-            $img2=Image::make($image_two->getRealPath());
-            $img2->encode('webp', 90);
-            $width2 = '';
-            $height2 = '';
-            $img2->height() > $img2->width() ? $width2=null : $height2=null;
-            $img2->resize($width2, $height2, function ($constraint) {
-                $constraint->aspectRatio();
-            });
-            $img2->save($imageUrl2);
-            $input['image_two'] = $imageUrl2;
+            $name2 = time().'-2-'.strtolower(preg_replace('/\s+/', '-', $image_two->getClientOriginalName()));
+            $input['image_two'] = $this->uploadImageSafely($image_two, 'public/uploads/campaign/', $name2);
             File::delete($update_data->image_two);
         }else{
             $input['image_two'] = $update_data->image_two;
@@ -261,23 +211,8 @@ class CampaignController extends Controller
         // image three
         $image_three = $request->file('image_three');
         if($image_three){
-            // image with intervention 
-            $image_three = $request->file('image_three');
-            $name3 =  time().'-'.$image_three->getClientOriginalName();
-            $name3 = preg_replace('"\.(jpg|jpeg|png|webp)$"', '.webp',$name3);
-            $name3 = strtolower(preg_replace('/\s+/', '-', $name3));
-            $uploadpath3 = 'public/uploads/campaign/';
-            $imageUrl3 = $uploadpath3.$name3; 
-            $img3 = Image::make($image_three->getRealPath());
-            $img3->encode('webp', 90);
-            $width3 = '';
-            $height3 = '';
-            $img3->height() > $img3->width() ? $width3=null : $height3=null;
-            $img3->resize($width3, $height3, function ($constraint) {
-                $constraint->aspectRatio();
-            });
-            $img3->save($imageUrl3);
-            $input['image_three'] = $imageUrl3;
+            $name3 = time().'-3-'.strtolower(preg_replace('/\s+/', '-', $image_three->getClientOriginalName()));
+            $input['image_three'] = $this->uploadImageSafely($image_three, 'public/uploads/campaign/', $name3);
             File::delete($update_data->image_three);
         }else{
             $input['image_three'] = $update_data->image_three;
@@ -366,6 +301,32 @@ class CampaignController extends Controller
         
         // Check if a match was found and return the video ID or null
         return isset($matches[1]) ? $matches[1] : null;
+    }
+
+    /**
+     * Safely upload image with Intervention Image fallback if GD library is disabled
+     */
+    private function uploadImageSafely($file, $uploadPath, $name)
+    {
+        $imageUrl = $uploadPath . $name;
+        
+        if (!file_exists($uploadPath)) {
+            mkdir($uploadPath, 0777, true);
+        }
+
+        if (extension_loaded('gd') || extension_loaded('imagick')) {
+            try {
+                $img = Image::make($file->getRealPath());
+                $img->encode('webp', 90);
+                $img->save($imageUrl);
+                return $imageUrl;
+            } catch (\Throwable $e) {
+                // Fallback to move
+            }
+        }
+
+        $file->move($uploadPath, $name);
+        return $imageUrl;
     }
 
 }

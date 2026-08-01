@@ -30,7 +30,10 @@ class ComplaintController extends Controller
         }
 
         // 🔹 Save complaint
+        $customerId = \Auth::guard('customer')->check() ? \Auth::guard('customer')->user()->id : null;
+
         Complaint::create([
+            'customer_id' => $customerId,
             'name'        => $request->name,
             'phone'       => $request->phone,
             'order_id'    => $request->order_id,

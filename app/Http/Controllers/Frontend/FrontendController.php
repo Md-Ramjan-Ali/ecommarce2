@@ -1077,6 +1077,9 @@ $brands = Brand::where('status', 1)
     public function campaign($slug)
     {
         $campaign_data = Campaign::where('slug', $slug)->with('images')->first();
+        if (!$campaign_data) {
+            abort(404);
+        }
 
         $products = Product::whereIn('id', function($query) use ($campaign_data) {
             $query->select('product_id')
