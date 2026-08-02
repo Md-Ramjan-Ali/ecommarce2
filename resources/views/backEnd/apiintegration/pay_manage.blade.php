@@ -133,8 +133,10 @@
         </div>
     </div>
 
-    <div class="row g-4">
+    <div class="row g-4 justify-content-center">
 
+        {{-- bKash Card (Hidden) --}}
+        {{--
         <div class="col-lg-6 col-md-12">
             <div class="card gateway-card">
                 <div class="card-header-custom header-bkash">
@@ -196,7 +198,10 @@
                 </div>
             </div>
         </div>
+        --}}
 
+        {{-- ShurjoPay Card (Hidden) --}}
+        {{--
         <div class="col-lg-6 col-md-12">
             <div class="card gateway-card">
                 <div class="card-header-custom header-shurjo">
@@ -264,13 +269,15 @@
                 </div>
             </div>
         </div>
+        --}}
 
-        <div class="col-lg-6 col-md-12">
+        {{-- UddoktaPay Card (Visible) --}}
+        <div class="col-lg-8 col-md-12">
             <div class="card gateway-card">
                 <div class="card-header-custom header-uddokta">
                     <div>
-                        <h5 class="card-title">UddoktaPay</h5>
-                        <small class="text-muted">Automated Payment</small>
+                        <h5 class="card-title">UddoktaPay Configuration</h5>
+                        <small class="text-muted">Automated Payment Gateway</small>
                     </div>
                     <div class="gateway-icon-box">
                         <img src="{{ asset('public/frontEnd/images/uddokta.png') }}" alt="Uddokta">
@@ -312,6 +319,8 @@
             </div>
         </div>
 
+        {{-- aamarPay Card (Hidden) --}}
+        {{--
         <div class="col-lg-6 col-md-12">
             <div class="card gateway-card">
                 <div class="card-header-custom header-aamarpay">
@@ -366,6 +375,7 @@
                 </div>
             </div>
         </div>
+        --}}
 
     </div> </div>
 @endsection 

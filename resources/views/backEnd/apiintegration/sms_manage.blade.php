@@ -160,7 +160,7 @@
 
                 <form action="{{route('smsgeteway.update')}}" method="POST" data-parsley-validate="" enctype="multipart/form-data">
                     @csrf
-                    <input type="hidden" name="id" value="{{$sms->id}}">
+                    <input type="hidden" name="id" value="{{ $sms->id ?? '' }}">
 
                     <div class="form-group mb-4">
                         <label for="api_key" class="form-label font-weight-bold">API Key <span class="text-danger">*</span></label>
@@ -169,7 +169,7 @@
                                 <span class="input-group-text"><i class="fas fa-key"></i></span>
                             </div>
                             <input type="text" class="form-control @error('api_key') is-invalid @enderror" 
-                                name="api_key" value="{{ $sms->api_key }}" id="api_key" 
+                                name="api_key" value="{{ $sms->api_key ?? '' }}" id="api_key" 
                                 placeholder="Ex: C20023485e9XXXXXX" required />
                         </div>
                         <small class="text-muted">Bulksmsbd.net প্যানেল থেকে প্রাপ্ত আপনার গোপন API Key টি দিন।</small>
@@ -206,7 +206,7 @@
                                     <small class="text-muted">Enable/Disable SMS System</small>
                                 </div>
                                 <label class="switch">
-                                    <input type="checkbox" value="1" @if($sms->status==1)checked @endif name="status" />
+                                    <input type="checkbox" value="1" @if(($sms->status ?? 0) == 1)checked @endif name="status" />
                                     <span class="slider round"></span>
                                 </label>
                             </div>
@@ -219,7 +219,7 @@
                                     <small class="text-muted">SMS when order placed</small>
                                 </div>
                                 <label class="switch">
-                                    <input type="checkbox" value="1" @if($sms->order==1)checked @endif name="order" />
+                                    <input type="checkbox" value="1" @if(($sms->order ?? 0) == 1)checked @endif name="order" />
                                     <span class="slider round"></span>
                                 </label>
                             </div>
@@ -232,7 +232,7 @@
                                     <small class="text-muted">OTP for password reset</small>
                                 </div>
                                 <label class="switch">
-                                    <input type="checkbox" value="1" @if($sms->forget_pass==1)checked @endif name="forget_pass" />
+                                    <input type="checkbox" value="1" @if(($sms->forget_pass ?? 0) == 1)checked @endif name="forget_pass" />
                                     <span class="slider round"></span>
                                 </label>
                             </div>
@@ -245,7 +245,7 @@
                                     <small class="text-muted">Send generated password</small>
                                 </div>
                                 <label class="switch">
-                                    <input type="checkbox" value="1" @if($sms->password_g==1)checked @endif name="password_g" />
+                                    <input type="checkbox" value="1" @if(($sms->password_g ?? 0) == 1)checked @endif name="password_g" />
                                     <span class="slider round"></span>
                                 </label>
                             </div>

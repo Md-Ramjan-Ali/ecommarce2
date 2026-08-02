@@ -456,7 +456,12 @@ $brands = Brand::where('status', 1)
 
         // AJAX এর জন্য JSON রিটার্ন
         if ($request->ajax() || $request->wantsJson()) {
-            return response()->json(['success' => true]);
+            return response()->json([
+                'success' => true,
+                'message' => 'পণ্যটি কার্টে যুক্ত করা হয়েছে!',
+                'cart_count' => Cart::instance('shopping')->count(),
+                'cart_subtotal' => Cart::instance('shopping')->subtotal()
+            ]);
         }
 
         // order_now থাকলে checkout এ পাঠাও

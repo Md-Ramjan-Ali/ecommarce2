@@ -28,13 +28,18 @@ class VerifyCsrfToken extends Middleware
         'payment-cancel',
         // bKash callback
         'bkash/checkout-url/callback',
+        // Payment Gateway Settings Save (419 Error prevention)
+        'paymentgeteway/*',
+        'paymentgeteway/save',
+        'admin/paymentgeteway/*',
+        'admin/paymentgeteway/save',
         // RedX Webhook
         'api/redx/webhook',
         'redx/webhook',
     ];
 
     /**
-     * পেমেন্ট ক্যালব্যাক – যেকোনো পাথ/সাবফোল্ডার থেকে এলে ও ৪১৯ এড়াতে।
+     * পেমেন্ট ক্যালব্যাক ও এডমিন পেমেন্ট সেটিংস – যেকোনো পাথ/সাবফোল্ডার থেকে এলে ৪১৯ এড়াতে।
      */
     protected function inExceptArray($request)
     {
@@ -45,6 +50,9 @@ class VerifyCsrfToken extends Middleware
             return true;
         }
         if (str_contains($path, 'uddoktapay')) {
+            return true;
+        }
+        if (str_contains($path, 'paymentgeteway')) {
             return true;
         }
         if (str_contains($path, 'payment-success') || str_contains($path, 'payment-cancel')) {

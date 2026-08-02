@@ -27,22 +27,33 @@ class ApiIntegrationController extends Controller
 
     }
     
-   public function pay_update(Request $request)
-{
-    $update_data = \App\Models\PaymentGateway::find($request->id);
-    $input = $request->all();
-    $input['status'] = $request->status ? 1 : 0;
-    $update_data->update($input);
+    public function pay_update(Request $request)
+    {
+        $update_data = \App\Models\PaymentGateway::find($request->id);
 
-    // ✅ যদি গেটওয়ে টাইপ হয় UddoktaPay
-    if ($update_data->type === 'uddoktapay') {
-        $this->updateEnvFile('UDDOKTAPAY_API_KEY', $request->app_key);
-        $this->updateEnvFile('UDDOKTAPAY_API_URL', $request->base_url);
+        if (!$update_data) {
+            \Toastr::error('Error', 'Payment Gateway record not found');
+            return redirect()->back();
+        }
+
+        $input = $request->except(['_token', 'id']);
+        $input['status'] = $request->has('status') ? 1 : 0;
+
+        // Filter input array against valid database table columns
+        $validColumns = \Illuminate\Support\Facades\Schema::getColumnListing('payment_gateways');
+        $filteredInput = array_intersect_key($input, array_flip($validColumns));
+
+        $update_data->update($filteredInput);
+
+        // If UddoktaPay
+        if ($update_data->type === 'uddoktapay') {
+            $this->updateEnvFile('UDDOKTAPAY_API_KEY', $request->app_key);
+            $this->updateEnvFile('UDDOKTAPAY_API_URL', $request->base_url);
+        }
+
+        \Toastr::success('Success', ucfirst($update_data->type) . ' settings updated successfully');
+        return redirect()->back();
     }
-
-    \Toastr::success('Success', ucfirst($update_data->type) . ' settings updated successfully');
-    return redirect()->back();
-}
 
 /**
  * 🔧 Helper function: Update or add key in .env file
@@ -72,57 +83,83 @@ private function updateEnvFile($key, $value)
     public function sms_manage ()
     {  
         $sms = SmsGateway::first();
-        return view('backEnd.apiintegration.sms_manage',compact('sms'));
+        if (!$sms) {
+            $sms = SmsGateway::create([
+                'title' => 'BulkSMSBD',
+                'url'   => 'https://www.creativedesign.com.bd/api/smsapi',
+                'status' => 0,
+                'order'  => 0,
+                'forget_pass' => 0,
+                'password_g'  => 0,
+            ]);
+        }
+        return view('backEnd.apiintegration.sms_manage', compact('sms'));
     }
     
-public function sms_update(Request $request)
-{
-    $update_data = SmsGateway::find($request->id);
-    $input = $request->all();
-    $input['status'] = $request->status?1:0;
-    $input['order'] = $request->order?1:0;
-    $input['forget_pass'] = $request->forget_pass?1:0;
-    $input['password_g'] = $request->password_g?1:0;
+    public function sms_update(Request $request)
+    {
+        $update_data = SmsGateway::find($request->id);
 
-    // DB Update
-    $update_data->update($input);
+        if (!$update_data) {
+            $update_data = SmsGateway::first();
+            if (!$update_data) {
+                $update_data = SmsGateway::create([
+                    'title' => 'BulkSMSBD',
+                    'url'   => 'https://www.creativedesign.com.bd/api/smsapi',
+                ]);
+            }
+        }
 
-    // ============================
-    //  🔥 HERE: Save to .env file
-    // ============================
-    if ($request->filled('admin_phone_list')) {
-        $this->updateEnvFile('ADMIN_PHONE_LIST', $request->admin_phone_list);
+        $input = $request->all();
+        $input['status'] = $request->has('status') ? 1 : 0;
+        $input['order'] = $request->has('order') ? 1 : 0;
+        $input['forget_pass'] = $request->has('forget_pass') ? 1 : 0;
+        $input['password_g'] = $request->has('password_g') ? 1 : 0;
+
+        // DB Update
+        $validColumns = \Illuminate\Support\Facades\Schema::getColumnListing('sms_gateways');
+        $filteredInput = array_intersect_key($input, array_flip($validColumns));
+
+        $update_data->update($filteredInput);
+
+        if ($request->filled('admin_phone_list')) {
+            $this->updateEnvFile('ADMIN_PHONE_LIST', $request->admin_phone_list);
+        }
+
+        Toastr::success('Success', 'Data update successfully');
+        return redirect()->back();
     }
-
-    Toastr::success('Success','Data update successfully');
-    return redirect()->back();
-}
 
     
     public function courier_manage ()
     {
-        $steadfast = Courierapi::where('type','=','steadfast')->first();
-        $pathao = Courierapi::where('type','=','pathao')->first();
-        $redx = Courierapi::where('type','=','redx')->first();
+        $steadfast = Courierapi::firstOrCreate(
+            ['type' => 'steadfast'],
+            ['url' => 'https://portal.packzy.com/api/v1', 'status' => 0]
+        );
+        $pathao = Courierapi::firstOrCreate(
+            ['type' => 'pathao'],
+            ['url' => 'https://api-hermes.pathao.com', 'status' => 0]
+        );
+        $redx = Courierapi::firstOrCreate(
+            ['type' => 'redx'],
+            ['url' => 'https://sandbox.redx.com.bd/v1.0.0-beta', 'status' => 0]
+        );
         
-        // Create RedX entry if not exists
-        if (!$redx) {
-            $redx = Courierapi::create([
-                'type' => 'redx',
-                'url' => 'sandbox.redx.com.bd/v1.0.0-beta',
-                'status' => 0,
-            ]);
-        }
-        
-        return view('backEnd.apiintegration.courier_manage',compact('steadfast','pathao','redx'));
+        return view('backEnd.apiintegration.courier_manage', compact('steadfast', 'pathao', 'redx'));
     }
     
     public function courier_update (Request $request)
     {
-      
         $update_data = Courierapi::find($request->id);
-        $input = $request->all();
-        $input['status'] = $request->status?1:0;
+
+        if (!$update_data) {
+            Toastr::error('Error', 'Courier API record not found');
+            return redirect()->back();
+        }
+
+        $input = $request->except(['_token', 'id']);
+        $input['status'] = $request->has('status') ? 1 : 0;
         
         // Only include webhook_url if column exists
         if (!Schema::hasColumn('courierapis', 'webhook_url')) {
