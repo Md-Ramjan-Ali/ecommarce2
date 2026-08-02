@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Blog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Cache;
 
 class BlogController extends Controller
 {
@@ -63,6 +64,9 @@ class BlogController extends Controller
             'status'            => $request->status ?? 1,
         ]);
 
+        Cache::forget('frontend_homepage_v1');
+        Cache::flush();
+
         return redirect()
             ->route('admin.blog.index')
             ->with('success', 'Blog created successfully');
@@ -119,6 +123,9 @@ class BlogController extends Controller
             'status'            => $request->status ?? 1,
         ]);
 
+        Cache::forget('frontend_homepage_v1');
+        Cache::flush();
+
         return redirect()
             ->route('admin.blog.index')
             ->with('success', 'Blog updated successfully');
@@ -136,6 +143,9 @@ class BlogController extends Controller
         }
 
         $blog->delete();
+
+        Cache::forget('frontend_homepage_v1');
+        Cache::flush();
 
         return back()->with('success', 'Blog deleted successfully');
     }

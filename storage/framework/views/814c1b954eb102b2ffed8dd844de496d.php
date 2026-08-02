@@ -1,7 +1,7 @@
-@extends('frontEnd.layouts.master')
-@section('title', $blog->title)
 
-@push('css')
+<?php $__env->startSection('title', $blog->title); ?>
+
+<?php $__env->startPush('css'); ?>
 <style>
 .blog-details h3 {
     overflow-wrap: break-word !important;
@@ -72,22 +72,22 @@
     color: #777;
 }
 </style>
-@endpush
+<?php $__env->stopPush(); ?>
 
-@section('content')
+<?php $__env->startSection('content'); ?>
 <section class="blog-details product-section">
     <div class="container">
 
-        {{-- 🔹 Breadcrumb --}}
+        
         <div class="sorting-section mb-4">
             <div class="row">
                 <div class="col-sm-12">
                     <div class="category-breadcrumb d-flex align-items-center">
-                        <a href="{{ route('home') }}">Home</a>
+                        <a href="<?php echo e(route('home')); ?>">Home</a>
                         <span>/</span>
-                        <a href="{{ route('blogs') }}">Blog</a>
+                        <a href="<?php echo e(route('blogs')); ?>">Blog</a>
                         <span>/</span>
-                        <strong>{{ Str::limit($blog->title, 40) }}</strong>
+                        <strong><?php echo e(Str::limit($blog->title, 40)); ?></strong>
                     </div>
                 </div>
             </div>
@@ -95,36 +95,38 @@
 
         <div class="row">
 
-            {{-- 🔹 Main Blog Content --}}
+            
             <div class="col-md-8">
 
-                <h3 class="mb-2">{{ $blog->title }}</h3>
+                <h3 class="mb-2"><?php echo e($blog->title); ?></h3>
 
                 <div class="blog-meta">
-                {{ $blog->created_at->format('d M Y') }}
+                <?php echo e($blog->created_at->format('d M Y')); ?>
+
                     &nbsp; | &nbsp;
-                    👁 {{ $blog->views }} Views
+                    👁 <?php echo e($blog->views); ?> Views
                 </div>
 
-                {{-- Blog Image --}}
-                @if($blog->image)
-                    <img src="{{ url('public/'.$blog->image) }}"
+                
+                <?php if($blog->image): ?>
+                    <img src="<?php echo e(url('public/'.$blog->image)); ?>"
                          class="img-fluid mb-4"
-                         alt="{{ $blog->title }}">
-                @else
-                    <img src="{{ url('public/no-image.png') }}"
+                         alt="<?php echo e($blog->title); ?>">
+                <?php else: ?>
+                    <img src="<?php echo e(url('public/no-image.png')); ?>"
                          class="img-fluid mb-4"
                          alt="No Image">
-                @endif
+                <?php endif; ?>
 
-                {{-- Blog Description --}}
+                
                 <div class="blog-content">
-                    {!! $blog->description !!}
+                    <?php echo $blog->description; ?>
+
                 </div>
 
             </div>
 
-            {{-- 🔹 Sidebar --}}
+            
             <div class="col-md-4">
 
                 <div class="card">
@@ -134,40 +136,42 @@
 
                     <ul class="list-group list-group-flush">
 
-                        @foreach($recentBlogs as $rblog)
+                        <?php $__currentLoopData = $recentBlogs; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $rblog): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                         <li class="list-group-item sidebar-blog">
 
                             <div class="d-flex">
 
-                                {{-- Sidebar Image --}}
+                                
                                 <div class="me-2">
-                                    @if($rblog->image)
-                                        <img src="{{ url('public/'.$rblog->image) }}"
-                                             alt="{{ $rblog->title }}">
-                                    @else
-                                        <img src="{{ url('public/no-image.png') }}"
+                                    <?php if($rblog->image): ?>
+                                        <img src="<?php echo e(url('public/'.$rblog->image)); ?>"
+                                             alt="<?php echo e($rblog->title); ?>">
+                                    <?php else: ?>
+                                        <img src="<?php echo e(url('public/no-image.png')); ?>"
                                              alt="No Image">
-                                    @endif
+                                    <?php endif; ?>
                                 </div>
 
-                                {{-- Sidebar Content --}}
+                                
                                 <div>
-                                    <a href="{{ route('blog.details', $rblog->slug) }}"
+                                    <a href="<?php echo e(route('blog.details', $rblog->slug)); ?>"
                                        class="sidebar-blog-title">
-                                        {{ Str::limit($rblog->title, 45) }}
+                                        <?php echo e(Str::limit($rblog->title, 45)); ?>
+
                                     </a>
 
                                     <div class="sidebar-blog-meta mt-1">
-                                       {{ $rblog->created_at->format('d M Y') }}
+                                       <?php echo e($rblog->created_at->format('d M Y')); ?>
+
                                        |
-                                      👁 {{ $rblog->views }} Views
+                                      👁 <?php echo e($rblog->views); ?> Views
                                     </div>
                                 </div>
 
                             </div>
 
                         </li>
-                        @endforeach
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
                     </ul>
                 </div>
@@ -177,4 +181,6 @@
         </div>
     </div>
 </section>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('frontEnd.layouts.master', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH E:\Programming capture\New folder\E-Commerce2\ecommerce2\resources\views/frontEnd/layouts/pages/blog/details.blade.php ENDPATH**/ ?>
