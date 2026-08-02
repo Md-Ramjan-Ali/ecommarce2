@@ -182,6 +182,207 @@
         color: #f8fafc !important;
         font-size: 13.5px !important;
       }
+
+      /* =========================================================
+         🌟 MOBILE ADMIN TOPBAR (BUTTON & LOGO GLUED TOGETHER ON LEFT)
+         ========================================================= */
+      .mobile-inline-logo-item {
+        display: none !important;
+      }
+
+      @media (max-width: 767px) {
+        .logo-box {
+          display: none !important;
+        }
+
+        .mobile-inline-logo-item {
+          display: inline-flex !important;
+          align-items: center !important;
+          margin-left: 8px !important;
+        }
+
+        .mobile-inline-logo-link {
+          display: inline-flex !important;
+          align-items: center !important;
+        }
+
+        .mobile-inline-logo-link img {
+          max-height: 38px !important;
+          height: 38px !important;
+          width: auto !important;
+          object-fit: contain !important;
+        }
+
+        .topnav-menu-left {
+          float: left !important;
+          display: flex !important;
+          align-items: center !important;
+          height: 60px !important;
+          margin: 0 !important;
+          padding: 0 !important;
+        }
+
+        .button-menu-mobile {
+          margin: 0 !important;
+          padding: 0 !important;
+          height: 38px !important;
+          width: 38px !important;
+          display: inline-flex !important;
+          align-items: center !important;
+          justify-content: center !important;
+          border-radius: 8px !important;
+        }
+
+        .topnav-menu.float-end {
+          float: right !important;
+          display: flex !important;
+          align-items: center !important;
+          gap: 2px !important;
+          height: 60px !important;
+          margin: 0 !important;
+        }
+
+        .topnav-menu .nav-link {
+          height: 60px !important;
+          display: flex !important;
+          align-items: center !important;
+          justify-content: center !important;
+          padding: 0 6px !important;
+        }
+
+        .pro-user-name {
+          display: none !important;
+        }
+
+        /* Full Mobile Sidebar Drawer */
+        .left-side-menu {
+          position: fixed !important;
+          top: 60px !important;
+          left: -300px !important;
+          width: 285px !important;
+          height: calc(100vh - 60px) !important;
+          bottom: 0 !important;
+          z-index: 100001 !important;
+          background: #0b1329 !important;
+          box-shadow: 6px 0 30px rgba(0, 0, 0, 0.45) !important;
+          transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+          overflow-y: auto !important;
+        }
+
+        body.sidebar-enable .left-side-menu,
+        body[data-leftbar-size="condensed"].sidebar-enable .left-side-menu,
+        body[data-leftbar-size="condensed"] .left-side-menu {
+          left: 0 !important;
+          display: block !important;
+          width: 285px !important;
+          min-width: 285px !important;
+        }
+
+        body[data-leftbar-size="condensed"] .left-side-menu #sidebar-menu > ul > li > a span,
+        body[data-leftbar-size="condensed"] .left-side-menu #sidebar-menu ul li a span,
+        body[data-leftbar-size="condensed"] .left-side-menu .menu-arrow,
+        body[data-leftbar-size="condensed"] .left-side-menu .badge {
+          display: inline-block !important;
+          opacity: 1 !important;
+          visibility: visible !important;
+        }
+
+        .left-side-menu #sidebar-menu {
+          padding: 10px 0 !important;
+          width: 100% !important;
+        }
+
+        .left-side-menu #sidebar-menu > ul > li > a {
+          padding: 12px 16px !important;
+          font-size: 14px !important;
+          display: flex !important;
+          align-items: center !important;
+          justify-content: flex-start !important;
+          gap: 10px !important;
+          text-align: left !important;
+        }
+
+        .left-side-menu #sidebar-menu > ul > li > a i,
+        .left-side-menu #sidebar-menu > ul > li > a svg {
+          min-width: 22px !important;
+          font-size: 18px !important;
+          margin-right: 4px !important;
+          text-align: center !important;
+        }
+
+        .left-side-menu #sidebar-menu > ul > li > a span {
+          display: inline-block !important;
+        }
+
+        .left-side-menu #sidebar-menu .menu-arrow {
+          margin-left: auto !important;
+        }
+
+        /* Dark Mobile Backdrop Overlay */
+        .admin-mobile-backdrop {
+          display: none;
+          position: fixed;
+          top: 60px;
+          left: 0;
+          width: 100vw;
+          height: calc(100vh - 60px);
+          background: rgba(0, 0, 0, 0.55);
+          backdrop-filter: blur(3px);
+          z-index: 100000;
+        }
+
+        body.sidebar-enable .admin-mobile-backdrop {
+          display: block !important;
+        }
+
+        /* Force sub-menus to open inline accordion, NOT floating popups on mobile */
+        #sidebar-menu .nav-second-level,
+        #sidebar-menu .nav-third-level,
+        body[data-leftbar-size="condensed"] #sidebar-menu .nav-second-level,
+        body[data-leftbar-size="condensed"] #sidebar-menu .nav-third-level,
+        body[data-leftbar-size="condensed"] #sidebar-menu ul li:hover > ul {
+          position: relative !important;
+          top: auto !important;
+          left: auto !important;
+          right: auto !important;
+          width: 100% !important;
+          box-shadow: none !important;
+          background: rgba(0, 0, 0, 0.25) !important;
+          padding-left: 15px !important;
+          margin: 0 !important;
+        }
+
+        #sidebar-menu .nav-second-level li a {
+          padding: 10px 16px !important;
+          font-size: 13.5px !important;
+          color: #cbd5e1 !important;
+          display: flex !important;
+          align-items: center !important;
+        }
+
+        #sidebar-menu .nav-second-level li a:hover {
+          color: #38bdf8 !important;
+          background: rgba(255, 255, 255, 0.06) !important;
+        }
+      }
+
+      /* Hover & Active menu background fix */
+      #sidebar-menu ul li a:hover,
+      #sidebar-menu ul li a:focus,
+      #sidebar-menu ul li a:active,
+      #sidebar-menu ul li.menuitem-active > a,
+      #sidebar-menu ul li.active > a {
+        background: rgba(255, 255, 255, 0.08) !important;
+        color: #38bdf8 !important;
+      }
+
+      #sidebar-menu ul li a:hover i,
+      #sidebar-menu ul li a:hover span,
+      #sidebar-menu ul li a:hover svg,
+      #sidebar-menu ul li.menuitem-active > a i,
+      #sidebar-menu ul li.menuitem-active > a span {
+        color: #38bdf8 !important;
+      }
     </style>
     <!-- Head js -->
     @yield('css')
@@ -337,6 +538,12 @@
               <button class="button-menu-mobile waves-effect waves-light">
                 <i class="fe-menu"></i>
               </button>
+            </li>
+
+            <li class="mobile-inline-logo-item">
+              <a href="{{url('admin/dashboard')}}" class="mobile-inline-logo-link">
+                <img src="{{asset(isset($generalsetting->white_logo) ? $generalsetting->white_logo : 'public/backEnd/assets/images/logo.png')}}" alt="" />
+              </a>
             </li>
 
             <li>
@@ -1614,6 +1821,25 @@
                 }
             });
         });
+    <!-- Mobile Sidebar Drawer JS Script -->
+    <script>
+      $(document).ready(function() {
+        if (!$('.admin-mobile-backdrop').length) {
+          $('body').append('<div class="admin-mobile-backdrop"></div>');
+        }
+
+        $(document).on('click', '.button-menu-mobile', function(e) {
+          e.preventDefault();
+          if ($(window).width() < 768) {
+            $('body').removeAttr('data-leftbar-size');
+            $('body').toggleClass('sidebar-enable');
+          }
+        });
+
+        $(document).on('click', '.admin-mobile-backdrop', function() {
+          $('body').removeClass('sidebar-enable');
+        });
+      });
     </script>
     @yield('script')
   </body>

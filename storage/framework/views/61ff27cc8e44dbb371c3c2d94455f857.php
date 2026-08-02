@@ -1,7 +1,6 @@
-@extends('backEnd.layouts.master')
-@section('title','Product Management')
-@section('content')
-<meta name="csrf-token" content="{{ csrf_token() }}">
+<?php $__env->startSection('title','Product Management'); ?>
+<?php $__env->startSection('content'); ?>
+<meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
 
 <style>
     /* টেবিল এবং কার্ডের জন্য কাস্টম আধুনিক স্টাইল */
@@ -39,7 +38,7 @@
             <div class="page-title-box d-flex align-items-center justify-content-between py-3">
                 <h4 class="page-title mb-0">All Products Management</h4>
                 <div class="page-title-right">
-                    <a href="{{route('products.create')}}" class="btn btn-danger rounded-pill shadow-sm">
+                    <a href="<?php echo e(route('products.create')); ?>" class="btn btn-danger rounded-pill shadow-sm">
                         <i class="fe-plus me-1"></i> Add New Product
                     </a>
                 </div>
@@ -55,32 +54,32 @@
                         <div class="col-lg-8 col-md-7">
                             <ul class="action2-btn">
                                 <li>
-                                    <button data-url="{{ route('products.update_deals') }}" data-status="1" class="btn btn-sm btn-outline-success rounded-pill hotdeal_update">
+                                    <button data-url="<?php echo e(route('products.update_deals')); ?>" data-status="1" class="btn btn-sm btn-outline-success rounded-pill hotdeal_update">
                                         <i class="fe-thumbs-up me-1"></i> Set Deal
                                     </button>
                                 </li>
                                 <li>
-                                    <button data-url="{{ route('products.update_deals') }}" data-status="0" class="btn btn-sm btn-outline-danger rounded-pill hotdeal_update">
+                                    <button data-url="<?php echo e(route('products.update_deals')); ?>" data-status="0" class="btn btn-sm btn-outline-danger rounded-pill hotdeal_update">
                                         <i class="fe-thumbs-down me-1"></i> Remove Deal
                                     </button>
                                 </li>
                                 <div class="vr mx-1 d-none d-lg-block"></div>
                                 <li>
-                                    <button data-url="{{ route('products.update_status') }}" data-status="1" class="btn btn-sm btn-primary rounded-pill update_status">
+                                    <button data-url="<?php echo e(route('products.update_status')); ?>" data-status="1" class="btn btn-sm btn-primary rounded-pill update_status">
                                         <i class="fe-check me-1"></i> Active Selected
                                     </button>
                                 </li>
                                 <li>
-                                    <button data-url="{{ route('products.update_status') }}" data-status="0" class="btn btn-sm btn-light border rounded-pill update_status">
+                                    <button data-url="<?php echo e(route('products.update_status')); ?>" data-status="0" class="btn btn-sm btn-light border rounded-pill update_status">
                                         <i class="fe-x me-1"></i> Inactive Selected
                                     </button>
                                 </li>
                             </ul>
                         </div>
                         <div class="col-lg-4 col-md-5 mt-2 mt-md-0">
-                            <form method="GET" action="{{ route('products.index') }}">
+                            <form method="GET" action="<?php echo e(route('products.index')); ?>">
                                 <div class="input-group">
-                                    <input type="text" name="keyword" class="form-control form-control-sm border-end-0" placeholder="Search by name..." value="{{ request('keyword') }}">
+                                    <input type="text" name="keyword" class="form-control form-control-sm border-end-0" placeholder="Search by name..." value="<?php echo e(request('keyword')); ?>">
                                     <button class="btn btn-sm btn-info border-start-0 px-3" type="submit">
                                         <i class="fe-search"></i>
                                     </button>
@@ -110,103 +109,109 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($data as $key=>$value)
+                                <?php $__currentLoopData = $data; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=>$value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <tr>
                                     <td>
                                         <div class="form-check">
-                                            <input type="checkbox" class="form-check-input checkbox" value="{{$value->id}}">
+                                            <input type="checkbox" class="form-check-input checkbox" value="<?php echo e($value->id); ?>">
                                         </div>
                                     </td>
-                                    <td>{{$loop->iteration}}</td>
+                                    <td><?php echo e($loop->iteration); ?></td>
                                     <td>
-                                        <img src="{{ asset($value->image ? $value->image->image : 'storage/uploads/placeholder.png') }}" 
+                                        <img src="<?php echo e(asset($value->image ? $value->image->image : 'storage/uploads/placeholder.png')); ?>" 
                                              class="product-img shadow-sm" alt="product" width="55" height="55">
                                     </td>
                                     <td>
-                                        <h5 class="m-0 font-size-14 text-dark">{{ Str::limit($value->name, 40) }}</h5>
-                                        @php
+                                        <h5 class="m-0 font-size-14 text-dark"><?php echo e(Str::limit($value->name, 40)); ?></h5>
+                                        <?php
                                             $isDigital = (isset($value->is_digital) && $value->is_digital) || (isset($value->product_type) && $value->product_type === 'digital');
-                                        @endphp
-                                        <span class="badge {{ $isDigital ? 'badge-soft-primary' : 'badge-soft-info' }} mt-1">
-                                            {{ $isDigital ? 'Digital' : 'Physical' }}
+                                        ?>
+                                        <span class="badge <?php echo e($isDigital ? 'badge-soft-primary' : 'badge-soft-info'); ?> mt-1">
+                                            <?php echo e($isDigital ? 'Digital' : 'Physical'); ?>
+
                                         </span>
                                     </td>
                                     <td>
-                                        <p class="m-0 fw-bold text-muted font-size-12">{{$value->category ? $value->category->name : 'No Category'}}</p>
+                                        <p class="m-0 fw-bold text-muted font-size-12"><?php echo e($value->category ? $value->category->name : 'No Category'); ?></p>
                                         <small class="text-primary font-size-11">
-                                            <i class="fe-user me-1"></i>{{ $value->vendor ? $value->vendor->shop_name : 'Admin' }}
+                                            <i class="fe-user me-1"></i><?php echo e($value->vendor ? $value->vendor->shop_name : 'Admin'); ?>
+
                                         </small>
                                     </td>
                                     <td>
-                                        <div class="fw-bold text-dark">৳{{ number_format($value->new_price, 2) }}</div>
-                                        <small class="text-muted">Stock: <span class="{{ $value->stock <= 5 ? 'text-danger fw-bold' : '' }}">{{$value->stock}}</span></small>
+                                        <div class="fw-bold text-dark">৳<?php echo e(number_format($value->new_price, 2)); ?></div>
+                                        <small class="text-muted">Stock: <span class="<?php echo e($value->stock <= 5 ? 'text-danger fw-bold' : ''); ?>"><?php echo e($value->stock); ?></span></small>
                                     </td>
                                     <td>
                                         <div class="d-flex flex-column gap-1">
-                                            <span class="badge {{ $value->topsale==1 ? 'badge-soft-success' : 'badge-soft-light text-muted border' }} font-size-10">
-                                                Hot Deal: {{ $value->topsale==1?'Yes':'No' }}
+                                            <span class="badge <?php echo e($value->topsale==1 ? 'badge-soft-success' : 'badge-soft-light text-muted border'); ?> font-size-10">
+                                                Hot Deal: <?php echo e($value->topsale==1?'Yes':'No'); ?>
+
                                             </span>
-                                            <span class="badge {{ $value->feature_product==1 ? 'badge-soft-primary' : 'badge-soft-light text-muted border' }} font-size-10">
-                                                Feature: {{ $value->feature_product==1?'Yes':'No' }}
+                                            <span class="badge <?php echo e($value->feature_product==1 ? 'badge-soft-primary' : 'badge-soft-light text-muted border'); ?> font-size-10">
+                                                Feature: <?php echo e($value->feature_product==1?'Yes':'No'); ?>
+
                                             </span>
                                         </div>
                                     </td>
                                     <td>
-                                        @if($value->status==1)
+                                        <?php if($value->status==1): ?>
                                             <span class="badge bg-success shadow-sm px-2 py-1">Active</span>
-                                        @else
+                                        <?php else: ?>
                                             <span class="badge bg-danger shadow-sm px-2 py-1">Inactive</span>
-                                        @endif
+                                        <?php endif; ?>
                                     </td>
                                     <td>
-                                        @php
+                                        <?php
                                             $app_class = [
                                                 'approved' => 'badge-soft-success',
                                                 'pending'  => 'badge-soft-warning',
                                                 'rejected' => 'badge-soft-danger'
                                             ][$value->approval_status] ?? 'badge-soft-secondary';
-                                        @endphp
-                                        <span class="badge {{ $app_class }} text-uppercase px-2" style="font-size: 10px;">
-                                            {{ $value->approval_status }}
+                                        ?>
+                                        <span class="badge <?php echo e($app_class); ?> text-uppercase px-2" style="font-size: 10px;">
+                                            <?php echo e($value->approval_status); ?>
+
                                         </span>
                                     </td>
                                     <td>
                                         <div class="d-flex justify-content-center gap-1">
-                                            @if($value->status == 1)
-                                                <form method="post" action="{{route('products.inactive')}}" class="d-inline"> 
-                                                    @csrf
-                                                    <input type="hidden" value="{{$value->id}}" name="hidden_id">       
+                                            <?php if($value->status == 1): ?>
+                                                <form method="post" action="<?php echo e(route('products.inactive')); ?>" class="d-inline"> 
+                                                    <?php echo csrf_field(); ?>
+                                                    <input type="hidden" value="<?php echo e($value->id); ?>" name="hidden_id">       
                                                     <button type="submit" class="change-confirm btn-action btn-status-toggle" title="Deactivate"><i class="fe-thumbs-down"></i></button>
                                                 </form>
-                                            @else
-                                                <form method="post" action="{{route('products.active')}}" class="d-inline">
-                                                    @csrf
-                                                    <input type="hidden" value="{{$value->id}}" name="hidden_id">        
+                                            <?php else: ?>
+                                                <form method="post" action="<?php echo e(route('products.active')); ?>" class="d-inline">
+                                                    <?php echo csrf_field(); ?>
+                                                    <input type="hidden" value="<?php echo e($value->id); ?>" name="hidden_id">        
                                                     <button type="submit" class="change-confirm btn-action btn-status-toggle text-success" title="Activate"><i class="fe-thumbs-up"></i></button>
                                                 </form>
-                                            @endif
+                                            <?php endif; ?>
 
-                                            <a href="{{route('products.edit',$value->id)}}" class="btn-action btn-edit" title="Edit"><i class="fe-edit"></i></a>
+                                            <a href="<?php echo e(route('products.edit',$value->id)); ?>" class="btn-action btn-edit" title="Edit"><i class="fe-edit"></i></a>
 
-                                            <form method="post" action="{{route('products.destroy')}}" class="d-inline">        
-                                                @csrf
-                                                <input type="hidden" value="{{$value->id}}" name="hidden_id">
+                                            <form method="post" action="<?php echo e(route('products.destroy')); ?>" class="d-inline">        
+                                                <?php echo csrf_field(); ?>
+                                                <input type="hidden" value="<?php echo e($value->id); ?>" name="hidden_id">
                                                 <button type="submit" class="delete-confirm btn-action btn-delete" title="Delete"><i class="fe-trash-2"></i></button>
                                             </form>
                                         </div>
                                     </td>
                                 </tr>
-                                @endforeach
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             </tbody>
                         </table>
                     </div>
 
                     <div class="mt-4 d-flex justify-content-between align-items-center flex-wrap">
                         <div class="text-muted font-size-13 mb-2 mb-md-0">
-                            Showing {{ $data->firstItem() }} to {{ $data->lastItem() }} of {{ $data->total() }} results
+                            Showing <?php echo e($data->firstItem()); ?> to <?php echo e($data->lastItem()); ?> of <?php echo e($data->total()); ?> results
                         </div>
                         <div class="custom-paginate">
-                            {{$data->links('pagination::bootstrap-4')}}
+                            <?php echo e($data->links('pagination::bootstrap-4')); ?>
+
                         </div>
                     </div>
                 </div> 
@@ -275,4 +280,5 @@ $(function(){
     });
 });
 </script>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('backEnd.layouts.master', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH E:\Programming capture\New folder\E-Commerce2\ecommerce2\resources\views/backEnd/product/index.blade.php ENDPATH**/ ?>

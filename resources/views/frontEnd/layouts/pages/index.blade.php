@@ -151,15 +151,13 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-12">
-                <!-- Section Header -->
-                <div class="featured-sec-header" style="display: flex; align-items: center; justify-content: space-between; border-bottom: 2px solid #ededed; padding-bottom: 8px; margin-bottom: 22px; position: relative;">
-                    <h3 style="font-size: 19px; font-weight: 700; color: #444444; margin: 0; text-transform: uppercase; letter-spacing: 0.5px; position: relative; display: inline-block;">
-                        FEATURED PRODUCTS
-                        <span style="position: absolute; bottom: -10px; left: 0; width: 75px; height: 2px; background: #1e73be;"></span>
+                <div class="sec_title">
+                    <h3 class="section-title-header">
+                        <span class="section-title-name">Featured Products</span>
+                        <a href="{{ route('shop') }}" class="view_more_btn">
+                            Browse all <i class="fa-solid fa-chevron-right" style="font-size: 11px;"></i>
+                        </a>
                     </h3>
-                    <a href="{{ route('shop') }}" style="font-size: 14px; color: #555555; font-weight: 600; text-decoration: none; display: flex; align-items: center; gap: 5px; transition: color 0.2s;">
-                        Browse all <i class="fa-solid fa-chevron-right" style="font-size: 11px;"></i>
-                    </a>
                 </div>
             </div>
 
@@ -402,15 +400,13 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-12">
-                <!-- Section Header -->
-                <div class="featured-sec-header" style="display: flex; align-items: center; justify-content: space-between; border-bottom: 2px solid #ededed; padding-bottom: 8px; margin-bottom: 22px; position: relative;">
-                    <h3 style="font-size: 19px; font-weight: 700; color: #444444; margin: 0; text-transform: uppercase; letter-spacing: 0.5px; position: relative; display: inline-block;">
-                        TASTY TREATS FOR PETS
-                        <span style="position: absolute; bottom: -10px; left: 0; width: 75px; height: 2px; background: #1e73be;"></span>
+                <div class="sec_title">
+                    <h3 class="section-title-header">
+                        <span class="section-title-name">TASTY TREATS FOR PETS</span>
+                        <a href="{{ route('shop') }}" class="view_more_btn">
+                            Browse All <i class="fa-solid fa-chevron-right" style="font-size: 11px;"></i>
+                        </a>
                     </h3>
-                    <a href="{{ route('shop') }}" style="font-size: 14px; color: #555555; font-weight: 600; text-decoration: none; display: flex; align-items: center; gap: 5px; transition: color 0.2s;">
-                        Browse All <i class="fa-solid fa-chevron-right" style="font-size: 11px;"></i>
-                    </a>
                 </div>
             </div>
 
@@ -499,15 +495,13 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-12">
-                <!-- Section Header Matching Screenshot -->
-                <div class="featured-sec-header" style="display: flex; align-items: center; justify-content: space-between; border-bottom: 2px solid #ededed; padding-bottom: 8px; margin-bottom: 22px; position: relative;">
-                    <h3 style="font-size: 19px; font-weight: 700; color: #444444; margin: 0; text-transform: uppercase; letter-spacing: 0.5px; position: relative; display: flex; align-items: center; gap: 8px;">
-                        <i class="fa-solid fa-gear text-secondary" style="font-size: 16px;"></i> HEALTHY WET FOOD
-                        <span style="position: absolute; bottom: -10px; left: 0; width: 75px; height: 2px; background: #1e73be;"></span>
+                <div class="sec_title">
+                    <h3 class="section-title-header">
+                        <span class="section-title-name">HEALTHY WET FOOD</span>
+                        <a href="{{ route('shop') }}" class="view_more_btn">
+                            Browse All <i class="fa-solid fa-chevron-right" style="font-size: 11px;"></i>
+                        </a>
                     </h3>
-                    <a href="{{ route('shop') }}" style="font-size: 14px; color: #555555; font-weight: 600; text-decoration: none; display: flex; align-items: center; gap: 5px; transition: color 0.2s;">
-                        Browse All <i class="fa-solid fa-chevron-right" style="font-size: 11px;"></i>
-                    </a>
                 </div>
             </div>
 
@@ -596,15 +590,13 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-12">
-                <!-- Section Header Matching Screenshot -->
-                <div class="featured-sec-header" style="display: flex; align-items: center; justify-content: space-between; border-bottom: 2px solid #ededed; padding-bottom: 8px; margin-bottom: 22px; position: relative;">
-                    <h3 style="font-size: 19px; font-weight: 700; color: #444444; margin: 0; text-transform: uppercase; letter-spacing: 0.5px; position: relative; display: flex; align-items: center; gap: 8px;">
-                        <i class="fa-solid fa-check text-secondary" style="font-size: 16px;"></i> PREMIUM DRY PETS FOOD
-                        <span style="position: absolute; bottom: -10px; left: 0; width: 75px; height: 2px; background: #1e73be;"></span>
+                <div class="sec_title">
+                    <h3 class="section-title-header">
+                        <span class="section-title-name">PREMIUM DRY PETS FOOD</span>
+                        <a href="{{ route('shop') }}" class="view_more_btn">
+                            Browse all <i class="fa-solid fa-chevron-right" style="font-size: 11px;"></i>
+                        </a>
                     </h3>
-                    <a href="{{ route('shop') }}" style="font-size: 14px; color: #555555; font-weight: 600; text-decoration: none; display: flex; align-items: center; gap: 5px; transition: color 0.2s;">
-                        Browse all <i class="fa-solid fa-chevron-right" style="font-size: 11px;"></i>
-                    </a>
                 </div>
             </div>
 
@@ -693,15 +685,13 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-12">
-                <!-- Section Header Matching Screenshot -->
-                <div class="featured-sec-header" style="display: flex; align-items: center; justify-content: space-between; border-bottom: 2px solid #ededed; padding-bottom: 8px; margin-bottom: 22px; position: relative;">
-                    <h3 style="font-size: 19px; font-weight: 700; color: #444444; margin: 0; text-transform: uppercase; letter-spacing: 0.5px; position: relative; display: flex; align-items: center; gap: 8px;">
-                        <i class="fa-solid fa-heartbeat text-danger" style="font-size: 16px;"></i> PET CARE & HEALTH
-                        <span style="position: absolute; bottom: -10px; left: 0; width: 75px; height: 2px; background: #1e73be;"></span>
+                <div class="sec_title">
+                    <h3 class="section-title-header">
+                        <span class="section-title-name">PET CARE & HEALTH</span>
+                        <a href="{{ route('shop') }}" class="view_more_btn">
+                            Browse all <i class="fa-solid fa-chevron-right" style="font-size: 11px;"></i>
+                        </a>
                     </h3>
-                    <a href="{{ route('shop') }}" style="font-size: 14px; color: #555555; font-weight: 600; text-decoration: none; display: flex; align-items: center; gap: 5px; transition: color 0.2s;">
-                        Browse all <i class="fa-solid fa-chevron-right" style="font-size: 11px;"></i>
-                    </a>
                 </div>
             </div>
 
@@ -790,15 +780,13 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-12">
-                <!-- Section Header Matching Screenshot -->
-                <div class="featured-sec-header" style="display: flex; align-items: center; justify-content: space-between; border-bottom: 2px solid #ededed; padding-bottom: 8px; margin-bottom: 22px; position: relative;">
-                    <h3 style="font-size: 19px; font-weight: 700; color: #444444; margin: 0; text-transform: uppercase; letter-spacing: 0.5px; position: relative; display: flex; align-items: center; gap: 8px;">
-                        <i class="fa-solid fa-trophy text-warning" style="font-size: 16px;"></i> OUR BEST SELLERS
-                        <span style="position: absolute; bottom: -10px; left: 0; width: 75px; height: 2px; background: #1e73be;"></span>
+                <div class="sec_title">
+                    <h3 class="section-title-header">
+                        <span class="section-title-name">OUR BEST SELLERS</span>
+                        <a href="{{ route('shop') }}" class="view_more_btn">
+                            Browse All <i class="fa-solid fa-chevron-right" style="font-size: 11px;"></i>
+                        </a>
                     </h3>
-                    <a href="{{ route('shop') }}" style="font-size: 14px; color: #555555; font-weight: 600; text-decoration: none; display: flex; align-items: center; gap: 5px; transition: color 0.2s;">
-                        Browse All <i class="fa-solid fa-chevron-right" style="font-size: 11px;"></i>
-                    </a>
                 </div>
             </div>
 

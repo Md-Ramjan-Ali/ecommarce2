@@ -696,6 +696,8 @@ class ProductController extends Controller
         ]);
 
         Product::whereIn('id', $request->product_ids)->update(['topsale' => $request->status]);
+        \Illuminate\Support\Facades\Cache::forget('frontend_homepage_v1');
+        \Illuminate\Support\Facades\Cache::flush();
 
         return response()->json(['status' => 'success', 'message' => 'Products updated successfully']);
     }
@@ -708,6 +710,8 @@ class ProductController extends Controller
         ]);
 
         Product::whereIn('id', $request->product_ids)->update(['status' => $request->status]);
+        \Illuminate\Support\Facades\Cache::forget('frontend_homepage_v1');
+        \Illuminate\Support\Facades\Cache::flush();
 
         return response()->json(['status' => 'success', 'message' => 'Products status updated']);
     }

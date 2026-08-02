@@ -844,9 +844,6 @@
                     <?php $__currentLoopData = $menucategories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $scategory): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                     <li class="parent-category">
                         <a href="<?php echo e(url('category/'.$scategory->slug)); ?>" class="menu-category-name">
-                            <?php if(!empty($scategory->image)): ?>
-                                <img src="<?php echo e(asset($scategory->image)); ?>" alt="" class="side_cat_img" />
-                            <?php endif; ?>
                             <?php echo e($scategory->name); ?>
 
                         </a>
@@ -900,10 +897,12 @@
                 </div>
             </div>
 
-            <div class="mobile-search">
-                <form action="<?php echo e(route('search')); ?>">
-                    <input type="text" placeholder="Search Product ... " value="" class="msearch_keyword msearch_click" name="keyword" />
-                    <button><i data-feather="search"></i></button>
+            <div class="mobile-search" style="padding: 10px 15px; background: #ffffff; position: relative;">
+                <form action="<?php echo e(route('search')); ?>" style="display: flex; border: 2px solid #1e73be; border-radius: 50px; overflow: hidden; background: #ffffff; box-shadow: 0 3px 12px rgba(30, 115, 190, 0.08); transition: box-shadow 0.2s; height: 42px; position: relative;">
+                    <input type="text" placeholder="Search for products, categories..." value="" class="msearch_keyword msearch_click" name="keyword" style="flex: 1; border: none !important; outline: none !important; padding: 0 18px; font-size: 13.5px; color: #334155; background: transparent; height: 100%; width: 100%; shadow: none;" />
+                    <button type="submit" style="background: #1e73be; color: #ffffff; border: none !important; padding: 0 20px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s; height: 100%; border-radius: 0 50px 50px 0;">
+                        <i class="fa-solid fa-magnifying-glass" style="font-size: 15px; color: #ffffff;"></i>
+                    </button>
                 </form>
                 <div class="search_result"></div>
             </div>
@@ -1462,7 +1461,7 @@
 /* Floating Container */
 .chat-widget {
   position: fixed;
-  bottom: 60px; /* ⬅ Chat icon এখন 55px উপরে */
+  bottom: 30px;
   right: 25px;
   z-index: 9999;
   display: flex;
@@ -1474,8 +1473,8 @@
 .chat-toggle {
   background: linear-gradient(135deg, #25D366, #128C7E);
   color: #fff;
-  width: 60px;
-  height: 60px;
+  width: 52px;
+  height: 52px;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -1483,7 +1482,7 @@
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
   cursor: pointer;
   transition: transform 0.3s ease;
-  font-size: 26px;
+  font-size: 24px;
 }
 .chat-toggle:hover {
   transform: scale(1.1);
@@ -1500,14 +1499,14 @@
 
 /* Each Chat Button */
 .chat-btn {
-  width: 50px;
-  height: 50px;
+  width: 46px;
+  height: 46px;
   border-radius: 50%;
   color: white;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 22px;
+  font-size: 20px;
   text-decoration: none;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   transition: all 0.3s ease;
@@ -1530,6 +1529,25 @@
 @keyframes fadeInUp {
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+/* Mobile Responsive Adjustments for Chat Widget */
+@media (max-width: 767px) {
+  .chat-widget {
+    bottom: 78px !important;
+    right: 12px !important;
+  }
+  .chat-toggle {
+    width: 44px !important;
+    height: 44px !important;
+    font-size: 20px !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18) !important;
+  }
+  .chat-btn {
+    width: 40px !important;
+    height: 40px !important;
+    font-size: 18px !important;
+  }
 }
 
 /* Tooltip */
@@ -1840,7 +1858,7 @@ document.getElementById("sidebarCartOverlay")?.addEventListener("click", closeSi
             $slider.owlCarousel({
                 margin: 15,
                 items: 5,
-                loop: count > 5,
+                loop: false,
                 dots: false,
                 autoplay: count > 5,
                 autoplayTimeout: 6000,
@@ -1848,17 +1866,26 @@ document.getElementById("sidebarCartOverlay")?.addEventListener("click", closeSi
                 responsiveClass: true,
                 responsive: {
                     0: {
-                        items: 2,
+                        items: 1.35,
+                        margin: 10,
                         nav: false,
-                        loop: count > 2
+                        loop: false
                     },
-                    600: {
+                    480: {
+                        items: 1.5,
+                        margin: 12,
+                        nav: false,
+                        loop: false
+                    },
+                    768: {
                         items: 3,
+                        margin: 15,
                         nav: false,
                         loop: count > 3
                     },
                     1000: {
                         items: 5,
+                        margin: 15,
                         nav: false,
                         loop: count > 5
                     },

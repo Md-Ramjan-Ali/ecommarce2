@@ -117,9 +117,21 @@
     .card-body.cartlist {
     overflow-x: scroll;
 }
-    .section-title-header .section-title-name {
-    font-size: 15px;
-}
+    .section-title-header .section-title-name,
+    .sec_title h2,
+    .sec_title h3,
+    .section-title-left h4,
+    .home-page-section-title-box h3 {
+        font-size: 16px !important;
+        font-weight: 700 !important;
+        line-height: 1.3 !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.3px !important;
+    }
+    .view_more_btn,
+    .section-title-header a {
+        font-size: 11.5px !important;
+    }
 	#content {
      margin-left: 0; 
    }
@@ -206,41 +218,50 @@
 }
 
 .mobile-search {
-    background-color: #fff;
-    padding: 15px 16px;
-    padding-top: 0;
+    background-color: #fff !important;
+    padding: 10px 15px !important;
+    position: relative !important;
 }
 .mobile-search form {
-    display: flex;
-    border: 1px solid;
-    border-radius: 5px;
-    background-color: {{$generalsetting->secodery_color}};
-    height: 40px;
-    overflow: hidden;
-    position: relative;
-    border-color: hsla(0,0%,100%,.09);
+    display: flex !important;
+    border: 2px solid #1e73be !important;
+    border-radius: 50px !important;
+    background-color: #ffffff !important;
+    height: 42px !important;
+    overflow: hidden !important;
+    position: relative !important;
+    box-shadow: 0 3px 12px rgba(30, 115, 190, 0.08) !important;
 }
-.mobile-search form svg {
+.mobile-search form svg,
+.mobile-search form i {
     height: 16px;
     width: 16px;
-    color: #fff;
+    color: #fff !important;
 }
 .mobile-search form input {
-    text-align: left;
-    padding-left: 15px;
-    color: #000;
+    text-align: left !important;
+    padding: 0 18px !important;
+    color: #334155 !important;
+    font-size: 13.5px !important;
+    border: none !important;
+    outline: none !important;
+    background: transparent !important;
+    height: 100% !important;
+    flex: 1 !important;
 }
 
 .mobile-search form button {
-    background-color: {{$generalsetting->secodery_color}};
-    flex: 0 0 60px;
-    position: absolute;
-    right: 0;
-    top: 0;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    background-color: #1e73be !important;
+    flex: 0 0 54px !important;
+    position: absolute !important;
+    right: 0 !important;
+    top: 0 !important;
+    height: 100% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border: none !important;
+    border-radius: 0 50px 50px 0 !important;
 }
 .mobile-menu-logo {
     display: flex;
