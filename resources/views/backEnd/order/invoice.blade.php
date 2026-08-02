@@ -450,20 +450,24 @@ function updatePaymentStatus(orderId) {
         method: 'POST',
         headers: {
             'X-CSRF-TOKEN': '{{ csrf_token() }}',
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
         },
         body: JSON.stringify({ order_id: orderId, payment_status: status })
     })
     .then(res => res.json())
     .then(data => {
         if (data.status === 'success') {
-            toastr.success(data.message, 'Success!');
+            toastr.success(data.message || 'Payment status updated successfully', 'Success!');
+            setTimeout(function() {
+                location.reload();
+            }, 800);
         } else {
-            toastr.error(data.message, 'Error!');
+            toastr.error(data.message || 'Could not update payment status', 'Error!');
         }
     })
     .catch(err => {
-        toastr.error('Something went wrong!', 'Error!');
+        toastr.error('Connection error or permission denied!', 'Error!');
     });
 }
 
@@ -475,8 +479,7 @@ function updateOrderStatus(orderId) {
         return;
     }
 
-    // Confirm before changing status
-    if (!confirm('Are you sure you want to change the order status? This will manually override any automatic courier status updates.')) {
+    if (!confirm('Are you sure you want to change the order status?')) {
         return;
     }
 
@@ -484,24 +487,24 @@ function updateOrderStatus(orderId) {
         method: 'POST',
         headers: {
             'X-CSRF-TOKEN': '{{ csrf_token() }}',
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
         },
         body: JSON.stringify({ order_id: orderId, order_status: status })
     })
     .then(res => res.json())
     .then(data => {
         if (data.status === 'success') {
-            toastr.success(data.message, 'Success!');
-            // Reload page after 1 second to show updated status
+            toastr.success(data.message || 'Order status updated successfully', 'Success!');
             setTimeout(function() {
                 location.reload();
             }, 1000);
         } else {
-            toastr.error(data.message, 'Error!');
+            toastr.error(data.message || 'Could not update order status', 'Error!');
         }
     })
     .catch(err => {
-        toastr.error('Something went wrong!', 'Error!');
+        toastr.error('Connection error or permission denied!', 'Error!');
         console.error(err);
     });
 }

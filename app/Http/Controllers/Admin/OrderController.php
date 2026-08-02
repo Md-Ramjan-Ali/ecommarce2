@@ -2332,71 +2332,77 @@ class OrderController extends Controller
     */
     public function updatePaymentStatus(Request $request)
     {
-        $order = Order::find($request->order_id);
+        try {
+            $order = Order::find($request->order_id);
 
-        if (!$order) {
-            return response()->json([
-                'status'  => 'error',
-                'message' => 'Order not found!',
-            ]);
-        }
+            if (!$order) {
+                return response()->json([
+                    'status'  => 'error',
+                    'message' => 'Order not found!',
+                ], 404);
+            }
 
-        // ১. অর্ডার টেবিলে স্ট্যাটাস আপডেট
-        $order->payment_status = $request->payment_status;
-        $order->save();
+            // ১. অর্ডার টেবিলে স্ট্যাটাস আপডেট
+            $order->payment_status = $request->payment_status;
+            $order->save();
 
-        // ২. পেমেন্ট টেবিলে স্ট্যাটাস আপডেট
-        $payment = Payment::where('order_id', $order->id)->first();
-        if ($payment) {
-            $payment->payment_status = $request->payment_status;
-            $payment->save();
-        }
+            // ২. পেমেন্ট টেবিলে স্ট্যাটাস আপডেট বা ক্রিয়েট
+            $payment = Payment::where('order_id', $order->id)->first();
+            if ($payment) {
+                $payment->payment_status = $request->payment_status;
+                $payment->save();
+            } else {
+                Payment::create([
+                    'order_id'       => $order->id,
+                    'customer_id'    => $order->customer_id ?? null,
+                    'payment_method' => $order->payment_method ?? 'COD',
+                    'amount'         => $order->amount,
+                    'payment_status' => $request->payment_status,
+                ]);
+            }
 
-        // ==============================================================
-        // ⭐ NEW LOGIC: জেনারেট ডিজিটাল ডাউনলোড (যদি পেইড হয়)
-        // ==============================================================
-        $paid_keywords = ['paid', 'completed', 'success', 'approved'];
+            // ⭐ জেনারেট ডিজিটাল ডাউনলোড (যদি ডিজিটাল প্রোডাক্ট হয় এবং পেইড হয়)
+            $paid_keywords = ['paid', 'completed', 'success', 'approved'];
 
-        if (in_array(strtolower($request->payment_status), $paid_keywords)) {
-            
-            $orderDetails = OrderDetails::where('order_id', $order->id)
-                ->with('product:id,is_digital,digital_file,download_limit,download_expire_days')
-                ->get();
+            if (in_array(strtolower($request->payment_status), $paid_keywords)) {
+                $orderDetails = OrderDetails::where('order_id', $order->id)
+                    ->with('product')
+                    ->get();
 
-            foreach ($orderDetails as $detail) {
-                $product = $detail->product;
+                foreach ($orderDetails as $detail) {
+                    $product = $detail->product;
 
-                if ($product) {
-                    // চেক করি: এই প্রোডাক্টের জন্য ইতিমধ্যে ডাউনলোড লিংক আছে কিনা?
-                    $alreadyExists = \App\Models\DigitalDownload::where('order_id', $order->id)
-                                    ->where('product_id', $product->id)
-                                    ->exists();
+                    if ($product && !empty($product->is_digital)) {
+                        $alreadyExists = \App\Models\DigitalDownload::where('order_id', $order->id)
+                                        ->where('product_id', $product->id)
+                                        ->exists();
 
-                    // যদি লিংক না থাকে এবং প্রোডাক্টটি ডিজিটাল হয় (আপনার লজিক অনুযায়ী চেক বসাতে পারেন)
-                    // আমি এখানে ধরে নিচ্ছি আপনি সব প্রোডাক্টের জন্যই জেনারেট করতে চান, অথবা 
-                    // যদি আপনার প্রোডাক্ট টেবিলে 'type' == 'digital' থাকে তবে সেই কন্ডিশনও দিতে পারেন।
-                    
-                    if (!$alreadyExists) {
-                         // নতুন ডাউনলোড লিংক তৈরি করা হচ্ছে
-                         \App\Models\DigitalDownload::create([
-                            'order_id'    => $order->id,
-                            'customer_id' => $order->customer_id,
-                            'product_id'  => $product->id,
-                            'token'       => \Illuminate\Support\Str::random(64), // ইউনিক টোকেন
-                            'file_path'   => isset($product->digital_file) ? $product->digital_file : 'default_file', // ফাইলের নাম বা পাথ
-                            'remaining_downloads' => 9999, // আনলিমিটেড বা নির্দিষ্ট সংখ্যা
-                            'expires_at'  => null,
-                        ]);
+                        if (!$alreadyExists) {
+                            \App\Models\DigitalDownload::create([
+                                'order_id'    => $order->id,
+                                'customer_id' => $order->customer_id,
+                                'product_id'  => $product->id,
+                                'token'       => \Illuminate\Support\Str::random(64),
+                                'file_path'   => $product->digital_file ?? 'default_file',
+                                'remaining_downloads' => $product->download_limit ?? 9999,
+                                'expires_at'  => null,
+                            ]);
+                        }
                     }
                 }
             }
-        }
-        // ==============================================================
 
-        return response()->json([
-            'status'  => 'success',
-            'message' => 'Payment status updated & Digital assets generated successfully!',
-        ]);
+            return response()->json([
+                'status'  => 'success',
+                'message' => 'Payment status updated successfully!',
+            ]);
+        } catch (\Throwable $e) {
+            \Log::error('updatePaymentStatus Error: ' . $e->getMessage());
+            return response()->json([
+                'status'  => 'error',
+                'message' => 'Failed to update payment status: ' . $e->getMessage(),
+            ], 200);
+        }
     }
 
     /**
