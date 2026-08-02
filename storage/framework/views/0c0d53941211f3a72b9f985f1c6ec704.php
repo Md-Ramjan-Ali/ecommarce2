@@ -1,8 +1,8 @@
-@php
+<?php
     $generalsetting = \App\Models\GeneralSetting::first();
     $primaryColor = !empty($generalsetting?->primary_color) ? $generalsetting->primary_color : '#1877f2';
     $secondaryColor = !empty($generalsetting?->secodery_color) ? $generalsetting->secodery_color : '#115dbf';
-@endphp
+?>
 @import url("https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700;800;900&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap");
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
@@ -12,7 +12,7 @@
 /* ====================================================== */
 html {
     scrollbar-width: thin;
-    scrollbar-color: {{ $primaryColor }} #f1f5f9;
+    scrollbar-color: <?php echo e($primaryColor); ?> #f1f5f9;
 }
 
 ::-webkit-scrollbar {
@@ -26,14 +26,14 @@ html {
 }
 
 ::-webkit-scrollbar-thumb {
-    background: linear-gradient(180deg, {{ $primaryColor }}, {{ $secondaryColor }});
+    background: linear-gradient(180deg, <?php echo e($primaryColor); ?>, <?php echo e($secondaryColor); ?>);
     border-radius: 10px;
     border: 2px solid #f1f5f9;
     transition: all 0.3s ease;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(180deg, {{ $secondaryColor }}, {{ $primaryColor }});
+    background: linear-gradient(180deg, <?php echo e($secondaryColor); ?>, <?php echo e($primaryColor); ?>);
     box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
 }
 
@@ -387,7 +387,7 @@ body {
     .product_item .pro_btn button{
         width:100%;
         border-radius:4px;
-        background: {{$generalsetting->primary_color}};
+        background: <?php echo e($generalsetting->primary_color); ?>;
     }
 /*==== COMMON CSS START ====*/
 @font-face {
@@ -525,7 +525,7 @@ svg {
 
 footer {
     padding: 0 0;
-    background: {{ $generalsetting->footer_color ?? '#222222' }};
+    background: <?php echo e($generalsetting->footer_color ?? '#222222'); ?>;
 }
 
 .footer-widgets {
@@ -744,7 +744,7 @@ li.Newsletter i {
     border: 1px solid;
     height: 39px;
     background: #f7f7f7;
-    border-color:  {{$generalsetting->primary_color}};
+    border-color:  <?php echo e($generalsetting->primary_color); ?>;
     width: 100%;
     margin: 0 auto;
     border-radius: 5px;
@@ -763,7 +763,7 @@ li.Newsletter i {
 .main-search form button {
     height: 100%;
     outline: 0;
-    background: {{$generalsetting->secodery_color}};
+    background: <?php echo e($generalsetting->secodery_color); ?>;
     width: 10%;
     float: left;
 }
@@ -875,7 +875,7 @@ li.Newsletter i {
     position: absolute;
     top: -8px;
     right: -12px;
-    background: {{$generalsetting->secodery_color}};
+    background: <?php echo e($generalsetting->secodery_color); ?>;
     color: #fff;
     height: 18px;
     width: 18px;
@@ -988,7 +988,7 @@ li.Newsletter i {
 }
 
 .register-now a:hover {
-    background: {{$generalsetting->secodery_color}};
+    background: <?php echo e($generalsetting->secodery_color); ?>;
     color: #fff;
 }
 
@@ -1014,7 +1014,7 @@ li.Newsletter i {
 
 .go_cart,
 .go_cart:hover {
-    background: {{$generalsetting->secodery_color}};
+    background: <?php echo e($generalsetting->secodery_color); ?>;
     width: 100%;
     color: #fff;
     border-radius: 5px;
@@ -1082,7 +1082,7 @@ li.Newsletter i {
 }
 
 .menu-area {
-    background: {{$generalsetting->primary_color}};
+    background: <?php echo e($generalsetting->primary_color); ?>;
     border-top: 1px solid #ddd;
     border-bottom: 1px solid #ddd;
 }
@@ -1098,7 +1098,7 @@ li.Newsletter i {
 
 .categories p {
     padding: 10px 10px;
-    background: {{$generalsetting->secodery_color}};
+    background: <?php echo e($generalsetting->secodery_color); ?>;
     font-weight: 600;
     text-transform: uppercase;
     color: #fff;
@@ -1222,7 +1222,7 @@ li.Newsletter i {
     left: 0;
     transition: 0.35s;
     bottom: 0;
-    background: {{$generalsetting->secodery_color}};
+    background: <?php echo e($generalsetting->secodery_color); ?>;
     position: absolute;
 }
 
@@ -1307,7 +1307,7 @@ section.slider-section {
 }
 
 .front-category ul li a:hover {
-    background: {{$generalsetting->secodery_color}};
+    background: <?php echo e($generalsetting->secodery_color); ?>;
     color: #fff;
     border-color: #ff0018;
 }
@@ -1325,7 +1325,7 @@ section.slider-section {
 }
 
 .feature-btn a:hover {
-    background: {{$generalsetting->secodery_color}};
+    background: <?php echo e($generalsetting->secodery_color); ?>;
     color: #fff;
 }
 
@@ -1334,7 +1334,7 @@ section.slider-section {
 }
 
 .sidebar_item h2.accordion-header button.accordion-button {
-    background: {{$generalsetting->secodery_color}};
+    background: <?php echo e($generalsetting->secodery_color); ?>;
     color: #fff;
     text-transform: uppercase;
     font-size: 14px;
@@ -1553,7 +1553,7 @@ section.slider-section {
 
 .footer-top {
     padding: 50px 0;
-    background: {{$generalsetting->footer_color}};
+    background: <?php echo e($generalsetting->footer_color); ?>;
 }
 
 .footer-about {
@@ -1629,7 +1629,7 @@ section.slider-section {
 }
 
 .footer-bottom {
-    background: {{$generalsetting->copyright_color}};
+    background: <?php echo e($generalsetting->copyright_color); ?>;
     padding: 10px 0;
 }
 
@@ -1682,7 +1682,7 @@ section.slider-section {
     position: absolute;
     top: -5px;
     right: 25px;
-    background: {{$generalsetting->secodery_color}};
+    background: <?php echo e($generalsetting->secodery_color); ?>;
     width: 15px;
     height: 15px;
     font-size: 12px;
@@ -1716,7 +1716,7 @@ section.slider-section {
 
 .product-code p {
     display: inline-block;
-    background: {{$generalsetting->secodery_color}};
+    background: <?php echo e($generalsetting->secodery_color); ?>;
     color: #fff;
     padding: 0px 10px;
     border-top: 15px solid transparent;
@@ -1789,8 +1789,8 @@ section.slider-section {
 .order_now_btn {
     font-size: 18px;
     color: #fff;
-    background-color: {{$generalsetting->primary_color}};
-    border: 1px solid  {{$generalsetting->primary_color}};
+    background-color: <?php echo e($generalsetting->primary_color); ?>;
+    border: 1px solid  <?php echo e($generalsetting->primary_color); ?>;
     border-radius: 3px;
     width: 50%;
     margin-left: 5px;
@@ -1815,8 +1815,8 @@ section.slider-section {
 
 .add_cart_btn {
     color: #fff;
-    background: {{$generalsetting->secodery_color}};
-    border: 1px solid {{$generalsetting->secodery_color}};
+    background: <?php echo e($generalsetting->secodery_color); ?>;
+    border: 1px solid <?php echo e($generalsetting->secodery_color); ?>;
     border-radius: 0;
     width: 50%;
     height: 45px;
@@ -1977,7 +1977,7 @@ section.slider-section {
     color: #fff;
     font-size: 1rem;
     transition: all 0.3s ease;
-    background: {{$generalsetting->secodery_color}};
+    background: <?php echo e($generalsetting->secodery_color); ?>;
     cursor: pointer;
 }
 
@@ -2137,7 +2137,7 @@ button.details-review-button {
 }
 
 .subcategory-filter-label input[type=checkbox]:checked {
-    background: {{$generalsetting->secodery_color}};
+    background: <?php echo e($generalsetting->secodery_color); ?>;
     opacity: 1;
 }
 
@@ -2169,7 +2169,7 @@ p.max-price input {
 }
 
 .ui-slider-horizontal .ui-slider-range {
-    background: {{$generalsetting->secodery_color}};
+    background: <?php echo e($generalsetting->secodery_color); ?>;
 }
 
 .ui-state-default,
@@ -2372,7 +2372,7 @@ li.recent_pro {
 }
 
 .confirm-btn {
-    background: {{$generalsetting->secodery_color}};
+    background: <?php echo e($generalsetting->secodery_color); ?>;
     border-radius: 5px;
     padding: 10px 0px;
     text-transform: uppercase;
@@ -2386,7 +2386,7 @@ li.recent_pro {
 
 .continue-btn:hover,
 .confirm-btn:hover {
-    background: {{$generalsetting->secodery_color}};
+    background: <?php echo e($generalsetting->secodery_color); ?>;
     color: #fff;
 }
 
@@ -2441,7 +2441,7 @@ li.recent_pro {
 
 .wcart-btn,
 .wcart-btn:focus {
-    background: {{$generalsetting->secodery_color}};
+    background: <?php echo e($generalsetting->secodery_color); ?>;
     color: #fff;
     height: 30px;
     width: 30px;
@@ -2533,7 +2533,7 @@ li.recent_pro {
 
 .coupon-form form button {
     width: 20%;
-    background: {{$generalsetting->secodery_color}};
+    background: <?php echo e($generalsetting->secodery_color); ?>;
     color: #fff;
     height: 38px;
     border-radius: 0px 5px 5px 0px;
@@ -2712,7 +2712,7 @@ li.recent_pro {
 
 .invoice_btn,
 .invoice_btn:focus {
-    background: {{$generalsetting->secodery_color}};
+    background: <?php echo e($generalsetting->secodery_color); ?>;
     color: #fff;
     font-size: 12px;
     padding: 5px 10px;
@@ -2814,7 +2814,7 @@ li.recent_pro {
 }
 
 .order_place {
-    background: {{$generalsetting->secodery_color}};
+    background: <?php echo e($generalsetting->secodery_color); ?>;
     display: block;
     width: 100%;
     border-radius: 5px;
@@ -2828,7 +2828,7 @@ li.recent_pro {
 }
 
 .order_place:hover {
-    background: {{$generalsetting->secodery_color}};
+    background: <?php echo e($generalsetting->secodery_color); ?>;
 }
 
 /*====  CHECKOUT CSS END ====  */
@@ -3069,7 +3069,7 @@ a.custom-button {
 .related-product-section button.owl-prev:hover i,
 .product-inner button.owl-next:hover i,
 .related-product-section button.owl-next:hover i {
-    background: {{$generalsetting->secodery_color}};
+    background: <?php echo e($generalsetting->secodery_color); ?>;
     border-radius: 50%;
     line-height: 35px;
     text-align: center;
@@ -3248,7 +3248,7 @@ section.product-inner {
 }
 
 .product_item_inner .sale-badge-box {
-    background: {{$generalsetting->secodery_color}};
+    background: <?php echo e($generalsetting->secodery_color); ?>;
     border-radius: 50%;
     height: 100%;
     width: 100%;
@@ -3370,7 +3370,7 @@ section.product-inner {
 
 .quick_view_btn {
     width: 100%;
-    background: {{$generalsetting->primary_color}};
+    background: <?php echo e($generalsetting->primary_color); ?>;
     position: absolute;
     opacity: 0;
     z-index: 0;
@@ -3496,7 +3496,7 @@ section.product-inner {
 }
 
 .pro_btn button {
-    background: {{$generalsetting->secodery_color}};
+    background: <?php echo e($generalsetting->secodery_color); ?>;
     color: #fff;
     width: 60%;
     padding: 6px 0px;
@@ -3523,11 +3523,11 @@ section.product-inner {
 }
 
 .cart_btn a:hover {
-    background: {{$generalsetting->primary_color}};
+    background: <?php echo e($generalsetting->primary_color); ?>;
 }
 
 .pro_btn button:hover {
-    background: {{$generalsetting->primary_color}};
+    background: <?php echo e($generalsetting->primary_color); ?>;
 }
 
 .pro_price del {
@@ -3540,7 +3540,7 @@ section.product-inner {
 .discount {
     position: absolute;
     top: 5px;
-    background: {{$generalsetting->secodery_color}};
+    background: <?php echo e($generalsetting->secodery_color); ?>;
     padding: 2px 7px;
     border-radius: 20px;
     right: 6px;
@@ -3645,7 +3645,7 @@ li.cat_bar>a {
     width: 100%;
     height: 50px;
     font-size: 15px;
-    background: {{$generalsetting->secodery_color}};
+    background: <?php echo e($generalsetting->secodery_color); ?>;
     margin-left: 0 !important;
     justify-content: space-between;
     align-items: center;
@@ -4033,7 +4033,7 @@ form.sort-form .form-select:focus {
 a.view_more_btn {
     text-align: right;
     float: right;
-    background: {{$generalsetting->primary_color}};
+    background: <?php echo e($generalsetting->primary_color); ?>;
     text-transform: capitalize;
     font-size: 15px;
     padding: 10px 15px;
@@ -4253,7 +4253,7 @@ ul.social_link {
 .timer_inner .syotimer-cell {
     width: 38px;
     text-align: center;
-    background: {{$generalsetting->secodery_color}};
+    background: <?php echo e($generalsetting->secodery_color); ?>;
     color: #fff;
     border-radius: 5px;
     font-size: 15px;
@@ -4392,7 +4392,7 @@ a.forget-link {
 }
 
 .cart_btn.order_button a {
-    background: {{$generalsetting->secodery_color}};
+    background: <?php echo e($generalsetting->secodery_color); ?>;
     color: #fff;
     width: 60%;
     padding: 6px 0px;
@@ -4404,7 +4404,7 @@ a.forget-link {
 }
 
 .cart_btn.order_button a:hover {
-    background: {{$generalsetting->primary_color}};
+    background: <?php echo e($generalsetting->primary_color); ?>;
 }
 
 span.sale-badge-text p {
@@ -4671,7 +4671,7 @@ table.table.table-bordered.tracktable {
 }
 
 .tracktable thead {
-    background: {{$generalsetting->secodery_color}};
+    background: <?php echo e($generalsetting->secodery_color); ?>;
     color: #fff;
 }
 
@@ -4736,11 +4736,11 @@ td.tfoot_bg {
 }
 .menu-area,
 .catagory_menu {
-    background: {{ $primaryColor }};
+    background: <?php echo e($primaryColor); ?>;
 }
 
 .menu-area {
-    background: {{ $primaryColor }} !important;
+    background: <?php echo e($primaryColor); ?> !important;
 }
 
 .nav_menu_left a,
@@ -4782,7 +4782,7 @@ li.all__category__list:hover > .side__bar {
 
 .side__bar ul li:hover > a {
     background-color: #f4f6fb !important;
-    color: {{ $primaryColor }} !important;
+    color: <?php echo e($primaryColor); ?> !important;
 }
 
 .sidebar-submenu {
@@ -4841,7 +4841,7 @@ li.all__category__list:hover > .side__bar {
 
 .brands-dropdown-menu ul li a:hover {
     background-color: #f4f6fb !important;
-    color: {{ $primaryColor }} !important;
+    color: <?php echo e($primaryColor); ?> !important;
 }
 
 .nav_menu_left a.nav_main_link,
@@ -4915,4 +4915,4 @@ footer.modern-footer {
 .scroll-animate.is-visible {
     opacity: 1;
     transform: translateY(0) scale(1);
-}
+}<?php /**PATH E:\Programming capture\New folder\E-Commerce2\ecommerce2\resources\views/frontEnd/assets/style.blade.php ENDPATH**/ ?>

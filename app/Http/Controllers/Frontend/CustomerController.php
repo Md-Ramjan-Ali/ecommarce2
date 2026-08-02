@@ -125,6 +125,7 @@ class CustomerController extends Controller
         if (!$isVendorPhone && !$isResellerPhone && preg_match('/^[0-9+]+$/', $login)) {
             $customerExists = Customer::where('phone', $login)->exists();
             if ($customerExists && Auth::guard('customer')->attempt(['phone' => $login, 'password' => $password])) {
+                $this->syncCustomerCart(Auth::guard('customer')->id());
                 Toastr::success('You are login successfully', 'success!');
                 if (Cart::instance('shopping')->count() > 0) {
                     return redirect()->route('customer.checkout');
@@ -186,6 +187,7 @@ class CustomerController extends Controller
                         ->exists();
                     
                     if ($customerExists && !$isResellerCustomer && Auth::guard('customer')->attempt(['email' => $login, 'password' => $password])) {
+                        $this->syncCustomerCart(Auth::guard('customer')->id());
                         Toastr::success('You are login successfully', 'success!');
                         if (Cart::instance('shopping')->count() > 0) {
                             return redirect()->route('customer.checkout');
@@ -1412,5 +1414,64 @@ public function order_save(Request $request)
         })->latest()->paginate(10);
 
         return view('frontEnd.layouts.customer.complaints', compact('complaints'));
+    }
+
+    /**
+     * 🛒 Restore and merge customer cart from database on login
+     */
+    private function syncCustomerCart($customerId)
+    {
+        if (!$customerId) return;
+
+        try {
+            $identifier = 'customer_' . $customerId;
+
+            // 1. Collect current guest cart items from session
+            $guestCartItems = [];
+            foreach (Cart::instance('shopping')->content() as $item) {
+                $guestCartItems[] = [
+                    'id'      => $item->id,
+                    'name'    => $item->name,
+                    'qty'     => $item->qty,
+                    'price'   => $item->price,
+                    'options' => $item->options ? $item->options->toArray() : [],
+                ];
+            }
+
+            // 2. Check if customer has a saved cart in database
+            $hasStoredCart = \DB::table('shoppingcart')
+                ->where('identifier', $identifier)
+                ->where('instance', 'shopping')
+                ->exists();
+
+            if ($hasStoredCart) {
+                // Restore saved cart from DB into session
+                Cart::instance('shopping')->restore($identifier);
+            }
+
+            // 3. Merge guest cart items into restored cart
+            foreach ($guestCartItems as $item) {
+                $alreadyInCart = false;
+                foreach (Cart::instance('shopping')->content() as $cItem) {
+                    if ($cItem->id == $item['id'] && 
+                        ($cItem->options->product_color ?? null) == ($item['options']['product_color'] ?? null) && 
+                        ($cItem->options->product_size ?? null) == ($item['options']['product_size'] ?? null)) {
+                        $alreadyInCart = true;
+                        break;
+                    }
+                }
+
+                if (!$alreadyInCart) {
+                    Cart::instance('shopping')->add($item);
+                }
+            }
+
+            // 4. Save merged cart back to database
+            if (Cart::instance('shopping')->count() > 0) {
+                Cart::instance('shopping')->store($identifier);
+            }
+        } catch (\Throwable $e) {
+            \Log::error('syncCustomerCart Error: ' . $e->getMessage());
+        }
     }
 }

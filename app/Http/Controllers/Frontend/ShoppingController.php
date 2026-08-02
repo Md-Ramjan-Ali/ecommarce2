@@ -281,6 +281,13 @@ if ($price <= 0) {
 
         Toastr::success('Product added to cart successfully!', 'Success');
 
+        if (\Illuminate\Support\Facades\Auth::guard('customer')->check()) {
+            try {
+                $customerId = \Illuminate\Support\Facades\Auth::guard('customer')->id();
+                Cart::instance('shopping')->store('customer_' . $customerId);
+            } catch (\Exception $e) {}
+        }
+
         // যদি ফর্ম থেকে "order_now" ক্লিক করা হয়ে থাকে, সরাসরি checkout
         if ($request->has('order_now')) {
             return redirect()->route('customer.checkout');
@@ -306,17 +313,18 @@ if ($price <= 0) {
                     'old_price'      => $cartItem->options->old_price,
                     'purchase_price' => $cartItem->options->purchase_price,
                     'pro_unit'       => $cartItem->options->pro_unit,
-
-                    // 🔥 পুরানো advance_amount টাকে রেখে দাও
                     'advance_amount' => $cartItem->options->advance_amount ?? 0,
-
-                    // 🔥 Digital flag আগের মতোই থাকবে
                     'is_digital'     => $cartItem->options->is_digital ?? 0,
-
-                    // 🔥 Free Delivery flag আগের মতোই থাকবে
                     'free_delivery'  => $cartItem->options->free_delivery ?? 0,
                 ],
             ]);
+
+            if (\Illuminate\Support\Facades\Auth::guard('customer')->check()) {
+                try {
+                    $customerId = \Illuminate\Support\Facades\Auth::guard('customer')->id();
+                    Cart::instance('shopping')->store('customer_' . $customerId);
+                } catch (\Exception $e) {}
+            }
         }
 
         $data = Cart::instance('shopping')->content();
@@ -327,6 +335,14 @@ if ($price <= 0) {
     public function cart_remove(Request $request)
     {
         Cart::instance('shopping')->update($request->id, 0);
+
+        if (\Illuminate\Support\Facades\Auth::guard('customer')->check()) {
+            try {
+                $customerId = \Illuminate\Support\Facades\Auth::guard('customer')->id();
+                Cart::instance('shopping')->store('customer_' . $customerId);
+            } catch (\Exception $e) {}
+        }
+
         $data = Cart::instance('shopping')->content();
         return view('frontEnd.layouts.ajax.cart', compact('data'));
     }
@@ -339,6 +355,13 @@ if ($price <= 0) {
 
         Cart::instance('shopping')->update($request->id, $qty);
 
+        if (\Illuminate\Support\Facades\Auth::guard('customer')->check()) {
+            try {
+                $customerId = \Illuminate\Support\Facades\Auth::guard('customer')->id();
+                Cart::instance('shopping')->store('customer_' . $customerId);
+            } catch (\Exception $e) {}
+        }
+
         $data = Cart::instance('shopping')->content();
         return view('frontEnd.layouts.ajax.cart', compact('data'));
     }
@@ -347,9 +370,16 @@ if ($price <= 0) {
     public function cart_decrement(Request $request)
     {
         $item = Cart::instance('shopping')->get($request->id);
-        $qty  = max(1, $item->qty - 1); // ১ এর নিচে নামবে না
+        $qty  = max(1, $item->qty - 1);
 
         Cart::instance('shopping')->update($request->id, $qty);
+
+        if (\Illuminate\Support\Facades\Auth::guard('customer')->check()) {
+            try {
+                $customerId = \Illuminate\Support\Facades\Auth::guard('customer')->id();
+                Cart::instance('shopping')->store('customer_' . $customerId);
+            } catch (\Exception $e) {}
+        }
 
         $data = Cart::instance('shopping')->content();
         return view('frontEnd.layouts.ajax.cart', compact('data'));

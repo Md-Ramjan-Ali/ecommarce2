@@ -201,13 +201,23 @@
                             <div class="col-lg-7">
                                 <label class="category-label">Select Placement Category <span class="text-danger">*</span></label>
                                 <div class="radio-tile-group">
-                                    @foreach($categories as $cat)
+                                    @php
+                                        $mainSliderCats = $categories->filter(function($c) {
+                                            $n = strtolower($c->name);
+                                            return str_contains($n, 'main slider') || str_contains($n, 'মেইন স্লাইডার');
+                                        });
+                                        if ($mainSliderCats->isEmpty()) {
+                                            $mainSliderCats = $categories->take(1);
+                                        }
+                                    @endphp
+
+                                    @foreach($mainSliderCats as $cat)
                                         <label>
                                             <input type="radio" 
                                                    name="category_id" 
                                                    class="radio-input" 
                                                    value="{{$cat->id}}"
-                                                   {{ (old('category_id') == $cat->id || (!old('category_id') && $loop->first)) ? 'checked' : '' }}>
+                                                   checked>
                                             <span class="radio-tile">
                                                 {{$cat->name}}
                                             </span>

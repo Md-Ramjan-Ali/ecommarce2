@@ -454,6 +454,13 @@ $brands = Brand::where('status', 1)
 
         Toastr::success('Product added to cart successfully', 'Success!');
 
+        if (\Illuminate\Support\Facades\Auth::guard('customer')->check()) {
+            try {
+                $customerId = \Illuminate\Support\Facades\Auth::guard('customer')->id();
+                Cart::instance('shopping')->store('customer_' . $customerId);
+            } catch (\Exception $e) {}
+        }
+
         // AJAX এর জন্য JSON রিটার্ন
         if ($request->ajax() || $request->wantsJson()) {
             return response()->json([
